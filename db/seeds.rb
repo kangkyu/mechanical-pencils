@@ -11,5 +11,5 @@
 %w(Pentel Blick Tombow).each do |pencil_name|
   Item.find_or_create_by!(name: pencil_name)
 end
-User.find_or_create_by!(email: "kangkyu@example.com")
+User.create!(email: "kangkyu@example.com", password: "1234")
 Ownership.find_or_create_by(user: User.first, item: Item.first)
