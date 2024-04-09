@@ -1,5 +1,9 @@
 class ApplicationController < ActionController::Base
 
+  def ensure_login
+    redirect_to root_path unless signed_in?
+  end
+
   def signed_in?
     current_user_id.present?
   end

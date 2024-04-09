@@ -1,4 +1,6 @@
 class ItemsController < ApplicationController
+  before_action :ensure_login, only: [:new, :create]
+
   def index
     @items = Item.order(created_at: :desc)
   end
