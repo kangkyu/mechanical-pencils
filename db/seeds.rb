@@ -7,3 +7,9 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+
+%w(Pentel Blick Tombow).each do |pencil_name|
+  Item.find_or_create_by!(name: pencil_name)
+end
+User.find_or_create_by!(email: "kangkyu@example.com")
+Ownership.find_or_create_by(user: User.first, item: Item.first)
