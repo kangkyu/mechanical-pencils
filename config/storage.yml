@@ -23,12 +23,12 @@ google:
     project_id: "development-1159"
     private_key_id: <%= Rails.application.credentials.dig(:gcs, :private_key_id) %>
     private_key: <%= Rails.application.credentials.dig(:gcs, :private_key).dump %>
-    client_email: "1037439712515-compute@developer.gserviceaccount.com"
-    client_id: ""
+    client_email: "gcs-example@development-1159.iam.gserviceaccount.com"
+    client_id: "108831189389987149344"
     auth_uri: "https://accounts.google.com/o/oauth2/auth"
     token_uri: "https://oauth2.googleapis.com/token"
     auth_provider_x509_cert_url: "https://www.googleapis.com/oauth2/v1/certs"
-    client_x509_cert_url: "https://www.googleapis.com/robot/v1/metadata/x509/1037439712515-compute%40developer.gserviceaccount.com"
+    client_x509_cert_url: "https://www.googleapis.com/robot/v1/metadata/x509/gcs-example%40development-1159.iam.gserviceaccount.com"
   bucket: example-baba
 
 # Use bin/rails credentials:edit to set the Azure Storage secret (as azure_storage:storage_access_key)
