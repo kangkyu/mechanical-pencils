@@ -7,12 +7,15 @@
       <!-- <img class="h-12 w-12 flex-none rounded-full bg-gray-50" src="" alt=""> -->
       <div class="min-w-0 flex-auto">
         <p class="text-sm font-semibold leading-6 text-gray-900"><%= item.name %></p>
-        <p class="mt-1 truncate text-xs leading-5 text-gray-500"><%= "owned" if signed_in? && owned(current_user, item) %></p>
+        <p class="mt-1 truncate text-xs leading-5 text-gray-500">Added <%= time_ago_in_words(item.created_at) %> ago</p>
       </div>
     </div>
     <div class="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
+      <% if signed_in? && owned(current_user, item) %>
+        <span class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded-lg">owned</span>
+      <% end %>
       <p class="text-sm leading-6 text-gray-900"></p>
-      <p class="mt-1 text-xs leading-5 text-gray-500">Added <%= time_ago_in_words(item.created_at) %> ago</time></p>
+      <p class="mt-1 text-xs leading-5 text-gray-500"></time></p>
     </div>
   </li>
 
