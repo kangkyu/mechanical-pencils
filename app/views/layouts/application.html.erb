@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="h-full bg-white">
   <head>
-    <title>PostItems</title>
+    <title>Collector's Companion</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -14,11 +14,11 @@
     <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl p-4">
         <%= link_to root_path, class: "flex items-center space-x-3 rtl:space-x-reverse" do %>
             <!-- <img src="https://flowbite.com/docs/images/logo.svg" class="h-8" alt="Flowbite Logo" /> -->
-            <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">PostItems</span>
+            <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Collector's Companion</span>
         <% end %>
         <div class="flex items-center space-x-6 rtl:space-x-reverse">
             <% if signed_in? %>
-              <%= button_to "Logout", session_path, method: :delete, class: "text-sm text-gray-500 dark:text-white hover:underline" %>
+              <%= button_to "Log Out", session_path, method: :delete, class: "text-sm text-gray-500 dark:text-white hover:underline" %>
             <% else %>
               <%= link_to "Login", new_session_path, class: "text-sm text-blue-600 dark:text-blue-500 hover:underline" %>
             <% end %>
