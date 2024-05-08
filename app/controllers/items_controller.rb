@@ -8,7 +8,7 @@ class ItemsController < ApplicationController
   def create
     item = Item.new(item_params)
     if item.save!
-      redirect_to root_path
+      redirect_to items_url
     else
       render :new, status: :unprocessable_entity
     end
@@ -16,6 +16,10 @@ class ItemsController < ApplicationController
 
   def new
     @item = Item.new
+  end
+
+  def show
+    @item = Item.find(params[:id])
   end
 
   private

@@ -7,8 +7,8 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
-  resources :items, only: [:new, :create]
-  root "items#index"
+  resources :items
+  root "landing#index"
 
   resource :session
 end
