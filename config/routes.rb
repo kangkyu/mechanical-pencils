@@ -7,7 +7,11 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
-  resources :items
+  resources :items do
+    collection do
+      get 'collection'
+    end
+  end
   root "landing#index"
 
   resource :session

@@ -1,5 +1,5 @@
 class ItemsController < ApplicationController
-  before_action :ensure_login, only: [:new, :create]
+  before_action :ensure_login, only: [:new, :create, :collection]
 
   def index
     @items = Item.order(created_at: :desc)
@@ -20,6 +20,10 @@ class ItemsController < ApplicationController
 
   def show
     @item = Item.find(params[:id])
+  end
+
+  def collection
+    @items = current_user.items.order(created_at: :desc)
   end
 
   private
