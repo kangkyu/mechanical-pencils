@@ -1,5 +1,5 @@
 class ItemsController < ApplicationController
-  before_action :ensure_login, only: [:new, :create, :collection]
+  before_action :ensure_login, only: [:new, :create]
 
   def index
     @items = Item.order(created_at: :desc)
@@ -23,7 +23,11 @@ class ItemsController < ApplicationController
   end
 
   def collection
-    @items = current_user.items.order(created_at: :desc)
+    if signed_in?
+      @items = current_user.items.order(created_at: :desc)
+    else
+      redirect_to new_session_url, notice: "Forgot to login? This page is for your list of collection"
+    end
   end
 
   private

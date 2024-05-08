@@ -10,24 +10,32 @@
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
-<nav class="bg-white border-gray-200 dark:bg-gray-900">
-    <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl p-4">
-        <%= link_to root_path, class: "flex items-center space-x-3 rtl:space-x-reverse" do %>
-            <!-- <img src="https://flowbite.com/docs/images/logo.svg" class="h-8" alt="Flowbite Logo" /> -->
-            <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Collector's Companion</span>
-        <% end %>
-        <div class="flex items-center space-x-6 rtl:space-x-reverse">
-            <%= link_to "What I have", collection_items_path, class: "text-sm text-blue-600 dark:text-blue-500 hover:underline" %>
-            <%= link_to "Items", items_path, class: "text-sm text-blue-600 dark:text-blue-500 hover:underline" %>
-            <% if signed_in? %>
-              <%= button_to "Log Out", session_path, method: :delete, class: "text-sm text-gray-500 dark:text-white hover:underline" %>
-            <% else %>
-              <%= link_to "Login", new_session_path, class: "text-sm text-blue-600 dark:text-blue-500 hover:underline" %>
+    <nav class="bg-white border-gray-200 dark:bg-gray-900">
+        <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl p-4">
+            <%= link_to root_path, class: "flex items-center space-x-3 rtl:space-x-reverse" do %>
+                <!-- <img src="https://flowbite.com/docs/images/logo.svg" class="h-8" alt="Flowbite Logo" /> -->
+                <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Collector's Companion</span>
             <% end %>
+            <div class="flex items-center space-x-6 rtl:space-x-reverse">
+                <%= link_to "What I have", collection_items_path, class: "text-sm text-blue-600 dark:text-blue-500 hover:underline" %>
+                <%= link_to "Items", items_path, class: "text-sm text-blue-600 dark:text-blue-500 hover:underline" %>
+                <% if signed_in? %>
+                  <%= button_to "Log Out", session_path, method: :delete, class: "text-sm text-gray-500 dark:text-white hover:underline" %>
+                <% else %>
+                  <%= link_to "Login", new_session_path, class: "text-sm text-blue-600 dark:text-blue-500 hover:underline" %>
+                <% end %>
+            </div>
         </div>
-    </div>
-</nav>
-
+    </nav>
+    <% if flash.any? %>
+      <div class='inset-0 p-6 items-start justify-end'>
+        <div class='flex flex-col items-center justify-center'>
+          <% flash.each do |type, message| %>
+            <%= message %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
     <main class="container mx-auto mt-28 px-5 flex">
       <%= yield %>
     </main>
