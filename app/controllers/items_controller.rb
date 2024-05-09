@@ -1,5 +1,5 @@
 class ItemsController < ApplicationController
-  before_action :ensure_login, only: [:new, :create]
+  before_action :ensure_login, only: [:new, :create, :own, :unown]
 
   def index
     @items = Item.order(created_at: :desc)
@@ -27,6 +27,24 @@ class ItemsController < ApplicationController
       @items = current_user.items.order(created_at: :desc)
     else
       redirect_to new_session_url, notice: "Forgot to login? This page is for your list of collection"
+    end
+  end
+
+  def own
+    @item = Item.find(params[:id])
+    if !current_user.owned(@item)
+      current_user.ownerships.create(item: @item)
+    else
+      redirect_to @item
+    end
+  end
+
+  def unown
+    @item = Item.find(params[:id])
+    if current_user.owned(@item)
+      Ownership.where(user: current_user, item: @item).last.destroy
+    else
+      redirect_to @item
     end
   end
 

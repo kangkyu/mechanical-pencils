@@ -11,6 +11,10 @@ Rails.application.routes.draw do
     collection do
       get 'collection'
     end
+    member do
+      post 'own'
+      post 'unown'
+    end
   end
   root "landing#index"
 
