@@ -70,10 +70,12 @@
         </div>
       </div>
     </div>
+    <% if signed_in? %>
     <% if owned(current_user, @item) %>
       <%= button_to "unmark owned", unown_item_path(@item) %>
-    <% elsif signed_in? %>
+    <% else %>
       <%= button_to "mark owned", own_item_path(@item) %>
+    <% end %>
     <% end %>
   </div>
 </div>
