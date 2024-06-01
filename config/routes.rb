@@ -15,6 +15,7 @@ Rails.application.routes.draw do
       post 'own'
       post 'unown'
     end
+    resources :ownerships
   end
   root "landing#index"
 

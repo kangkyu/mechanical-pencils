@@ -73,6 +73,10 @@
     <% if signed_in? %>
     <% if owned(current_user, @item) %>
       <%= button_to "unmark owned", unown_item_path(@item) %>
+      <%= link_to "Add proof", new_item_ownership_path(@item) %>
+      <% @item.ownerships.each do |ownership| %>
+        <%= image_tag ownership.proof if ownership.proof.attached? %>
+      <% end %>
     <% else %>
       <%= button_to "mark owned", own_item_path(@item) %>
     <% end %>
