@@ -34,18 +34,16 @@ class ItemsController < ApplicationController
     @item = Item.find(params[:id])
     if !current_user.owned(@item)
       current_user.ownerships.create(item: @item)
-    else
-      redirect_to @item
     end
+    redirect_to @item
   end
 
   def unown
     @item = Item.find(params[:id])
     if current_user.owned(@item)
       Ownership.where(user: current_user, item: @item).last.destroy
-    else
-      redirect_to @item
     end
+    redirect_to @item
   end
 
   private
