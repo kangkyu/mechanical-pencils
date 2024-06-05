@@ -7,6 +7,6 @@ class User < ApplicationRecord
   has_many :items, through: :ownerships
 
   def owned(item)
-    items.exists? item.id
+    ownerships.exists? item_id: item
   end
 end
