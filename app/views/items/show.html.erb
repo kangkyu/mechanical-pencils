@@ -69,13 +69,17 @@
           <p class="mt-6">Id orci tellus laoreet id ac. Dolor, aenean leo, ac etiam consequat in. Convallis arcu ipsum urna nibh. Pharetra, euismod vitae interdum mauris enim, consequat vulputate nibh. Maecenas pellentesque id sed tellus mauris, ultrices mauris. Tincidunt enim cursus ridiculus mi. Pellentesque nam sed nullam sed diam turpis ipsum eu a sed convallis diam.</p>
         </div>
       </div>
+      <% @item.ownerships.each do |ownership| %>
+        <%= image_tag ownership.proof if ownership.proof.attached? %>
+      <% end %>
     </div>
     <% if signed_in? %>
     <% if owned(current_user, @item) %>
       <%= button_to "unmark owned", unown_item_path(@item) %>
-      <%= link_to "Add proof", new_item_ownership_path(@item) %>
-      <% @item.ownerships.each do |ownership| %>
-        <%= image_tag ownership.proof if ownership.proof.attached? %>
+      <% if owned_with_proof(current_user, @item) %>
+        <%= image_tag @item.ownership_by_user(current_user).proof %>
+      <% else %>
+        <%= link_to "Add proof", new_item_ownership_path(@item) %>
       <% end %>
     <% else %>
       <%= button_to "mark owned", own_item_path(@item) %>

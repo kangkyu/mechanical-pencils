@@ -6,7 +6,7 @@ class OwnershipsController < ApplicationController
 
   def create
     @item = Item.find_by(id: params[:item_id])
-    @ownership = Ownership.build(ownership_params)
+    @ownership = Ownership.build(ownership_params.merge(user_id: current_user.id, item_id: params[:item_id]))
     if @ownership.save!
       redirect_to @item
     else
@@ -17,6 +17,6 @@ class OwnershipsController < ApplicationController
   private
 
   def ownership_params
-    params.require(:ownership).permit(:proof).merge(user_id: current_user.id).merge(item_id: params[:item_id])
+    params.require(:ownership).permit(:proof)
   end
 end
