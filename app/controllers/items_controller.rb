@@ -24,7 +24,7 @@ class ItemsController < ApplicationController
 
   def collection
     if signed_in?
-      @items = current_user.items.order(created_at: :desc)
+      @user_items = current_user.items.order(created_at: :desc)
     else
       redirect_to new_session_url, notice: "Forgot to login? This page is for your list of collection"
     end
