@@ -1,13 +1,14 @@
 class OwnershipsController < ApplicationController
-  def new
+  def edit
     @item = Item.find_by(id: params[:item_id])
-    @ownership = @item.ownerships.build(user_id: current_user)
+    @ownership = @item.ownerships.find_by(user_id: current_user)
   end
 
-  def create
+  def update
     @item = Item.find_by(id: params[:item_id])
-    @ownership = Ownership.build(ownership_params.merge(user_id: current_user.id, item_id: params[:item_id]))
-    if @ownership.save!
+    @ownership = @item.ownerships.find_by(user_id: current_user)
+
+    if @ownership.update(ownership_params)
       redirect_to @item
     else
       render :new, status: :unprocessable_entity
