@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-ruby "3.3.1"
+ruby "3.3.2"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.1.3", ">= 7.1.3.2"
@@ -68,6 +68,3 @@ end
 
 gem "tailwindcss-rails", "~> 2.4"
 gem "google-cloud-storage", "~> 1.11", require: false
-
-gem "searchkick", "~> 5.3"
-gem "elasticsearch", "~> 8.14"

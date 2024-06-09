@@ -2,11 +2,7 @@ class ItemsController < ApplicationController
   before_action :ensure_login, only: [:new, :create, :own, :unown]
 
   def index
-    @items = if params[:search].present?
-          Item.search(params[:search], fields: [:name], match: :word_start)
-        else
-          Item.order(created_at: :desc)
-        end
+    @items = Item.order(created_at: :desc)
   end
 
   def create
@@ -53,6 +49,6 @@ class ItemsController < ApplicationController
   private
 
   def item_params
-    params.require(:item).permit(:name, :image)
+    params.require(:item).permit(:title, :image)
   end
 end
