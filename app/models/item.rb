@@ -1,7 +1,4 @@
 class Item < ApplicationRecord
-  include Elasticsearch::Model
-  include Elasticsearch::Model::Callbacks
-
   validates :title, presence: true
 
   has_many :ownerships

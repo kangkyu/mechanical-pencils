@@ -97,6 +97,3 @@ Rails.application.configure do
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
 end
-
-Elasticsearch::Model.client = Elasticsearch::Client.new(host: ENV['SEARCHBOX_URL'], http: { port: 443, scheme: 'https' })
-
