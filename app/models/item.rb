@@ -1,8 +1,10 @@
 class Item < ApplicationRecord
-  validates :name, presence: true
+  include Elasticsearch::Model
+  include Elasticsearch::Model::Callbacks
+
+  validates :title, presence: true
 
   has_many :ownerships
-  searchkick word_start: [:name]
 
   has_one_attached :image do |attachable|
     attachable.variant :thumb, resize_to_limit: [100, 100]
@@ -14,11 +16,5 @@ class Item < ApplicationRecord
 
   def ownership_by_user(user)
     ownerships.where(user_id: user).find {|o| o.proof.attached? }
-  end
-
-  def search_data
-    {
-      name: name
-    }
   end
 end

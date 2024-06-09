@@ -3,7 +3,7 @@ class ItemsController < ApplicationController
 
   def index
     @items = if params[:search].present?
-          Item.search(params[:search], fields: [:name], match: :word_start)
+          Item.search(params[:search]).records
         else
           Item.order(created_at: :desc)
         end
@@ -53,6 +53,6 @@ class ItemsController < ApplicationController
   private
 
   def item_params
-    params.require(:item).permit(:name, :image)
+    params.require(:item).permit(:title, :image)
   end
 end

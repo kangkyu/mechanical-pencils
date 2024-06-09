@@ -7,7 +7,7 @@
                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
             </svg>
         </div>
-        <%= f.search_field :search, value: params[:search], id: "default-search", class: "block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500", placeholder: "Search item name", required: true %>
+        <%= f.search_field :search, value: params[:search], id: "default-search", class: "block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500", placeholder: "Search item title", required: true %>
         <%= f.submit 'Search', class: "text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" %>
     </div>
 <% end %>
@@ -24,7 +24,7 @@
       <img class="h-12 w-12 flex-none rounded-full bg-gray-50" src="" alt="">
       <% end %>
       <div class="min-w-0 flex-auto">
-        <p class="text-sm font-semibold leading-6 text-gray-900"><%= link_to item.name, item %></p>
+        <p class="text-sm font-semibold leading-6 text-gray-900"><%= link_to item.title, item %></p>
         <p class="mt-1 truncate text-xs leading-5 text-gray-500">Added <%= time_ago_in_words(item.created_at) %> ago</p>
       </div>
     </div>
