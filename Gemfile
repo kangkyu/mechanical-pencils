@@ -68,3 +68,6 @@ end
 
 gem "tailwindcss-rails", "~> 2.4"
 gem "google-cloud-storage", "~> 1.11", require: false
+
+gem "searchkick", "~> 5.3"
+gem "elasticsearch", "~> 8.14"

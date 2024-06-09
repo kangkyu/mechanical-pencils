@@ -2,7 +2,11 @@ class ItemsController < ApplicationController
   before_action :ensure_login, only: [:new, :create, :own, :unown]
 
   def index
-    @items = Item.order(created_at: :desc)
+    @items = if params[:search].present?
+          Item.search(params[:search], fields: [:name], match: :word_start)
+        else
+          Item.order(created_at: :desc)
+        end
   end
 
   def create
