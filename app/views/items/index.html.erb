@@ -1,15 +1,13 @@
 <div class="bg-gray-100">
 <div class="w-full max-w-md mx-auto bg-white p-8 rounded-lg shadow">
+  <div class="mb-4">
+    <%= form_with url: items_path, method: :get, class: 'mb-4' do %>
+      <input type="text" name="search" placeholder="Search..." class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" value="<%= params[:search] %>">
+    <% end %>
+  </div>
 
-<div class="mb-4">
-  <%= form_with url: items_path, method: :get, local: true, class: 'mb-4' do %>
-    <input type="text" name="search" placeholder="Search..." class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" value="<%= params[:search] %>">
-  <% end %>
-</div>
-
-<div id="search-list">
-  <%= render partial: 'search_list', locals: { items: @items } %>
-</div>
-
+  <turbo-frame id="search-list">
+    <%= render partial: 'search_list', locals: { items: @items } %>
+  </turbo-frame>
 </div>
 </div>
