@@ -2,7 +2,16 @@ class ItemsController < ApplicationController
   before_action :ensure_login, only: [:new, :create, :own, :unown]
 
   def index
-    @items = Item.order(created_at: :desc)
+    @items = if params[:search].present?
+        Item.order(created_at: :desc).where('title LIKE ?', "%#{params[:search]}%")
+      else
+        Item.order(created_at: :desc)
+      end
+
+    respond_to do |format|
+      format.html
+      format.turbo_stream
+    end
   end
 
   def create
