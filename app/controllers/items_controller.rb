@@ -7,17 +7,12 @@ class ItemsController < ApplicationController
       else
         Item.order(created_at: :desc)
       end
-
-    respond_to do |format|
-      format.html
-      format.turbo_stream
-    end
   end
 
   def create
     item = Item.new(item_params)
     if item.save!
-      redirect_to items_url
+      redirect_to items_url, status: :see_other
     else
       render :new, status: :unprocessable_entity
     end

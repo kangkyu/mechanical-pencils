@@ -1,10 +1,10 @@
 module ApplicationHelper
 
   def owned(user, item)
-    user.owned(item)
+    Ownership.exists? item_id: item, user_id: user
   end
 
   def owned_with_proof(user, item)
-    user.owned(item) && item.has_proof(user)
+    owned(user, item) && Ownership.where(item_id: item, user_id: user).any? {|o| o.proof.attached? }
   end
 end
