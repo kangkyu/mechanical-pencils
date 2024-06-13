@@ -1,7 +1,7 @@
 class Item < ApplicationRecord
   validates :title, presence: true
 
-  has_many :ownerships
+  has_many :ownerships, dependent: :destroy
 
   has_one_attached :image do |attachable|
     attachable.variant :thumb, resize_to_limit: [100, 100]
