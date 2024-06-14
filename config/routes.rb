@@ -20,4 +20,5 @@ Rails.application.routes.draw do
   root "landing#index"
 
   resource :session
+  resources :users, only: [:show]
 end

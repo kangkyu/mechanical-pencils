@@ -1,3 +1,5 @@
+<%= button_to "Public Profile", user_path(current_user), method: :get, class: "py-2 px-3 font-medium text-gray-900 focus:outline-none bg-white rounded-md border border-gray-200 hover:bg-gray-100 hover:text-blue-700" %>
+
 <% if @user_items.any? %>
 <ul role="list" class="divide-y divide-gray-100">
   <% @user_items.each do |item| %>
