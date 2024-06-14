@@ -1,7 +1,7 @@
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
   <!-- Public Profile Button -->
   <div class="flex justify-end mb-4">
-    <%= button_to "Public Profile", user_path(current_user), method: :get, class: "py-2 px-4 font-medium text-gray-900 focus:outline-none bg-white rounded-md border border-gray-200 hover:bg-gray-100 hover:text-blue-700 shadow-sm" %>
+    <%= button_to "Public View", user_path(current_user), method: :get, class: "py-2 px-4 font-medium text-gray-900 focus:outline-none bg-white rounded-md border border-gray-200 hover:bg-gray-100 hover:text-blue-700 shadow-sm" %>
   </div>
 
   <!-- User Items List -->
@@ -21,8 +21,8 @@
             </div>
           </div>
           <div class="hidden sm:flex sm:flex-col sm:items-end">
-            <p class="text-sm font-medium text-gray-900">Mechanical Pencil</p>
-            <p class="mt-1 text-xs text-gray-500"><time datetime="2023-01-23T13:23Z"><%= time_ago_in_words(item.updated_at) %> ago</time></p>
+            <p class="text-sm font-medium text-gray-900"><%= item.maker %></p>
+            <p class="mt-1 text-xs text-gray-500"><time datetime="2023-01-23T13:23Z">Updated <%= time_ago_in_words(item.updated_at) %> ago</time></p>
           </div>
           <% if owned_with_proof(current_user, item) %>
             <div class="flex items-center gap-x-4">
