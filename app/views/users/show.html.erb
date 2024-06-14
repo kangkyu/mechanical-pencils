@@ -1,1 +1,13 @@
-<p>public user profile goes here</p>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+  <p class="text-center text-xl font-semibold text-gray-900 mb-6">Public User Profile</p>
+
+  <div class="column-count-3">
+    <% @user.ownerships.each do |ownership| %>
+      <% if ownership.proof.attached? %>
+        <div class="bg-white rounded-lg shadow-md overflow-hidden inline-block relative hover:shadow-lg transition-shadow duration-300">
+          <%= image_tag ownership.proof, class: "w-full h-auto object-cover" %>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>
