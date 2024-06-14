@@ -8,8 +8,11 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
-%w(Pentel Blick Tombow).each do |pencil_name|
-  Item.find_or_create_by!(title: pencil_name)
-end
+Item.create!([
+  { title: "Pentel Sharp Kerry", maker: "Pentel" },
+  { title: "Tombow Zoom", maker: "Tombow" },
+  { title: "Blick Premier", maker: "Blick" }
+])
+
 User.create!(email: "kangkyu@example.com", password: "1234")
 Ownership.find_or_create_by(user: User.first, item: Item.first)
