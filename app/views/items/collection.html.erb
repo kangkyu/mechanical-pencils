@@ -1,36 +1,41 @@
-<%= button_to "Public Profile", user_path(current_user), method: :get, class: "py-2 px-3 font-medium text-gray-900 focus:outline-none bg-white rounded-md border border-gray-200 hover:bg-gray-100 hover:text-blue-700" %>
-
-<% if @user_items.any? %>
-<ul role="list" class="divide-y divide-gray-100">
-  <% @user_items.each do |item| %>
-  <li class="flex justify-between gap-x-6 py-5">
-    <div class="flex min-w-0 gap-x-4">
-      <% if item.image.attached? %>
-      <%= image_tag item.image.variant(:thumb), class: "h-12 w-12 flex-none rounded-full bg-gray-50" %>
-      <% else %>
-      <img class="h-12 w-12 flex-none rounded-full bg-gray-50" src="" alt="">
-      <% end %>
-      <div class="min-w-0 flex-auto">
-        <p class="text-sm font-semibold leading-6 text-gray-900"><%= link_to item.title, item %></p>
-        <p class="mt-1 truncate text-xs leading-5 text-gray-500">leslie.alexander@example.com</p>
-      </div>
-    </div>
-    <div class="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
-      <p class="text-sm leading-6 text-gray-900">Mechanical Pencil</p>
-      <p class="mt-1 text-xs leading-5 text-gray-500"><time datetime="2023-01-23T13:23Z"><%= time_ago_in_words(item.updated_at) %> ago</time></p>
-    </div>
-    <% if owned_with_proof(current_user, item) %>
-    <div class="flex min-w-0 gap-x-4">
-      <%= image_tag item.ownership_by_user(current_user).proof, class: "h-12 w-12 flex-none rounded-lg bg-gray-50" %>
-    </div>
-    <% end %>
-  </li>
-  <% end %>
-</ul>
-<% else %>
-  <div class='inset-0 p-6 items-start justify-end'>
-    <div class='flex flex-col items-center justify-center'>
-      There's nothing (yet) here. Please post items you own
-    </div>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+  <!-- Public Profile Button -->
+  <div class="flex justify-end mb-4">
+    <%= button_to "Public Profile", user_path(current_user), method: :get, class: "py-2 px-4 font-medium text-gray-900 focus:outline-none bg-white rounded-md border border-gray-200 hover:bg-gray-100 hover:text-blue-700 shadow-sm" %>
   </div>
-<% end %>
+
+  <!-- User Items List -->
+  <% if @user_items.any? %>
+    <ul role="list" class="divide-y divide-gray-200 bg-white shadow rounded-lg">
+      <% @user_items.each do |item| %>
+        <li class="flex justify-between items-center gap-x-6 p-4">
+          <div class="flex items-center gap-x-4">
+            <% if item.image.attached? %>
+              <%= image_tag item.image.variant(:thumb), class: "h-16 w-16 rounded-full object-cover" %>
+            <% else %>
+              <img class="h-16 w-16 rounded-full bg-gray-100" src="" alt="No image available">
+            <% end %>
+            <div class="min-w-0 flex-auto">
+              <p class="text-lg font-semibold text-gray-900"><%= link_to item.title, item, class: "hover:underline" %></p>
+              <p class="mt-1 truncate text-sm text-gray-500">leslie.alexander@example.com</p>
+            </div>
+          </div>
+          <div class="hidden sm:flex sm:flex-col sm:items-end">
+            <p class="text-sm font-medium text-gray-900">Mechanical Pencil</p>
+            <p class="mt-1 text-xs text-gray-500"><time datetime="2023-01-23T13:23Z"><%= time_ago_in_words(item.updated_at) %> ago</time></p>
+          </div>
+          <% if owned_with_proof(current_user, item) %>
+            <div class="flex items-center gap-x-4">
+              <%= image_tag item.ownership_by_user(current_user).proof, class: "h-16 w-16 rounded-lg object-cover" %>
+            </div>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <!-- No Items Message -->
+    <div class="flex flex-col items-center justify-center p-6 bg-gray-50 border border-gray-200 rounded-lg">
+      <p class="text-lg font-medium text-gray-600">There's nothing (yet) here. Please post items you own.</p>
+    </div>
+  <% end %>
+</div>
