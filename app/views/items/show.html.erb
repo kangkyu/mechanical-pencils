@@ -86,7 +86,9 @@
 
     <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
       <% @item.ownerships.each do |ownership| %>
-        <%= image_tag ownership.proof, class: "h-auto max-w-full rounded-lg" if ownership.proof.attached? %>
+        <%= link_to user_path(ownership.user) do %>
+          <%= image_tag ownership.proof, class: "h-auto max-w-full rounded-lg" if ownership.proof.attached? %>
+          <% end %>
       <% end %>
     </div>
   </div>
