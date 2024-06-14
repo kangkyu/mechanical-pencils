@@ -5,7 +5,9 @@
     <% @user.ownerships.each do |ownership| %>
       <% if ownership.proof.attached? %>
         <div class="bg-white rounded-lg shadow-md overflow-hidden inline-block relative hover:shadow-lg transition-shadow duration-300">
-          <%= image_tag ownership.proof, class: "w-full h-auto object-cover" %>
+          <%= link_to item_path(ownership.item) do %>
+            <%= image_tag ownership.proof, class: "w-full h-auto object-cover" %>
+          <% end %>
         </div>
       <% end %>
     <% end %>
