@@ -4,6 +4,10 @@ class ApplicationController < ActionController::Base
     redirect_to root_path unless signed_in?
   end
 
+  def ensure_admin
+    redirect_back unless signed_in? && current_user.admin?
+  end
+
   def signed_in?
     current_user_id.present?
   end
