@@ -29,7 +29,9 @@
               <% if owned(current_user, @item) %>
 
                 <% if owned_with_proof(current_user, @item) %>
-                  <%= image_tag @item.ownership_by_user(current_user).proof, class: "h-12 w-12 rounded-lg bg-red-500" %>
+                  <%= link_to collection_items_path do %>
+                    <%= image_tag @item.ownership_by_user(current_user).proof, class: "h-12 w-12 rounded-lg bg-red-500" %>
+                  <% end %>
                   <p class="text-sm font-semibold leading-6 text-gray-900">You own this<br>with proof</p>
                 <% else %>
                   <span class="outline outline-2 outline-gray-900 text-gray-900 font-bold py-2 px-3 rounded-lg">owned</span>
