@@ -1,10 +1,11 @@
-<li class="flex justify-between gap-x-6 py-5">
+<li class="flex justify-between gap-x-6 py-5 hover:bg-gray-50 transition">
   <div class="flex min-w-0 gap-x-4">
     <% if item.image.attached? %>
-      <%= image_tag item.image.variant(:thumb), class: "h-12 w-12 flex-none rounded-full bg-gray-50" %>
+      <%= image_tag item.image.variant(:thumb), class: "h-12 w-12 flex-none rounded-full bg-gray-200" %>
     <% else %>
-      <img class="h-12 w-12 flex-none rounded-full bg-gray-50" src="" alt="">
+      <img class="h-12 w-12 flex-none rounded-full bg-gray-200" src="" alt="">
     <% end %>
+
     <div class="min-w-0 flex-auto">
       <p class="text-sm font-semibold leading-6 text-gray-900"><%= link_to item.title, item_path(item) %></p>
       <p class="mt-1 truncate text-xs leading-5 text-gray-500">Added <%= time_ago_in_words(item.created_at) %> ago</p>
