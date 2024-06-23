@@ -107,3 +107,5 @@ Item.create!([
 
 User.create!(email: "kangkyu@example.com", password: "1234")
 Ownership.find_or_create_by(user: User.first, item: Item.first)
+
+User.create!(email: "jimmy@example.com", password: "1234abcd")
