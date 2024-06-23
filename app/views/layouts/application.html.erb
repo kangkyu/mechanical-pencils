@@ -30,6 +30,7 @@
           <% else %>
             <%= link_to "Login", new_session_path, class: "text-sm text-blue-600 dark:text-blue-500 hover:underline" %>
           <% end %>
+        </div>
       </div>
     </nav>
     <% if flash.any? %>
@@ -42,7 +43,7 @@
       </div>
     <% end %>
     <main class="container mx-auto mt-12 px-5 flex justify-center">
-        <%= yield %>
+      <%= yield %>
     </main>
   </body>
 </html>
