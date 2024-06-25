@@ -26,8 +26,8 @@ class UsersController < ApplicationController
   def share_post
     @user = User.find(params[:id])
 
-    account = @user.threads_accounts.last
-    client = Threads::API::Client.new(account.tokens.symbolize_keys[:short_access_token])
+    @account = ThreadsAccount.find_by(user_id: current_user_id)
+    client = Threads::API::Client.new(@account.tokens.symbolize_keys[:short_access_token])
 
     pending = client.create_thread(text: params[:text])
 
