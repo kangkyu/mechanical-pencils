@@ -18,9 +18,31 @@
         <div class="sm:col-span-3">
           <%= f.label :maker, class: "block text-sm font-medium leading-6 text-gray-900" %>
           <div class="mt-2">
-            <%= f.text_field :maker, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" %>
+            <%= f.collection_select :maker_id, @makers, :id, :title, prompt: true, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" %>
           </div>
         </div>
+
+        <div class="sm:col-span-3">
+          <%= f.label :model_number, class: "block text-sm font-medium leading-6 text-gray-900" %>
+          <div class="mt-2">
+            <%= f.text_field :model_number, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" %>
+          </div>
+        </div>
+        <div class="sm:col-span-1">
+          <%= f.radio_button :tip_retractable, "Yes" %> Yes
+          <%= f.radio_button :tip_retractable, "No" %> No
+          <div class="mt-2">
+              <%= f.label :tip_retractable, class: "block text-sm font-medium leading-6 text-gray-900" %>
+          </div>
+        </div>
+        <div class="sm:col-span-2">
+          <%= f.radio_button :eraser_attached, "Yes" %> Yes
+          <%= f.radio_button :eraser_attached, "No" %> No
+          <div class="mt-2">
+              <%= f.label :eraser_attached, class: "block text-sm font-medium leading-6 text-gray-900" %>
+          </div>
+        </div>
+
 
         <div class="sm:col-span-4">
           <%= f.label :image, class: "block text-sm font-medium leading-6 text-gray-900" %>
@@ -32,8 +54,8 @@
           <%= f.label :item_group, class: "block text-sm font-medium leading-6 text-gray-900" %>
           <div class="mt-2">
             <ul>
-              <%= f.collection_check_boxes :item_group_ids, ItemGroup.all, :id, :title, prompt: "", class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" do |b| %>
-                  <li><%= b.check_box %><%= b.label %></li>
+              <%= f.collection_check_boxes :item_group_ids, ItemGroup.all, :id, :title, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" do |b| %>
+                  <li><%= b.check_box %> <%= b.label %></li>
               <% end %>
             </ul>
           </div>

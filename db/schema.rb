@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_06_25_035744) do
+ActiveRecord::Schema[7.1].define(version: 2024_06_25_092436) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -53,6 +53,11 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_25_035744) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "maker"
+    t.json "data", default: {}
+    t.text "description"
+    t.string "model_number"
+    t.bigint "maker_id"
+    t.index ["maker_id"], name: "index_items_on_maker_id"
     t.index ["title"], name: "index_items_on_title"
   end
 
@@ -65,6 +70,14 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_25_035744) do
     t.index ["item_id"], name: "index_joiners_on_item_id"
   end
 
+  create_table "makers", force: :cascade do |t|
+    t.string "title"
+    t.string "origin"
+    t.string "homepage"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "ownerships", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "item_id", null: false
@@ -72,15 +85,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_25_035744) do
     t.datetime "updated_at", null: false
     t.index ["item_id"], name: "index_ownerships_on_item_id"
     t.index ["user_id"], name: "index_ownerships_on_user_id"
-  end
-
-  create_table "progressors", force: :cascade do |t|
-    t.bigint "item_group_id", null: false
-    t.bigint "user_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["item_group_id"], name: "index_progressors_on_item_group_id"
-    t.index ["user_id"], name: "index_progressors_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -97,6 +101,4 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_25_035744) do
   add_foreign_key "joiners", "items"
   add_foreign_key "ownerships", "items"
   add_foreign_key "ownerships", "users"
-  add_foreign_key "progressors", "item_groups"
-  add_foreign_key "progressors", "users"
 end

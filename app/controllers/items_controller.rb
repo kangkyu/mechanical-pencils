@@ -11,6 +11,7 @@ class ItemsController < ApplicationController
 
   def edit
     @item = Item.find(params[:id])
+    @makers = Maker.all
   end
 
   def update
@@ -55,6 +56,7 @@ class ItemsController < ApplicationController
 
   def new
     @item = Item.new
+    @makers = Maker.all
   end
 
   def show
@@ -89,6 +91,6 @@ class ItemsController < ApplicationController
   private
 
   def item_params
-    params.require(:item).permit(:title, :maker, :image, item_group_ids: [])
+    params.require(:item).permit(:title, :maker_id, :image, :model_number, :tip_retractable, :eraser_attached, item_group_ids: [])
   end
 end
