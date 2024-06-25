@@ -1,14 +1,21 @@
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+  <ul>
+    <% @item_groups.each do |item_group| %>
+      <li>
+        <%= link_to item_group.title, item_group %>
+        <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+          <div class="bg-blue-600 h-2.5 rounded-full" style="width: <%= item_group.items.where(id: current_user.items).count * 100 / item_group.items.count %>%"></div>
+        </div>
+        <%= item_group.items.where(id: current_user.items).count %>/<%= item_group.items.count %>
+      </li>
+    <% end %>
+  </ul>
+
   <!-- Public Profile Button -->
   <div class="flex justify-end mb-4">
     <%= button_to "Public View", user_path(current_user), method: :get, class: "py-2 px-4 font-medium text-gray-900 focus:outline-none bg-white rounded-md border border-gray-200 hover:bg-gray-100 hover:text-blue-700 shadow-sm" %>
   </div>
-
-  <ul>
-    <% @item_groups.each do |item_group| %>
-      <li><%= item_group.title %>: <%= item_group.items.where(id: current_user.items).count %>/<%= item_group.items.count %></li>
-    <% end %>
-  </ul>
 
   <!-- User Items List -->
   <% if @user_items.any? %>
