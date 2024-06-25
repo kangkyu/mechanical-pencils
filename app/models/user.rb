@@ -7,9 +7,6 @@ class User < ApplicationRecord
   has_many :items, through: :ownerships
   has_many :item_groups, through: :items
 
-  # has_many :progressors, dependent: :destroy
-  # has_many :item_groups, through: :progressors
-
   def owned(item)
     ownerships.exists? item_id: item
   end
