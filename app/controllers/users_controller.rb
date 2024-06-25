@@ -17,7 +17,8 @@ class UsersController < ApplicationController
 
     puts resp.status
 
-    redirect_to user_url
+    redirect_to collection_items_url
+    # redirect_to user_url(current_user)
   end
 
   def share
