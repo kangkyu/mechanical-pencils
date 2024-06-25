@@ -10,6 +10,10 @@ class Item < ApplicationRecord
     attachable.variant :thumb, resize_to_limit: [100, 100]
   end
 
+  belongs_to :maker
+
+  store_accessor :data, :tip_retractable, :eraser_attached
+
   def has_proof(user)
     ownerships.exists?(user_id: user) && ownerships.where(user_id: user).any? {|o| o.proof.attached? }
   end
