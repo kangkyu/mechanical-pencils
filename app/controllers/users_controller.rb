@@ -32,9 +32,6 @@ class UsersController < ApplicationController
     pending = client.create_thread(text: params[:text])
 
     resp = client.publish_thread(pending.id)
-    puts resp.status
-    puts resp.error_message
-
     redirect_to collection_items_url, notice: "Successfully posted."
   end
 end
