@@ -20,6 +20,13 @@ Rails.application.routes.draw do
   root "landing#index"
 
   resource :session
-  resources :users, only: [:show]
+  resources :users, only: [:show] do
+    member do
+      get 'share'
+      post 'share_post'
+    end
+  end
   resources :item_groups, only: [:show]
+
+  get "/threads/oauth/callback", to: "users#threads_auth"
 end

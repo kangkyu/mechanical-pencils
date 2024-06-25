@@ -298,6 +298,8 @@ GEM
     tailwindcss-rails (2.4.0-x86_64-linux)
       railties (>= 6.0.0)
     thor (1.3.1)
+    threads-api (0.1.0)
+      faraday (>= 2.0)
     timeout (0.4.1)
     trailblazer-option (0.1.2)
     turbo-rails (2.0.5)
@@ -346,6 +348,7 @@ DEPENDENCIES
   sprockets-rails
   stimulus-rails
   tailwindcss-rails (~> 2.4)
+  threads-api (~> 0.1.0)
   turbo-rails
   tzinfo-data
   web-console

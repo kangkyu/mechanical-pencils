@@ -1,0 +1,4 @@
+<%= form_with url: share_post_user_path(@user) do |f| %>
+  <%= f.text_area :text, value: "Hello, threads #{user_url(@user)}" %>
+  <%= f.submit %>
+<% end %>
