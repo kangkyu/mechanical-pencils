@@ -21,4 +21,5 @@ Rails.application.routes.draw do
 
   resource :session
   resources :users, only: [:show]
+  resources :item_groups, only: [:show]
 end

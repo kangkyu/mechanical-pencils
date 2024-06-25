@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_06_14_170257) do
+ActiveRecord::Schema[7.1].define(version: 2024_06_25_035744) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -42,11 +42,27 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_14_170257) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "item_groups", force: :cascade do |t|
+    t.string "title", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "items", force: :cascade do |t|
     t.string "title", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "maker"
+    t.index ["title"], name: "index_items_on_title"
+  end
+
+  create_table "joiners", force: :cascade do |t|
+    t.bigint "item_group_id", null: false
+    t.bigint "item_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["item_group_id"], name: "index_joiners_on_item_group_id"
+    t.index ["item_id"], name: "index_joiners_on_item_id"
   end
 
   create_table "ownerships", force: :cascade do |t|
@@ -56,6 +72,15 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_14_170257) do
     t.datetime "updated_at", null: false
     t.index ["item_id"], name: "index_ownerships_on_item_id"
     t.index ["user_id"], name: "index_ownerships_on_user_id"
+  end
+
+  create_table "progressors", force: :cascade do |t|
+    t.bigint "item_group_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["item_group_id"], name: "index_progressors_on_item_group_id"
+    t.index ["user_id"], name: "index_progressors_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -68,6 +93,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_14_170257) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "joiners", "item_groups"
+  add_foreign_key "joiners", "items"
   add_foreign_key "ownerships", "items"
   add_foreign_key "ownerships", "users"
+  add_foreign_key "progressors", "item_groups"
+  add_foreign_key "progressors", "users"
 end
