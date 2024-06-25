@@ -11,12 +11,16 @@ class ItemsController < ApplicationController
 
   def edit
     @item = Item.find(params[:id])
+    @makers = Maker.all
   end
 
   def update
     @item = Item.find(params[:id])
+    if item_params[:maker].present?
+      @item.item_maker = Maker.create_or_find_by(title: item_params[:maker])
+    end
     group_ids = item_params.delete(:item_group_ids)
-    if @item.update(item_params.except(:item_group_ids))
+    if @item.update(item_params.except(:item_group_ids, :maker))
       (@item.item_group_ids - group_ids.map(&:to_i)).each do |group_id|
         if ItemGroup.exists?(group_id)
           Joiner.find_by(item_group_id: ItemGroup.find_by(id: group_id), item_id: @item).destroy
@@ -46,6 +50,9 @@ class ItemsController < ApplicationController
 
   def create
     item = Item.new(item_params)
+    if item_params[:maker].present?
+      item.item_maker = Maker.create_or_find_by(title: item_params[:maker])
+    end
     if item.save!
       redirect_to items_url, status: :see_other
     else
@@ -55,6 +62,7 @@ class ItemsController < ApplicationController
 
   def new
     @item = Item.new
+    @makers = Maker.all
   end
 
   def show
@@ -89,6 +97,6 @@ class ItemsController < ApplicationController
   private
 
   def item_params
-    params.require(:item).permit(:title, :maker, :image, item_group_ids: [])
+    params.require(:item).permit(:title, :maker, :image, :model_number, :tip_retractable, :eraser_attached, item_group_ids: [])
   end
 end
