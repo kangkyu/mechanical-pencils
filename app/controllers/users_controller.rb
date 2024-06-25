@@ -5,14 +5,14 @@ class UsersController < ApplicationController
   end
 
   def threads_auth
-    text = params.permit!(:text)
+
     auth_client = Threads::API::OAuth2::Client.new(client_id: ENV["THREADS_CLIENT_ID"], client_secret: ENV["THREADS_CLIENT_SECRET"])
-    response = auth_client.access_token(code: params[:code], redirect_uri: "https://post-items.com/threads/oauth/callback")
+    response = auth_client.access_token(code: params[:code], redirect_uri: threads_oauth_callback_url)
 
     access_token = response.access_token
     client = Threads::API::Client.new(access_token)
 
-    pending = client.create_thread(text: text)
+    pending = client.create_thread(text: "Hello again")
     resp = client.publish_thread(pending.id)
 
     puts resp.status
