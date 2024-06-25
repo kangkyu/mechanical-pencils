@@ -34,7 +34,7 @@
             </div>
           </div>
           <div class="hidden sm:flex sm:flex-col sm:items-end">
-            <p class="text-sm font-medium text-gray-900"><%= item.maker %></p>
+            <p class="text-sm font-medium text-gray-900"><%= item.item_maker&.title %></p>
             <p class="mt-1 text-xs text-gray-500"><time datetime="2023-01-23T13:23Z">Updated <%= time_ago_in_words(item.updated_at) %> ago</time></p>
           </div>
           <% if owned_with_proof(current_user, item) %>
