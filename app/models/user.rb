@@ -3,7 +3,7 @@ class User < ApplicationRecord
 
   validates :email, presence: true, uniqueness: true
 
-  has_many :ownerships, -> { order(:created_at) }, dependent: :destroy
+  has_many :ownerships, -> { order(created_at: :desc) }, dependent: :destroy
   has_many :items, through: :ownerships
   has_many :item_groups, through: :items
 
