@@ -17,7 +17,7 @@ class ItemsController < ApplicationController
   def update
     @item = Item.find(params[:id])
     group_ids = item_params.delete(:item_group_ids)
-    if @item.update(item_params.except(:item_group_ids, :maker))
+    if @item.update(item_params.except(:item_group_ids))
       (@item.item_group_ids - group_ids.map(&:to_i)).each do |group_id|
         if ItemGroup.exists?(group_id)
           Joiner.find_by(item_group_id: ItemGroup.find_by(id: group_id), item_id: @item).destroy
