@@ -3,12 +3,12 @@
   <div class="space-y-12">
 
     <div class="border-b border-gray-900/10 pb-12">
-      <h2 class="text-base font-semibold leading-7 text-gray-900">Provide a photo (show your ownership)</h2>
+      <h2 class="text-base font-semibold leading-7 text-gray-900"><%= t :provide_photo_proof %></h2>
 
       <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
 
         <div class="sm:col-span-4">
-          <%= f.label :proof, class: "block text-sm font-medium leading-6 text-gray-900" %>
+          <%= f.label :proof, "Photo", class: "block text-sm font-medium leading-6 text-gray-900" %>
           <div class="mt-2">
             <%= f.file_field :proof, class: "block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none" %>
           </div>
@@ -20,6 +20,6 @@
 
   <div class="mt-6 flex items-center justify-end gap-x-6">
     <%= link_to "Cancel", @item, class: "text-sm font-semibold leading-6 text-gray-900" %>
-    <p class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"><%= f.submit %></p>
+    <p class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"><%= f.submit "Add" %></p>
   </div>
 <% end %>
