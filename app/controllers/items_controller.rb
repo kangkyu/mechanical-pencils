@@ -15,7 +15,21 @@ class ItemsController < ApplicationController
 
   def update
     @item = Item.find(params[:id])
-    if @item.update(item_params)
+    group_ids = item_params.delete(:item_group_ids)
+    if @item.update(item_params.except(:item_group_ids))
+      (@item.item_group_ids - group_ids.map(&:to_i)).each do |group_id|
+        if ItemGroup.exists?(group_id)
+          Joiner.find_by(item_group_id: ItemGroup.find_by(id: group_id), item_id: @item).destroy
+        end
+      end
+      (group_ids.map(&:to_i) - @item.item_group_ids).each do |group_id|
+        if ItemGroup.exists?(group_id)
+          if @item.item_group_ids.include?(group_id.to_i)
+          else
+            ItemGroup.find(group_id).items << @item
+          end
+        end
+      end
       redirect_to item_url(@item)
     else
       render action: 'edit'
@@ -24,9 +38,9 @@ class ItemsController < ApplicationController
 
   def index
     @items = if params[:search].present?
-        Item.order(created_at: :desc).where('title LIKE ?', "%#{params[:search]}%")
+        Item.order(:title).where('title LIKE ?', "%#{params[:search]}%")
       else
-        Item.order(created_at: :desc)
+        Item.order(:title)
       end
   end
 
@@ -49,7 +63,8 @@ class ItemsController < ApplicationController
 
   def collection
     if signed_in?
-      @user_items = current_user.items.order(created_at: :desc)
+      @user_items = current_user.items
+      @item_groups = current_user.item_groups.order(:title).uniq
     else
       redirect_to new_session_url, notice: "Forgot to login? This page is for your list of collection"
     end
@@ -74,6 +89,6 @@ class ItemsController < ApplicationController
   private
 
   def item_params
-    params.require(:item).permit(:title, :maker, :image)
+    params.require(:item).permit(:title, :maker, :image, item_group_ids: [])
   end
 end

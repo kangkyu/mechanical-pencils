@@ -8,10 +8,7 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
-Item.create!([
-  { title: "Pentel Sharp Kerry", maker: "Pentel" },
-  { title: "Tombow Zoom", maker: "Tombow" },
-  { title: "Blick Premier", maker: "Blick" },
+items = Item.create!([
   { title: "Alvin Draft-Matic", maker: "Alvin" },
   { title: "Alvin Pro-Matic MC5", maker: "Alvin" },
   { title: "Alvin \"Scott\" B/2", maker: "Alvin" },
@@ -102,10 +99,18 @@ Item.create!([
   { title: "Zebra Drafix", maker: "Zebra" },
   { title: "Zebra M301", maker: "Zebra" },
   { title: "Zebra M701", maker: "Zebra" },
-
+  { title: "Pentel Sharp Kerry", maker: "Pentel" },
+  { title: "Tombow Zoom", maker: "Tombow" },
+  { title: "Blick Premier", maker: "Blick" }
 ])
 
 User.create!(email: "kangkyu@example.com", password: "1234")
 Ownership.find_or_create_by(user: User.first, item: Item.first)
 
-User.create!(email: "jimmy@example.com", password: "1234abcd")
+u = User.create!(email: "jimmy@example.com", password: "1234abcd")
+u.items.push items.first(10)
+
+ig = ItemGroup.create(title: "Dave's Top 10")
+ig.items.push items.first(3)
+
+ItemGroup.create(title: "Kaleb's Picks")

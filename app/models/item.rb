@@ -3,6 +3,9 @@ class Item < ApplicationRecord
 
   has_many :ownerships, dependent: :destroy
 
+  has_many :joiners, dependent: :destroy
+  has_many :item_groups, through: :joiners
+
   has_one_attached :image do |attachable|
     attachable.variant :thumb, resize_to_limit: [100, 100]
   end
