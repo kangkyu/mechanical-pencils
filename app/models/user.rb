@@ -14,6 +14,6 @@ class User < ApplicationRecord
   end
 
   def admin?
-    true
+    email == "admin@lininglink.com"
   end
 end

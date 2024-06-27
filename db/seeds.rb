@@ -15,6 +15,9 @@ kaweco = Maker.create(title: "Kaweco")
 rotring = Maker.create(title: "Rotring")
 pentel = Maker.create(title: "Pentel")
 pilot = Maker.create(title: "Pilot")
+zebra = Maker.create(title: "Zebra")
+platinum = Maker.create(title: "Lamy")
+lamy = Maker.create(title: "Lamy")
 
 items = Item.create!([
   { title: "Alvin Draft-Matic", maker_id: alvin.id },
@@ -42,8 +45,8 @@ items = Item.create!([
   # { title: "Kita Boshi 680", maker: "Kita Boshi" },
   # { title: "Koh-i-noor", maker: "Koh-i-noor" },
   # { title: "Kokuyo Enpitsu Sharp MX", maker: "Kokuyo" },
-  # { title: "Lamy 2000", maker: "Lamy" },
-  # { title: "Lamy Safari", maker: "Lamy" },
+  { title: "Lamy 2000", maker_id: lamy.id },
+  { title: "Lamy Safari", maker_id: lamy.id },
   # { title: "Manufactum Druckbleistift", maker: "Manufactum" },
   # { title: "Mitsubishi Field Pencil", maker: "Mitsubishi" },
   # { title: "Mitsubishi Uni", maker: "Mitsubishi" },
@@ -75,9 +78,9 @@ items = Item.create!([
   { title: "Pilot S10", maker_id: pilot.id },
   { title: "Pilot S20", maker_id: pilot.id },
   { title: "Pilot S30", maker_id: pilot.id },
-  # { title: "Platinum Pro-Use I (MSD-1000)", maker: "Platinum" },
-  # { title: "Platinum Pro-Use II (MSD-1500)", maker: "Platinum" },
-  # { title: "Platinum Pro-Use 171", maker: "Platinum" },
+  { title: "Platinum Pro-Use I (MSD-1000)", maker_id: platinum.id },
+  { title: "Platinum Pro-Use II (MSD-1500)", maker_id: platinum.id },
+  { title: "Platinum Pro-Use 171", maker_id: platinum.id },
   { title: "Rotring Tikky", maker_id: rotring.id },
   { title: "Rotring 300", maker_id: rotring.id },
   { title: "Rotring 500", maker_id: rotring.id },
@@ -103,17 +106,19 @@ items = Item.create!([
   # { title: "Uni Kuru Toga Dive", maker: "Uni" },
   # { title: "Ystudio Classic", maker: "YStudio" },
   # { title: "YStudio Classic Revolve Sketching", maker: "YStudio" },
-  # { title: "Zebra DelGuard", maker: "Zebra" },
-  # { title: "Zebra Drafix", maker: "Zebra" },
-  # { title: "Zebra M301", maker: "Zebra" },
-  # { title: "Zebra M701", maker: "Zebra" },
-  # { title: "Pentel Sharp Kerry", maker: "Pentel" },
+  { title: "Zebra DelGuard", maker_id: zebra.id },
+  { title: "Zebra Drafix", maker_id: zebra.id },
+  { title: "Zebra M301", maker_id: zebra.id },
+  { title: "Zebra M701", maker_id: zebra.id },
+  { title: "Pentel Sharp Kerry", maker_id: pentel.id },
   # { title: "Tombow Zoom", maker: "Tombow" },
   # { title: "Blick Premier", maker: "Blick" }
 ])
 
-User.create!(email: "kangkyu@example.com", password: "1234")
-Ownership.find_or_create_by(user: User.first, item: Item.first)
+user = User.create!(email: "kangkyu@example.com", password: "1234")
+Ownership.find_or_create_by(user: user, item: Item.first)
+
+User.create!(email: "admin@lininglink.com", password: "1234abcd")
 
 u = User.create!(email: "jimmy@example.com", password: "1234abcd")
 u.items.push items.first(10)
