@@ -1,6 +1,6 @@
 class ItemsController < ApplicationController
-  before_action :ensure_login, only: [:new, :create, :own, :unown]
-  before_action :ensure_admin, only: [:edit, :update]
+  before_action :ensure_login, only: [:new, :create, :own, :unown, :collection]
+  before_action :ensure_admin, only: [:edit, :update, :destroy]
 
   def destroy
     @item = Item.find(params[:id])
