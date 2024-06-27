@@ -1,7 +1,7 @@
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
   <p class="text-center text-xl font-semibold text-gray-900 mb-6">Photo Collection - User <%= @user.id %></p>
 
-  <div class="column-count-3">
+  <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
     <% @user.ownerships.each do |ownership| %>
       <% if ownership.proof.attached? %>
         <div class="bg-white rounded-lg shadow-md overflow-hidden inline-block relative hover:shadow-lg transition-shadow duration-300">
@@ -18,7 +18,7 @@
             </div>
             <div class="hidden sm:flex sm:flex-col sm:items-end">
               <p class="text-sm font-medium text-gray-900"><%= ownership.item.title %></p>
-              <p class="mt-1 text-xs text-gray-500"><time datetime="2023-01-23T13:23Z">Owned <%= time_ago_in_words(ownership.created_at) %> ago</time></p>
+              <p class="mt-1 text-xs text-gray-500">Owned <%= time_ago_in_words(ownership.created_at) %> ago</p>
             </div>
           </div>
         </div>
