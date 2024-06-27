@@ -1,5 +1,5 @@
 class ItemsController < ApplicationController
-  before_action :ensure_login, only: [:new, :create, :own, :unown, :collection]
+  before_action :ensure_login, only: [:new, :create, :own, :unown] # :collection has redirect login in it
   before_action :ensure_admin, only: [:edit, :update, :destroy]
 
   def destroy
