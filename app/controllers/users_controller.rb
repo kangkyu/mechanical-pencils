@@ -8,6 +8,10 @@ class UsersController < ApplicationController
   end
 
   def threads_auth
+    if params[:error] && params[:error] == "access_denied"
+      redirect_to user_url(params[:state].presence) and return
+    end
+
     auth_client = Threads::API::OAuth2::Client.new(client_id: ENV["THREADS_CLIENT_ID"], client_secret: ENV["THREADS_CLIENT_SECRET"])
     response = auth_client.access_token(code: params[:code], redirect_uri: threads_oauth_callback_url)
 
