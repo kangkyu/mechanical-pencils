@@ -9,5 +9,5 @@
 - [x] user can mark items one by one as their own
 - [ ] link to related news article / blog posts
 - [x] user "my collection" view - what you have
-- [ ] user profile view - check progress
-- [ ] users can click a link to somewhere sells the item
+- [x] user profile view - check progress
+- [x] users can click a link to somewhere sells the item
