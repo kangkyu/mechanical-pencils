@@ -37,5 +37,7 @@ class UsersController < ApplicationController
 
     resp = client.publish_thread(pending.id)
     redirect_to collection_items_url, notice: "Successfully posted."
+  rescue Faraday::ServerError => e
+    redirect_to redirect_to user_url(@user), alert: e.inspect
   end
 end
