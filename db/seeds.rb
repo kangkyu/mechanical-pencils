@@ -8,16 +8,18 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
-alvin = Maker.create(title: "Alvin")
-caran = Maker.create(title: "Caran d'Ache")
-faber = Maker.create(title: "Faber-Castell")
-kaweco = Maker.create(title: "Kaweco")
-rotring = Maker.create(title: "Rotring")
-pentel = Maker.create(title: "Pentel")
-pilot = Maker.create(title: "Pilot")
-zebra = Maker.create(title: "Zebra")
-platinum = Maker.create(title: "Lamy")
-lamy = Maker.create(title: "Lamy")
+alvin = Maker.find_or_create_by(title: "Alvin")
+caran = Maker.find_or_create_by(title: "Caran d'Ache")
+faber = Maker.find_or_create_by(title: "Faber-Castell")
+kaweco = Maker.find_or_create_by(title: "Kaweco")
+rotring = Maker.find_or_create_by(title: "Rotring")
+pentel = Maker.find_or_create_by(title: "Pentel")
+pilot = Maker.find_or_create_by(title: "Pilot")
+zebra = Maker.find_or_create_by(title: "Zebra")
+platinum = Maker.find_or_create_by(title: "Platinum")
+lamy = Maker.find_or_create_by(title: "Lamy")
+uni = Maker.find_or_create_by(title: "Uni")
+staedtler = Maker.find_or_create_by(title: "Staedtler")
 
 items = Item.create!([
   { title: "Alvin Draft-Matic", maker_id: alvin.id },
@@ -72,6 +74,7 @@ items = Item.create!([
   { title: "Pentel Orenz AT", maker_id: pentel.id },
   { title: "Pentel P20X", maker_id: pentel.id },
   { title: "Pentel Smash", maker_id: pentel.id },
+  { title: "Pentel Sharp Kerry", maker_id: pentel.id },
   { title: "Pilot Automac", maker_id: pilot.id },
   { title: "Pilot Dr. Grip", maker_id: pilot.id },
   { title: "Pilot S3", maker_id: pilot.id },
@@ -94,29 +97,50 @@ items = Item.create!([
   # { title: "Spoke 4", maker: "Spoke" },
   # { title: "Spoke 5-1", maker: "Spoke" },
   # { title: "Spoke 6", maker: "Spoke" },
-  # { title: "Staedtler graphite 925", maker: "Staedtler" },
-  # { title: "Staedtler Mars Technico", maker: "Staedtler" },
-  # { title: "Staedtler 925", maker: "Staedtler" },
+  { title: "Staedtler graphite 925", maker_id: staedtler.id },
+  { title: "Staedtler Mars Technico", maker_id: staedtler.id },
+  { title: "Staedtler 925", maker_id: staedtler.id },
   # { title: "Tombow Mono Graph Zero", maker: "Tombow" },
   # { title: "Tombow Zoom 505sh", maker: "Tombow" },
-  # { title: "Uni 552", maker: "Uni" },
-  # { title: "Uni Alpha-gel", maker: "Uni" },
-  # { title: "Uni Alpha-gel Switch", maker: "Uni" },
-  # { title: "Uni Kuru Toga", maker: "Uni" },
-  # { title: "Uni Kuru Toga Dive", maker: "Uni" },
+  { title: "Uni 552", maker_id: uni.id },
+  { title: "Uni Alpha-gel", maker_id: uni.id },
+  { title: "Uni Alpha-gel Switch", maker_id: uni.id },
+  { title: "Uni Kuru Toga", maker_id: uni.id },
+  { title: "Uni Kuru Toga Dive", maker_id: uni.id },
   # { title: "Ystudio Classic", maker: "YStudio" },
   # { title: "YStudio Classic Revolve Sketching", maker: "YStudio" },
   { title: "Zebra DelGuard", maker_id: zebra.id },
   { title: "Zebra Drafix", maker_id: zebra.id },
   { title: "Zebra M301", maker_id: zebra.id },
   { title: "Zebra M701", maker_id: zebra.id },
-  { title: "Pentel Sharp Kerry", maker_id: pentel.id },
   # { title: "Tombow Zoom", maker: "Tombow" },
   # { title: "Blick Premier", maker: "Blick" }
 ])
 
+def attach_item_image(title, image_file)
+  if Item.where(title: title).exists?
+    Item.find_by(title: title).image.attach(filename: image_file, io: File.open("#{Rails.root}/app/assets/images/#{image_file}"))
+  end
+end
+
+attach_item_image "Alvin Draft-Matic", "alvin-draft-matic.png"
+attach_item_image "Pentel Sharp Kerry", "pentel-sharp-kerry.png"
+attach_item_image "Rotring Tikky", "rotring-tikky.jpg"
+attach_item_image "Caran d'Ache Ecridor", "caran-dache-ecridor.png"
+attach_item_image "Lamy 2000", "lamy-2000.png"
+attach_item_image "Uni Kuru Toga", "uni-kuru-toga-pipe-slide.jpg"
+attach_item_image "Staedtler 925", "staedtler-925.jpg"
+
 user = User.create!(email: "kangkyu@example.com", password: "1234")
-Ownership.find_or_create_by(user: user, item: Item.first)
+o = Ownership.find_or_create_by(user: user, item: Item.first)
+
+def attach_proof(ownership_id, image_file)
+  if Ownership.exists?(id: ownership_id)
+    Ownership.find(ownership_id).proof.attach(filename: image_file, io: File.open("#{Rails.root}/app/assets/images/#{image_file}"))
+  end
+end
+
+attach_proof o.id, "alvin-draft-matic-user.jpg"
 
 User.create!(email: "admin@lininglink.com", password: "1234abcd")
 
