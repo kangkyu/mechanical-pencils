@@ -38,11 +38,7 @@ class ItemsController < ApplicationController
   end
 
   def index
-    @items = if params[:search].present?
-        Item.order(:title).where('title LIKE ?', "%#{params[:search]}%")
-      else
-        Item.order(:title)
-      end
+    @items = Item.with_title(params[:search]).order(:title)
   end
 
   def create

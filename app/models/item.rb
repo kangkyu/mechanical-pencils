@@ -15,6 +15,10 @@ class Item < ApplicationRecord
   store_accessor :data, :tip_retractable, :eraser_attached
   store_accessor :data, :jetpens_url, :blick_url
 
+  scope :with_title, ->(title) {
+    where("lower(title) LIKE ?", "%#{title.downcase}%") if title.present?
+  }
+
   def has_proof(user)
     ownerships.exists?(user_id: user) && ownerships.where(user_id: user).any? {|o| o.proof.attached? }
   end
