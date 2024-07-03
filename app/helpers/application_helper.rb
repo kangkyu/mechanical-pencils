@@ -1,4 +1,5 @@
 module ApplicationHelper
+  include Pagy::Frontend
 
   def owned(user, item)
     Ownership.exists? item_id: item, user_id: user

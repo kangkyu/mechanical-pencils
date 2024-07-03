@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  include Pagy::Backend
 
   def ensure_login
     redirect_to root_path unless signed_in?
