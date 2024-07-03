@@ -32,4 +32,6 @@
       @apply bg-gray-100 border-none rounded-md;
     }
   }
+  /* custom */
+  @apply justify-center
 }
