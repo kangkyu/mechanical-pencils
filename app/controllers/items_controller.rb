@@ -38,7 +38,7 @@ class ItemsController < ApplicationController
   end
 
   def index
-    @pagy, @items = pagy(Item.with_title(params[:search]).order(:title), items: 5)
+    @pagy, @items = pagy(Item.with_title(params[:search]).order(:title), items: 8)
   end
 
   def create
