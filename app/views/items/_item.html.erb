@@ -1,38 +1,12 @@
-  <li class="col-span-1 divide-y divide-gray-200 rounded-lg bg-white shadow">
-    <div class="flex w-full items-center justify-between space-x-6 p-6">
-      <div class="flex-1 truncate">
-        <div class="flex items-center space-x-3">
-          <h3 class="truncate text-sm font-medium text-gray-900"><%= link_to item.title, item_path(item) %></h3>
-          <% if signed_in? && owned(current_user, item) %>
-            <span class="inline-flex flex-shrink-0 items-center rounded-md px-1.5 py-0.5 text-xs font-medium text-red-600 ring-1 ring-inset ring-red-600">OWNED</span>
-          <% end %>
-        </div>
-        <p class="mt-1 truncate text-sm text-gray-500">Added <%= time_ago_in_words(item.created_at) %> ago</p>
-      </div>
-      <% if item.image.attached? %>
-        <%= image_tag item.image.variant(:thumb), class: "h-10 w-10 flex-none rounded-full bg-gray-200" %>
-      <% else %>
-        <%= image_tag "https://imageplaceholder.net/100x100", class: "h-10 w-10 flex-none rounded-full bg-gray-200" %>
-      <% end %>
+  <%= link_to item_path(item), class: "group" do %>
+
+    <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
+      <%= image_tag item.image.attached? ? item.image.variant(:thumb) : "https://imageplaceholder.net/100x100", class: "h-full w-full object-cover object-center group-hover:opacity-75" %>
     </div>
-    <div>
-      <div class="-mt-px flex divide-x divide-gray-200">
-        <div class="flex w-0 flex-1">
-          <%= link_to item.jetpens_url || "https://www.jetpens.com/Rotring-Tikky-Mechanical-Pencil-0.7-mm-Black-with-Color-Coding/pd/12101", class: "relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-bl-lg border border-transparent py-4 text-sm font-semibold text-gray-900" do %>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5 text-gray-400" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
-            </svg>
-            JetPens
-          <% end %>
-        </div>
-        <div class="-ml-px flex w-0 flex-1">
-          <%= link_to item.blick_url || "https://www.dickblick.com/products/alvin-draftmatic-pencil/", class: "relative inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-br-lg border border-transparent py-4 text-sm font-semibold text-gray-900" do %>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5 text-gray-400" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 21v-7.5a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 .75.75V21m-4.5 0H2.36m11.14 0H18m0 0h3.64m-1.39 0V9.349M3.75 21V9.349m0 0a3.001 3.001 0 0 0 3.75-.615A2.993 2.993 0 0 0 9.75 9.75c.896 0 1.7-.393 2.25-1.016a2.993 2.993 0 0 0 2.25 1.016c.896 0 1.7-.393 2.25-1.015a3.001 3.001 0 0 0 3.75.614m-16.5 0a3.004 3.004 0 0 1-.621-4.72l1.189-1.19A1.5 1.5 0 0 1 5.378 3h13.243a1.5 1.5 0 0 1 1.06.44l1.19 1.189a3 3 0 0 1-.621 4.72M6.75 18h3.75a.75.75 0 0 0 .75-.75V13.5a.75.75 0 0 0-.75-.75H6.75a.75.75 0 0 0-.75.75v3.75c0 .414.336.75.75.75Z" />
-            </svg>
-            Blick
-          <% end %>
-        </div>
-      </div>
-    </div>
-  </li>
+    <h3 class="mt-4 text-sm text-gray-700"><%= item.title %></h3>
+    <% if signed_in? && owned(current_user, item) %>
+      <span class="inline-flex flex-shrink-0 items-center rounded-md px-1.5 py-0.5 text-xs font-medium text-red-600 ring-1 ring-inset ring-red-600">OWNED</span>
+    <% end %>
+    <h3 class=></h3>
+    <p class="mt-1 text-lg font-medium text-gray-900"></p>
+  <% end %>

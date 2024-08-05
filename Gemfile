@@ -70,3 +70,4 @@ gem "tailwindcss-rails", "~> 2.4"
 gem "google-cloud-storage", "~> 1.11", require: false
 
 gem "threads-api", "~> 0.1.0"
+gem "pagy", "~> 8.6"

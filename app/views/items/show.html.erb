@@ -1,137 +1,150 @@
-<div>
-  <div class="flex w-full items-center justify-between space-x-6">
-    <div class="px-4 sm:px-0">
-      <div class="flex gap-x-4">
-        <h3 class="text-base font-semibold leading-7 text-gray-900"><%= @item.title %></h3>
+<div class="bg-white">
+  <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:grid lg:max-w-7xl lg:grid-cols-2 lg:gap-x-8 lg:px-8">
+
+    <!-- Product details -->
+    <div class="lg:max-w-lg lg:self-end">
+      <nav aria-label="Breadcrumb">
+        <ol role="list" class="flex items-center space-x-2">
+          <li>
+            <div class="flex items-center text-sm">
+              <a href="#" class="font-medium text-gray-500 hover:text-gray-900">Travel</a>
+              <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" class="ml-2 h-5 w-5 flex-shrink-0 text-gray-300">
+                <path d="M5.555 17.776l8-16 .894.448-8 16-.894-.448z" />
+              </svg>
+            </div>
+          </li>
+          <li>
+            <div class="flex items-center text-sm">
+              <a href="#" class="font-medium text-gray-500 hover:text-gray-900">Bags</a>
+            </div>
+          </li>
+        </ol>
+      </nav>
+
+      <div class="mt-4">
+        <h1 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl"><%= @item.title %></h1>
+
         <% if signed_in? && owned(current_user, @item) %>
           <span class="inline-flex items-center rounded-md px-1.5 py-0.5 text-xs font-medium text-red-600 ring-1 ring-inset ring-red-600">OWNED</span>
         <% end %>
+        <p class="mt-1 max-w-2xl text-sm leading-6 text-gray-500">owned by <%= pluralize @item.ownerships.count, "user" %></p>
       </div>
-      <p class="mt-1 max-w-2xl text-sm leading-6 text-gray-500">owned by <%= pluralize @item.ownerships.count, "user" %></p>
-    </div>
-    <% if @item.image.attached? %>
-      <%= image_tag @item.image, class: "w-48 h-48 object-cover rounded-lg mb-4 md:mb-0 md:mr-6" %>
-    <% else %>
-      <%= image_tag "https://imageplaceholder.net/400x600", class: "w-48 h-48 object-cover rounded-lg mb-4 md:mb-0 md:mr-6" %>
-    <% end %>
-  </div>
 
-  <% if signed_in? %>
-    <ul role="list">
-      <li class="flex justify-between gap-x-6 py-5">
-        <% if owned(current_user, @item) %>
-        <div class="flex min-w-0 gap-x-4">
-          <% if owned_with_proof(current_user, @item) %>
-            <%= link_to collection_items_path do %>
-              <%= image_tag @item.ownership_by_user(current_user).proof, class: "h-12 w-12 rounded-lg bg-red-500" %>
-            <% end %>
-            <p class="text-sm font-semibold leading-6 text-gray-900">You own this<br>with proof</p>
-          <% else %>
-            <p class="rounded-md bg-indigo-600 px-3 py-2 font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"><%= link_to "Add photo taken", edit_item_ownership_path(@item) %></p>
-          <% end %>
+      <section aria-labelledby="information-heading" class="mt-4">
+        <h2 id="information-heading" class="sr-only">Product information</h2>
+
+        <div class="mt-4 space-y-6">
+          <p class="text-base text-gray-500">Don&#039;t compromise on snack-carrying capacity with this lightweight and spacious bag. The drawstring top keeps all your favorite chips, crisps, fries, biscuits, crackers, and cookies secure.</p>
         </div>
-        <div>
-          <%= button_to "Unmark owned", unown_item_path(@item), class: "py-2 px-3 font-medium text-gray-900 focus:outline-none bg-white rounded-md border border-gray-200 hover:bg-gray-100 hover:text-red-700" %>
-        </div>
-        <% else %>
-        <div>
-          <%= button_to "Mark owned", own_item_path(@item), class: "py-2 px-3 font-medium text-gray-900 focus:outline-none bg-white rounded-md border border-gray-200 hover:bg-gray-100 hover:text-blue-700" %>
-        </div>
-        <% end %>
-      </li>
-    </ul>
-  <% end %>
 
-  <div class="mt-6 border-t border-gray-100">
-    <dl class="divide-y divide-gray-100">
-      <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-        <dt class="text-sm font-medium leading-6 text-gray-900">Model name</dt>
-        <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"><%= @item.model_number %></dd>
-      </div>
-      <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-        <dt class="text-sm font-medium leading-6 text-gray-900">Tip Retractable?</dt>
-        <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"><%= @item.tip_retractable %></dd>
-      </div>
-      <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-        <dt class="text-sm font-medium leading-6 text-gray-900">Eraser Attached?</dt>
-        <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"><%= @item.eraser_attached %></dd>
-      </div>
-      <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-        <dt class="text-sm font-medium leading-6 text-gray-900">Manufacturer</dt>
-        <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"><%= @item.item_maker&.title %></dd>
-      </div>
-      <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-        <dt class="text-sm font-medium leading-6 text-gray-900">Item Groups</dt>
-        <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"><%= safe_join(@item.item_groups.map { |group| link_to(group.title, item_group_path(group)) }, " / ".html_safe) %></dd>
-      </div>
-<!--
-      <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-        <dt class="text-sm font-medium leading-6 text-gray-900">About</dt>
-        <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">Fugiat ipsum ipsum deserunt culpa aute sint do nostrud anim incididunt cillum culpa consequat. Excepteur qui ipsum aliquip consequat sint. Sit id mollit nulla mollit nostrud in ea officia proident. Irure nostrud pariatur mollit ad adipisicing reprehenderit deserunt qui eu.</dd>
-      </div>
--->
-      <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-        <dt class="text-sm font-medium leading-6 text-gray-900">Resources</dt>
-        <dd class="mt-2 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-          <ul role="list" class="divide-y divide-gray-100 rounded-md border border-gray-200">
-            <li class="flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6">
-              <div class="flex flex-1 items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Z" />
-                </svg>
-
-                <div class="ml-4 flex flex-1 gap-2">
-                  <span class="truncate font-medium">Shop online</span>
-                  <span class="flex-shrink-0 text-gray-400">JetPens</span>
-                </div>
+        <% if signed_in? %>
+          <ul role="list">
+            <li class="flex justify-between gap-x-6 py-5">
+              <% if owned(current_user, @item) %>
+              <div class="flex min-w-0 gap-x-4">
+                <% if owned_with_proof(current_user, @item) %>
+                  <%= link_to collection_items_path do %>
+                    <%= image_tag @item.ownership_by_user(current_user).proof, class: "h-12 w-12 rounded-lg bg-red-500" %>
+                  <% end %>
+                  <p class="text-sm font-semibold leading-6 text-gray-900">You own this<br>with proof</p>
+                <% else %>
+                  <p class="rounded-md bg-indigo-600 px-3 py-2 font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"><%= link_to "Add photo taken", edit_item_ownership_path(@item) %></p>
+                <% end %>
               </div>
-              <div class="ml-4 flex-shrink-0">
-                <%= link_to "Open", @item.jetpens_url || "https://www.jetpens.com/", class: "font-medium text-indigo-600 hover:text-indigo-500" %>
+              <div>
+                <%= button_to "Unmark owned", unown_item_path(@item), class: "py-2 px-3 font-medium text-gray-900 focus:outline-none bg-white rounded-md border border-gray-200 hover:bg-gray-100 hover:text-red-700" %>
               </div>
-            </li>
-            <li class="flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6">
-              <div class="flex w-0 flex-1 items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
-                </svg>
-
-                <div class="ml-4 flex min-w-0 flex-1 gap-2">
-                  <span class="truncate font-medium">Go to a seller</span>
-                  <span class="flex-shrink-0 text-gray-400">Blick</span>
-                </div>
+              <% else %>
+              <div>
+                <%= button_to "Mark owned", own_item_path(@item), class: "py-2 px-3 font-medium text-gray-900 focus:outline-none bg-white rounded-md border border-gray-200 hover:bg-gray-100 hover:text-blue-700" %>
               </div>
-              <div class="ml-4 flex-shrink-0">
-                <%= link_to "Open", @item.blick_url || "https://www.dickblick.com/", class: "font-medium text-indigo-600 hover:text-indigo-500" %>
-              </div>
+              <% end %>
             </li>
           </ul>
-        </dd>
+        <% end %>
+
+        <div class="mt-6 flex items-center">
+          <svg class="h-5 w-5 flex-shrink-0 text-green-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
+          </svg>
+          <p class="ml-2 text-sm text-gray-500">Manufacturer: <%= @item.item_maker&.title %></p>
+        </div>
+
+        <div class="mt-6 flex items-center">
+          <svg class="h-5 w-5 flex-shrink-0 text-green-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
+          </svg>
+          <p class="ml-2 text-sm text-gray-500">Model name: <%= @item.model_number %></p>
+        </div>
+
+        <div class="mt-6 flex items-center">
+          <svg class="h-5 w-5 flex-shrink-0 text-green-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
+          </svg>
+          <p class="ml-2 text-sm text-gray-500">Tip Retractable? <%= @item.tip_retractable %></p>
+        </div>
+
+        <div class="mt-6 flex items-center">
+          <svg class="h-5 w-5 flex-shrink-0 text-green-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
+          </svg>
+          <p class="ml-2 text-sm text-gray-500">Eraser Attached? <%= @item.eraser_attached %></p>
+        </div>
+
+        <div class="mt-6 flex items-center">
+          <svg class="h-5 w-5 flex-shrink-0 text-green-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
+          </svg>
+          <p class="ml-2 text-sm text-gray-500">Item Groups: <%= safe_join(@item.item_groups.map { |group| link_to(group.title, item_group_path(group)) }, " / ".html_safe) %></p>
+        </div>
+
+
+
+      </section>
+    </div>
+
+    <!-- Product image -->
+    <div class="mt-10 lg:col-start-2 lg:row-span-2 lg:mt-0 lg:self-center">
+      <div class="aspect-h-1 aspect-w-1 overflow-hidden rounded-lg">
+        <%= image_tag @item.image.attached? ? @item.image : "https://imageplaceholder.net/400x600", class: "h-full w-full object-cover object-center" %>
       </div>
-    </dl>
+
+      <div class="flex flex-col-reverse">
+        <!-- Image selector -->
+        <div class="mx-auto mt-6 w-full max-w-2xl sm:block lg:max-w-none">
+
+        <% if @item.ownerships.any? %>
+          <div class="grid grid-cols-4 gap-6" aria-orientation="horizontal" role="tablist">
+          <% @item.ownerships.each do |ownership| %>
+
+            <% if ownership.proof.attached? %>
+              <%= link_to user_path(ownership.user), class: "relative flex h-24 cursor-pointer items-center justify-center rounded-md bg-white text-sm font-medium uppercase text-gray-900 hover:bg-gray-50 focus:outline-none focus:ring focus:ring-opacity-50 focus:ring-offset-4" do %>
+              <span class="absolute inset-0 overflow-hidden rounded-md">
+                <%= image_tag ownership.proof, class: "h-full w-full object-cover object-center" %>
+              </span>
+              <!-- Selected: "ring-indigo-500", Not Selected: "ring-transparent" -->
+              <span class="pointer-events-none absolute inset-0 rounded-md ring-2 ring-transparent ring-offset-2" aria-hidden="true"></span>
+
+              <% end %>
+
+            <!-- More images... -->
+
+            <% end %>
+          <% end %>
+          </div>
+        <% end %>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div class="flex w-full items-center justify-between space-x-6">
-    <% if signed_in? && current_user.admin? %>
+  <% if signed_in? && current_user.admin? %>
     <!-- Buttons -->
     <div class="mt-6 flex justify-end space-x-4">
         <%= link_to "Edit", edit_item_path(@item), class: "bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600" %>
         <%= button_to "Remove", item_path(@item), method: :delete, form: { data: { turbo_confirm: 'Are you sure?' } }, class: "bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600" %>
     </div>
-    <% end %>
-  </div>
-  <div class="">
-    <% if @item.ownerships.any? %>
-    <h3 class="text-2xl font-semibold my-4">User Photos</h3>
-    <div class="grid grid-cols-3 md:grid-cols-5 gap-4 mb-6">
-        <% @item.ownerships.each do |ownership| %>
-            <% if ownership.proof.attached? %>
-              <%= link_to user_path(ownership.user) do %>
-                <%= image_tag ownership.proof, class: "h-auto max-w-full rounded-lg" %>
-              <% end %>
-            <% end %>
-        <% end %>
-    </div>
-    <% end %>
+  <% end %>
   </div>
 </div>
