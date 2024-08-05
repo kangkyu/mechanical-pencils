@@ -9,11 +9,8 @@
       </div>
       <p class="mt-1 max-w-2xl text-sm leading-6 text-gray-500">owned by <%= pluralize @item.ownerships.count, "user" %></p>
     </div>
-    <% if @item.image.attached? %>
-      <%= image_tag @item.image, class: "w-48 h-48 object-cover rounded-lg mb-4 md:mb-0 md:mr-6" %>
-    <% else %>
-      <%= image_tag "https://imageplaceholder.net/400x600", class: "w-48 h-48 object-cover rounded-lg mb-4 md:mb-0 md:mr-6" %>
-    <% end %>
+
+    <%= image_tag @item.image.attached? ? @item.image : "https://imageplaceholder.net/400x600", class: "w-48 h-48 object-cover rounded-lg mb-4 md:mb-0 md:mr-6" %>
   </div>
 
   <% if signed_in? %>
