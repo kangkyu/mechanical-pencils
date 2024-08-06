@@ -5,26 +5,32 @@
     <% @user.ownerships.each do |ownership| %>
       <% if ownership.proof.attached? %>
         <div class="bg-white rounded-lg shadow-md overflow-hidden inline-block relative hover:shadow-lg transition-shadow duration-300">
+          <%= image_tag ownership.proof, class: "w-full h-auto object-cover" %>
           <%= link_to item_path(ownership.item) do %>
-            <%= image_tag ownership.proof, class: "w-full h-auto object-cover" %>
+            <div class="flex justify-between items-center gap-x-6 p-4">
+              <div class="flex items-center gap-x-4">
+                <% if ownership.item.image.attached? %>
+                  <%= image_tag ownership.item.image.variant(:thumb), class: "h-16 w-16 rounded-sm object-cover" %>
+                <% else %>
+                  <img class="h-16 w-16 rounded-sm bg-gray-100" src="https://imageplaceholder.net/100x100" alt="No image available">
+                <% end %>
+              </div>
+              <div class="hidden sm:flex sm:flex-col sm:items-end">
+                <p class="text-sm font-medium text-gray-900"><%= ownership.item.title %></p>
+                <p class="mt-1 text-xs text-gray-500">Owned <%= time_ago_in_words(ownership.created_at) %> ago</p>
+              </div>
+            </div>
+
           <% end %>
-          <div class="flex justify-between items-center gap-x-6 p-4">
-            <div class="flex items-center gap-x-4">
-              <% if ownership.item.image.attached? %>
-                <%= image_tag ownership.item.image.variant(:thumb), class: "h-16 w-16 rounded-sm object-cover" %>
-              <% else %>
-                <img class="h-16 w-16 rounded-sm bg-gray-100" src="https://imageplaceholder.net/100x100" alt="No image available">
-              <% end %>
-            </div>
-            <div class="hidden sm:flex sm:flex-col sm:items-end">
-              <p class="text-sm font-medium text-gray-900"><%= ownership.item.title %></p>
-              <p class="mt-1 text-xs text-gray-500">Owned <%= time_ago_in_words(ownership.created_at) %> ago</p>
-            </div>
-          </div>
         </div>
       <% end %>
     <% end %>
   </div>
 </div>
 
-<%= button_to "Share", @thread_authorization_url %>
+<%= button_to @thread_authorization_url, class: "inline-flex items-center gap-x-1.5 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" do %>
+<p class="max-sm:hidden">Share</p>
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z" />
+</svg>
+<% end %>
