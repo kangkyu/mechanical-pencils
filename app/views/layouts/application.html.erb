@@ -11,6 +11,7 @@
     <%= javascript_importmap_tags %>
   </head>
   <body class="h-full">
+    <header>
     <nav class="bg-white border-gray-200 dark:bg-gray-900">
       <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl p-4">
         <%= link_to root_path, class: "flex items-center space-x-3 rtl:space-x-reverse" do %>
@@ -28,7 +29,10 @@
           <% if signed_in? %>
             <%= button_to "Log Out", session_path, method: :delete, class: "text-sm text-gray-500 dark:text-white hover:underline" %>
           <% else %>
-            <%= link_to "Login", new_session_path, class: "text-sm text-blue-600 dark:text-blue-500 hover:underline" %>
+            <%= link_to new_session_path, class: "text-sm text-gray-500 dark:text-white hover:underline" do %>
+              Log In
+              <span aria-hidden="true">&rarr;</span>
+            <% end %>
           <% end %>
         </div>
       </div>
@@ -42,6 +46,7 @@
         </div>
       </div>
     <% end %>
+    </header>
     <main class="container mx-auto mt-12 px-5 flex justify-center">
       <%= yield %>
     </main>
