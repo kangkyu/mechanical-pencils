@@ -74,7 +74,9 @@ Rails.application.configure do
     # Raise error when a before_action's only/except options reference missing actions
   config.action_controller.raise_on_missing_callback_actions = true
 
-  # Allow Builder.io preview hosts
+    # Allow Builder.io preview hosts
   config.hosts << "e580d49be9ab4c09b36f67ceeb54eaad-f7eb1b34f9804063b0993e4ef.projects.builder.codes"
+  config.hosts << "e580d49be9ab4c09b36f67ceeb54eaad-quantum-works.projects.builder.my"
   config.hosts << /.*\.projects\.builder\.codes/
+  config.hosts << /.*\.projects\.builder\.my/
 end
