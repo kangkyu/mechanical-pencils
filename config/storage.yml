@@ -22,7 +22,7 @@ google:
     type: "service_account"
     project_id: "development-1159"
     private_key_id: <%= Rails.application.credentials.dig(:gcs, :private_key_id) || "dummy" %>
-    private_key: <%= (Rails.application.credentials.dig(:gcs, :private_key) || "dummy").respond_to?(:dump) ? Rails.application.credentials.dig(:gcs, :private_key).dump : "dummy" %>
+        private_key: <%= Rails.application.credentials.dig(:gcs, :private_key)&.dump || "dummy" %>
     client_email: "gcs-example-two@development-1159.iam.gserviceaccount.com"
     client_id: "116402001137379054147"
     auth_uri: "https://accounts.google.com/o/oauth2/auth"
