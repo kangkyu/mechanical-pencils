@@ -28,18 +28,30 @@
             <%= f.text_field :model_number, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" %>
           </div>
         </div>
-        <div class="sm:col-span-1">
-          <%= f.radio_button :tip_retractable, "Yes" %> Yes
-          <%= f.radio_button :tip_retractable, "No" %> No
-          <div class="mt-2">
-              <%= f.label :tip_retractable, class: "block text-sm font-medium leading-6 text-gray-900" %>
+                <div class="sm:col-span-3">
+          <%= f.label :tip_retractable, class: "block text-sm font-medium leading-6 text-gray-900 mb-3" %>
+          <div class="space-y-3">
+            <div class="flex items-center">
+              <%= f.radio_button :tip_retractable, "Yes", class: "h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600" %>
+              <%= f.label :tip_retractable_yes, "Yes", class: "ml-3 block text-sm font-medium leading-6 text-gray-900" %>
+            </div>
+            <div class="flex items-center">
+              <%= f.radio_button :tip_retractable, "No", class: "h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600" %>
+              <%= f.label :tip_retractable_no, "No", class: "ml-3 block text-sm font-medium leading-6 text-gray-900" %>
+            </div>
           </div>
         </div>
-        <div class="sm:col-span-2">
-          <%= f.radio_button :eraser_attached, "Yes" %> Yes
-          <%= f.radio_button :eraser_attached, "No" %> No
-          <div class="mt-2">
-              <%= f.label :eraser_attached, class: "block text-sm font-medium leading-6 text-gray-900" %>
+        <div class="sm:col-span-3">
+          <%= f.label :eraser_attached, class: "block text-sm font-medium leading-6 text-gray-900 mb-3" %>
+          <div class="space-y-3">
+            <div class="flex items-center">
+              <%= f.radio_button :eraser_attached, "Yes", class: "h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600" %>
+              <%= f.label :eraser_attached_yes, "Yes", class: "ml-3 block text-sm font-medium leading-6 text-gray-900" %>
+            </div>
+            <div class="flex items-center">
+              <%= f.radio_button :eraser_attached, "No", class: "h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600" %>
+              <%= f.label :eraser_attached_no, "No", class: "ml-3 block text-sm font-medium leading-6 text-gray-900" %>
+            </div>
           </div>
         </div>
 
@@ -49,22 +61,29 @@
             <%= f.file_field :image, class: "block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none" %>
           </div>
         </div>
-        <div class="sm:col-span-2">
-          <%= f.label :item_group, class: "block text-sm font-medium leading-6 text-gray-900" %>
+                <div class="sm:col-span-6">
+          <%= f.label :item_group, "Item Groups", class: "block text-sm font-medium leading-6 text-gray-900 mb-3" %>
           <div class="mt-2">
-            <ul>
-              <%= f.collection_check_boxes :item_group_ids, ItemGroup.all, :id, :title, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" do |b| %>
-                  <li><%= b.check_box %> <%= b.label %></li>
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+              <%= f.collection_check_boxes :item_group_ids, ItemGroup.all, :id, :title do |b| %>
+                <div class="relative flex items-start">
+                  <div class="flex h-6 items-center">
+                    <%= b.check_box(class: "h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600") %>
+                  </div>
+                  <div class="ml-3 text-sm leading-6">
+                    <%= b.label(class: "font-medium text-gray-900") %>
+                  </div>
+                </div>
               <% end %>
-            </ul>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="mt-6 flex items-center justify-end gap-x-6">
-    <%= link_to "Cancel", items_path, class: "text-sm font-semibold leading-6 text-gray-900" %>
-    <p class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"><%= f.submit %></p>
+    <div class="mt-8 flex items-center justify-end gap-x-6">
+    <%= link_to "Cancel", items_path, class: "text-sm font-semibold leading-6 text-gray-900 hover:text-gray-700 transition-colors" %>
+    <%= f.submit class: "rounded-md bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition-colors" %>
   </div>
 <% end %>

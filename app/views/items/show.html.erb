@@ -37,30 +37,56 @@
           <p class="text-base text-gray-500">Don&#039;t compromise on snack-carrying capacity with this lightweight and spacious bag. The drawstring top keeps all your favorite chips, crisps, fries, biscuits, crackers, and cookies secure.</p>
         </div> -->
 
-        <% if signed_in? %>
-          <ul role="list">
-            <li class="flex justify-between gap-x-6 py-5">
-              <% if owned(current_user, @item) %>
-              <div class="flex min-w-0 gap-x-4">
-                <% if owned_with_proof(current_user, @item) %>
-                  <%= link_to collection_items_path do %>
-                    <%= image_tag @item.ownership_by_user(current_user).proof, class: "h-12 w-12 rounded-lg bg-red-500" %>
+                <% if signed_in? %>
+          <div class="mt-8 p-6 bg-gray-50 rounded-xl border border-gray-200">
+            <% if owned(current_user, @item) %>
+              <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                  <% if owned_with_proof(current_user, @item) %>
+                    <%= link_to collection_items_path, class: "block" do %>
+                      <%= image_tag @item.ownership_by_user(current_user).proof, class: "h-16 w-16 rounded-lg object-cover shadow-md ring-2 ring-emerald-500 ring-offset-2" %>
+                    <% end %>
+                    <div>
+                      <p class="text-sm font-semibold text-gray-900 flex items-center">
+                        <svg class="h-4 w-4 text-emerald-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                        </svg>
+                        You own this item
+                      </p>
+                      <p class="text-xs text-gray-500">With photo proof</p>
+                    </div>
+                  <% else %>
+                    <div class="flex items-center space-x-3">
+                      <div class="h-16 w-16 rounded-lg bg-gray-200 flex items-center justify-center">
+                        <svg class="h-8 w-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                      </div>
+                      <div>
+                        <p class="text-sm font-semibold text-gray-900">You own this item</p>
+                        <%= link_to "Add photo proof", edit_item_ownership_path(@item), class: "inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition-colors" %>
+                      </div>
+                    </div>
                   <% end %>
-                  <p class="text-sm font-semibold leading-6 text-gray-900">You own this<br>with proof</p>
-                <% else %>
-                  <p class="rounded-md bg-indigo-600 px-3 py-2 font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"><%= link_to "Add photo taken", edit_item_ownership_path(@item) %></p>
-                <% end %>
+                </div>
+                <div>
+                  <%= button_to "Remove from collection", unown_item_path(@item), class: "inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 hover:text-red-700 transition-colors", confirm: "Are you sure you want to remove this from your collection?" %>
+                </div>
               </div>
-              <div>
-                <%= button_to "Unmark owned", unown_item_path(@item), class: "py-2 px-3 font-medium text-gray-900 focus:outline-none bg-white rounded-md border border-gray-200 hover:bg-gray-100 hover:text-red-700" %>
+            <% else %>
+              <div class="text-center">
+                <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                </svg>
+                <h3 class="mt-2 text-sm font-semibold text-gray-900">Add to your collection</h3>
+                <p class="mt-1 text-sm text-gray-500">Mark this item as owned to track it in your collection.</p>
+                <div class="mt-6">
+                  <%= button_to "Add to collection", own_item_path(@item), class: "inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition-colors" %>
+                </div>
               </div>
-              <% else %>
-              <div>
-                <%= button_to "Mark owned", own_item_path(@item), class: "py-2 px-3 font-medium text-gray-900 focus:outline-none bg-white rounded-md border border-gray-200 hover:bg-gray-100 hover:text-blue-700" %>
-              </div>
-              <% end %>
-            </li>
-          </ul>
+            <% end %>
+          </div>
         <% end %>
 
         <div class="mt-6 flex items-center">
