@@ -21,12 +21,7 @@ default: &default
 
 development:
   <<: *default
-  database: neondb
-  username: neondb_owner
-  password: npg_RcLQJd1ilt8W
-  host: ep-blue-frost-afhqpv3x-pooler.c-2.us-west-2.aws.neon.tech
-  port: 5432
-  sslmode: require
+  database: post_items_development
 
   # Schema search path. The server defaults to $user,public
   #schema_search_path: myapp,sharedapp,public
