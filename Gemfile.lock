@@ -109,12 +109,9 @@ GEM
       faraday-net_http (>= 2.0, < 3.2)
     faraday-net_http (3.1.0)
       net-http
-    ffi (1.17.0-aarch64-linux-gnu)
-    ffi (1.17.0-arm-linux-gnu)
+    ffi (1.17.0)
     ffi (1.17.0-arm64-darwin)
-    ffi (1.17.0-x86-linux-gnu)
     ffi (1.17.0-x86_64-darwin)
-    ffi (1.17.0-x86_64-linux-gnu)
     globalid (1.2.1)
       activesupport (>= 6.1)
     google-apis-core (0.15.0)
@@ -365,7 +362,7 @@ DEPENDENCIES
   web-console
 
 RUBY VERSION
-   ruby 3.3.4p94
+   ruby 3.1.2p20
 
 BUNDLED WITH
    2.5.7
