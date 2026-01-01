@@ -1,6 +1,6 @@
 <div class="group relative bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-lg transition-all duration-200 overflow-hidden">
     <%= link_to item_path(item), class: "block" do %>
-      <div class="aspect-h-3 aspect-w-4 overflow-hidden bg-gray-100">
+      <div class="aspect-[4/3] overflow-hidden bg-gray-100">
         <%= image_tag item.image.attached? ? item.image : "https://imageplaceholder.net/400x600", class: "h-full w-full object-cover object-center group-hover:scale-105 transition-transform duration-200" %>
       </div>
 
@@ -8,7 +8,7 @@
         <div class="flex items-start justify-between mb-2">
           <h3 class="text-sm font-semibold text-gray-900 line-clamp-2 group-hover:text-indigo-600 transition-colors"><%= item.title %></h3>
           <% if signed_in? && owned(current_user, item) %>
-            <span class="inline-flex items-center rounded-full bg-emerald-50 px-2 py-1 text-xs font-medium text-emerald-700 ring-1 ring-inset ring-emerald-600/20 ml-2 flex-shrink-0">
+            <span class="inline-flex items-center rounded-full bg-emerald-50 px-2 py-1 text-xs font-medium text-emerald-700 ring-1 ring-inset ring-emerald-600/20 ml-2 shrink-0">
               <svg class="h-3 w-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
                 <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
               </svg>

@@ -11,7 +11,7 @@
           <div class="flex items-center space-x-3">
             <h3 class="truncate text-sm font-medium text-gray-900"><%= link_to item.title, item_path(item) %></h3>
             <% if signed_in? && owned(current_user, item) %>
-              <span class="inline-flex flex-shrink-0 items-center rounded-md px-1.5 py-0.5 text-xs font-medium text-red-600 ring-1 ring-inset ring-red-600">OWNED</span>
+              <span class="inline-flex shrink-0 items-center rounded-md px-1.5 py-0.5 text-xs font-medium text-red-600 ring-1 ring-inset ring-red-600">OWNED</span>
             <% end %>
           </div>
           <p class="mt-1 truncate text-sm text-gray-500">Added <%= time_ago_in_words(item.created_at) %> ago</p>

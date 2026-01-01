@@ -8,7 +8,7 @@
           <li>
             <div class="flex items-center text-sm">
               <a href="#" class="font-medium text-gray-500 hover:text-gray-900">Travel</a>
-              <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" class="ml-2 h-5 w-5 flex-shrink-0 text-gray-300">
+              <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" class="ml-2 h-5 w-5 shrink-0 text-gray-300">
                 <path d="M5.555 17.776l8-16 .894.448-8 16-.894-.448z" />
               </svg>
             </div>
@@ -90,35 +90,35 @@
         <% end %>
 
         <div class="mt-6 flex items-center">
-          <svg class="h-5 w-5 flex-shrink-0 text-green-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+          <svg class="h-5 w-5 shrink-0 text-green-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
             <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
           </svg>
           <p class="ml-2 text-sm text-gray-500">Manufacturer: <%= @item.item_maker&.title %></p>
         </div>
 
         <div class="mt-6 flex items-center">
-          <svg class="h-5 w-5 flex-shrink-0 text-green-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+          <svg class="h-5 w-5 shrink-0 text-green-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
             <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
           </svg>
           <p class="ml-2 text-sm text-gray-500">Model name: <%= @item.model_number %></p>
         </div>
 
         <div class="mt-6 flex items-center">
-          <svg class="h-5 w-5 flex-shrink-0 text-green-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+          <svg class="h-5 w-5 shrink-0 text-green-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
             <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
           </svg>
           <p class="ml-2 text-sm text-gray-500">Tip Retractable? <%= @item.tip_retractable %></p>
         </div>
 
         <div class="mt-6 flex items-center">
-          <svg class="h-5 w-5 flex-shrink-0 text-green-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+          <svg class="h-5 w-5 shrink-0 text-green-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
             <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
           </svg>
           <p class="ml-2 text-sm text-gray-500">Eraser Attached? <%= @item.eraser_attached %></p>
         </div>
 
         <div class="mt-6 flex items-center">
-          <svg class="h-5 w-5 flex-shrink-0 text-green-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+          <svg class="h-5 w-5 shrink-0 text-green-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
             <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
           </svg>
           <p class="ml-2 text-sm text-gray-500">Item Groups: <%= safe_join(@item.item_groups.map { |group| link_to(group.title, item_group_path(group)) }, " / ".html_safe) %></p>
@@ -129,7 +129,7 @@
 
     <!-- Product image -->
     <div class="mt-10 lg:col-start-2 lg:row-span-2 lg:mt-0 lg:self-center">
-      <div class="aspect-h-1 aspect-w-1 overflow-hidden rounded-lg">
+      <div class="aspect-square overflow-hidden rounded-lg">
         <%= image_tag @item.image.attached? ? @item.image : "https://imageplaceholder.net/400x600", class: "h-full w-full object-cover object-center" %>
       </div>
 
