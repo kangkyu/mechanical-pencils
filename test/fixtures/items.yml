@@ -1,7 +1,9 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  title: MyString
+  title: Pentel Graph 1000
+  item_maker: one
 
 two:
-  title: MyString
+  title: Rotring 600
+  item_maker: two

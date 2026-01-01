@@ -2,10 +2,10 @@
 
 one:
   user: one
-  tokens: 
-  threads_user_id: MyString
+  tokens: {}
+  threads_user_id: "123456789"
 
 two:
   user: two
-  tokens: 
-  threads_user_id: MyString
+  tokens: {}
+  threads_user_id: "987654321"

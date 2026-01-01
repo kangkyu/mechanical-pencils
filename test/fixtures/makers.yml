@@ -1,11 +1,11 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  title: MyString
-  origin: MyString
-  homepage: MyString
+  title: Pentel
+  origin: Japan
+  homepage: https://www.pentel.com
 
 two:
-  title: MyString
-  origin: MyString
-  homepage: MyString
+  title: Rotring
+  origin: Germany
+  homepage: https://www.rotring.com

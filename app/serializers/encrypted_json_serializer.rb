@@ -12,7 +12,7 @@ class EncryptedJsonSerializer
 
     encrypted.transform_values do |value|
       crypt.decrypt_and_verify(value)
-    end
+    end.with_indifferent_access
   end
 
   def self.crypt
