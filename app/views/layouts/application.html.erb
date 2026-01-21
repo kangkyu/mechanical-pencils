@@ -12,7 +12,7 @@
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
-  <body class="h-full">
+  <body class="min-h-full flex flex-col">
     <header>
     <nav class="bg-white border-gray-200 dark:bg-gray-900">
       <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl p-4">
@@ -28,8 +28,21 @@
 
           <%= link_to "What I have", collection_items_path, class: "text-sm text-blue-600 dark:text-blue-500 hover:underline" %>
           <%= link_to "Items", items_path, class: "text-sm text-blue-600 dark:text-blue-500 hover:underline" %>
+          <%= link_to "Groups", item_groups_path, class: "text-sm text-blue-600 dark:text-blue-500 hover:underline" %>
           <% if signed_in? %>
-            <%= button_to "Log Out", session_path, method: :delete, class: "text-sm text-gray-500 dark:text-white hover:underline" %>
+            <div class="relative" data-controller="dropdown">
+              <button type="button" data-action="click->dropdown#toggle" class="flex items-center text-sm text-gray-600 hover:text-indigo-600 dark:text-gray-300 dark:hover:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 rounded-md px-2 py-1">
+                <span><%= current_user.email %></span>
+                <svg class="ml-1 h-4 w-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              <div data-dropdown-target="menu" class="hidden absolute right-0 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 z-50">
+                <%= button_to session_path, method: :delete, class: "block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" do %>
+                  Log Out
+                <% end %>
+              </div>
+            </div>
           <% else %>
             <%= link_to new_session_path, class: "text-sm text-gray-500 dark:text-white hover:underline" do %>
               Log In
@@ -73,7 +86,7 @@
       </div>
     <% end %>
     </header>
-    <main class="container mx-auto mt-12 px-5 flex justify-center">
+    <main class="container mx-auto mt-12 px-5 flex justify-center flex-grow">
       <%= yield %>
     </main>
     <footer class="bg-gray-800 mt-12 text-white py-8">

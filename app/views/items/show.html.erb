@@ -3,24 +3,6 @@
 
     <!-- Product details -->
     <div class="lg:max-w-lg lg:self-end">
-<!--       <nav aria-label="Breadcrumb">
-        <ol role="list" class="flex items-center space-x-2">
-          <li>
-            <div class="flex items-center text-sm">
-              <a href="#" class="font-medium text-gray-500 hover:text-gray-900">Travel</a>
-              <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" class="ml-2 h-5 w-5 shrink-0 text-gray-300">
-                <path d="M5.555 17.776l8-16 .894.448-8 16-.894-.448z" />
-              </svg>
-            </div>
-          </li>
-          <li>
-            <div class="flex items-center text-sm">
-              <a href="#" class="font-medium text-gray-500 hover:text-gray-900">Bags</a>
-            </div>
-          </li>
-        </ol>
-      </nav> -->
-
       <div class="mt-4">
         <h1 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl"><%= @item.title %></h1>
 
@@ -33,46 +15,40 @@
       <section aria-labelledby="information-heading" class="mt-4">
         <h2 id="information-heading" class="sr-only">Product information</h2>
 
-<!--         <div class="mt-4 space-y-6">
-          <p class="text-base text-gray-500">Don&#039;t compromise on snack-carrying capacity with this lightweight and spacious bag. The drawstring top keeps all your favorite chips, crisps, fries, biscuits, crackers, and cookies secure.</p>
-        </div> -->
-
-                <% if signed_in? %>
+        <% if signed_in? %>
           <div class="mt-8 p-6 bg-gray-50 rounded-xl border border-gray-200">
             <% if owned(current_user, @item) %>
-              <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-4">
-                  <% if owned_with_proof(current_user, @item) %>
-                    <%= link_to collection_items_path, class: "block" do %>
-                      <%= image_tag @item.ownership_by_user(current_user).proof, class: "h-16 w-16 rounded-lg object-cover shadow-md ring-2 ring-emerald-500 ring-offset-2" %>
-                    <% end %>
-                    <div>
-                      <p class="text-sm font-semibold text-gray-900 flex items-center">
-                        <svg class="h-4 w-4 text-emerald-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-                        </svg>
-                        You own this item
-                      </p>
-                      <p class="text-xs text-gray-500">With photo proof</p>
-                    </div>
-                  <% else %>
-                    <div class="flex items-center space-x-3">
-                      <div class="h-16 w-16 rounded-lg bg-gray-200 flex items-center justify-center">
-                        <svg class="h-8 w-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
-                        </svg>
-                      </div>
-                      <div>
-                        <p class="text-sm font-semibold text-gray-900">You own this item</p>
-                        <%= link_to "Add photo proof", edit_item_ownership_path(@item), class: "inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition-colors" %>
-                      </div>
-                    </div>
+              <div class="flex items-center space-x-4">
+                <% if owned_with_proof(current_user, @item) %>
+                  <%= link_to collection_items_path, class: "block flex-shrink-0" do %>
+                    <%= image_tag @item.ownership_by_user(current_user).proof, class: "h-16 w-16 rounded-lg object-cover shadow-md ring-2 ring-emerald-500 ring-offset-2" %>
                   <% end %>
-                </div>
-                <div>
-                  <%= button_to "Remove from collection", unown_item_path(@item), class: "inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 hover:text-red-700 transition-colors", confirm: "Are you sure you want to remove this from your collection?" %>
-                </div>
+                  <div class="min-w-0">
+                    <p class="text-sm text-gray-900">
+                      <span class="font-semibold">You own this item</span>
+                      <span class="text-xs font-normal text-gray-500">with photo proof</span>
+                    </p>
+                    <%= button_to unown_item_path(@item), class: "mt-1 text-xs text-gray-500 hover:text-red-600 transition-colors", confirm: "Are you sure you want to remove this from your collection?" do %>
+                      Remove from collection
+                    <% end %>
+                  </div>
+                <% else %>
+                  <div class="h-16 w-16 rounded-lg bg-gray-200 flex items-center justify-center flex-shrink-0">
+                    <svg class="h-8 w-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                  </div>
+                  <div class="min-w-0">
+                    <p class="text-sm font-semibold text-gray-900">You own this item</p>
+                    <div class="mt-2 flex flex-wrap gap-2">
+                      <%= link_to "Add photo proof", edit_item_ownership_path(@item), class: "inline-flex items-center rounded-md bg-indigo-600 px-3 py-1.5 text-xs font-semibold text-white shadow-sm hover:bg-indigo-500 transition-colors" %>
+                      <%= button_to unown_item_path(@item), class: "text-xs text-gray-500 hover:text-red-600 transition-colors", confirm: "Are you sure you want to remove this from your collection?" do %>
+                        Remove
+                      <% end %>
+                    </div>
+                  </div>
+                <% end %>
               </div>
             <% else %>
               <div class="text-center">
@@ -124,6 +100,21 @@
           <p class="ml-2 text-sm text-gray-500">Item Groups: <%= safe_join(@item.item_groups.map { |group| link_to(group.title, item_group_path(group)) }, " / ".html_safe) %></p>
         </div>
 
+        <div class="mt-8 flex gap-4">
+          <button type="button" data-controller="external-link" data-external-link-url-value="<%= @item.jetpens_url %>" data-external-link-name-value="JetPens" data-action="click->external-link#open" class="inline-flex items-center gap-x-2 rounded-md bg-white px-4 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 transition-colors cursor-pointer">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5 text-gray-400">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
+            </svg>
+            JetPens
+          </button>
+          <button type="button" data-controller="external-link" data-external-link-url-value="<%= @item.blick_url %>" data-external-link-name-value="Blick" data-action="click->external-link#open" class="inline-flex items-center gap-x-2 rounded-md bg-white px-4 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 transition-colors cursor-pointer">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5 text-gray-400">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 21v-7.5a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 .75.75V21m-4.5 0H2.36m11.14 0H18m0 0h3.64m-1.39 0V9.349M3.75 21V9.349m0 0a3.001 3.001 0 0 0 3.75-.615A2.993 2.993 0 0 0 9.75 9.75c.896 0 1.7-.393 2.25-1.016a2.993 2.993 0 0 0 2.25 1.016c.896 0 1.7-.393 2.25-1.015a3.001 3.001 0 0 0 3.75.614m-16.5 0a3.004 3.004 0 0 1-.621-4.72l1.189-1.19A1.5 1.5 0 0 1 5.378 3h13.243a1.5 1.5 0 0 1 1.06.44l1.19 1.189a3 3 0 0 1-.621 4.72M6.75 18h3.75a.75.75 0 0 0 .75-.75V13.5a.75.75 0 0 0-.75-.75H6.75a.75.75 0 0 0-.75.75v3.75c0 .414.336.75.75.75Z" />
+            </svg>
+            Blick
+          </button>
+        </div>
+
       </section>
     </div>
 
@@ -163,8 +154,8 @@
   <% if signed_in? && current_user.admin? %>
     <!-- Buttons -->
     <div class="mt-6 flex justify-end space-x-4">
-        <%= link_to "Edit", edit_item_path(@item), class: "bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600" %>
-        <%= button_to "Remove", item_path(@item), method: :delete, form: { data: { turbo_confirm: 'Are you sure?' } }, class: "bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600" %>
+        <%= link_to "Edit", edit_admin_item_path(@item), class: "bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600" %>
+        <%= button_to "Remove", admin_item_path(@item), method: :delete, form: { data: { turbo_confirm: 'Are you sure?' } }, class: "bg-red-600 text-white px-4 py-2 rounded hover:bg-red-500" %>
     </div>
   <% end %>
   </div>

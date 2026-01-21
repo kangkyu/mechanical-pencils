@@ -1,6 +1,18 @@
 <div class="w-full max-w-6xl bg-white p-8 rounded-lg shadow-lg">
-  <h1 class="text-2xl font-semibold mt-4 mb-1"><%= @item_group.title %></h1>
-  <p class="text-sm font-light mb-4 mt-0"><%= link_to @item_group.link, @item_group.link %></p>
+  <div class="flex items-center justify-between mb-4">
+    <div>
+      <h1 class="text-2xl font-semibold mt-4 mb-1"><%= @item_group.title %></h1>
+      <% if @item_group.link.present? %>
+        <p class="text-sm font-light mt-0"><%= link_to @item_group.link, @item_group.link, target: "_blank", class: "text-blue-600 hover:underline" %></p>
+      <% end %>
+    </div>
+    <% if signed_in? && current_user.admin? %>
+      <div class="flex items-center gap-2">
+        <%= link_to "Edit", edit_admin_item_group_path(@item_group), class: "rounded-md bg-gray-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-600 transition-colors" %>
+        <%= button_to "Remove", admin_item_group_path(@item_group), method: :delete, form: { data: { turbo_confirm: 'Are you sure you want to delete this group?' } }, class: "rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 transition-colors" %>
+      </div>
+    <% end %>
+  </div>
 
   <ul role="list" class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
   <% @item_group.items.each do |item| %>
