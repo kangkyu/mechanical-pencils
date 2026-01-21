@@ -27,6 +27,9 @@ class Admin::ItemGroupsController < Admin::BaseController
   def update
     @item_group = ItemGroup.find(params[:id])
     if @item_group.update(item_group_params)
+      # Update items association
+      item_ids = params[:item_group][:item_ids]&.reject(&:blank?)&.map(&:to_i) || []
+      @item_group.item_ids = item_ids
       redirect_to item_group_path(@item_group), notice: "Item group updated successfully."
     else
       @items = Item.order(:title)

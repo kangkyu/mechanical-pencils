@@ -6,10 +6,11 @@ class ItemsController < ApplicationController
   end
 
   def create
-    item = Item.new(item_params)
-    if item.save!
+    @item = Item.new(item_params)
+    if @item.save
       redirect_to items_url, status: :see_other
     else
+      @makers = Maker.all
       render :new, status: :unprocessable_entity
     end
   end

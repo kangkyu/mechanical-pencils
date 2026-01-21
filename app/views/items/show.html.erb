@@ -4,7 +4,15 @@
     <!-- Product details -->
     <div class="lg:max-w-lg lg:self-end">
       <div class="mt-4">
-        <h1 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl"><%= @item.title %></h1>
+        <div class="flex items-start justify-between gap-4">
+          <h1 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl"><%= @item.title %></h1>
+          <% if signed_in? && current_user.admin? %>
+            <div class="flex items-center gap-2 flex-shrink-0">
+              <%= link_to "Edit", edit_admin_item_path(@item), class: "rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 transition-colors" %>
+              <%= button_to "Remove", admin_item_path(@item), method: :delete, form: { data: { turbo_confirm: 'Are you sure?' } }, class: "rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 transition-colors" %>
+            </div>
+          <% end %>
+        </div>
 
         <% if signed_in? && owned(current_user, @item) %>
           <span class="inline-flex items-center rounded-md px-1.5 py-0.5 text-xs font-medium text-red-600 ring-1 ring-inset ring-red-600">OWNED</span>
@@ -150,13 +158,4 @@
     </div>
   </div>
 
-  <div class="flex w-full items-center justify-between space-x-6">
-  <% if signed_in? && current_user.admin? %>
-    <!-- Buttons -->
-    <div class="mt-6 flex justify-end space-x-4">
-        <%= link_to "Edit", edit_admin_item_path(@item), class: "bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600" %>
-        <%= button_to "Remove", admin_item_path(@item), method: :delete, form: { data: { turbo_confirm: 'Are you sure?' } }, class: "bg-red-600 text-white px-4 py-2 rounded hover:bg-red-500" %>
-    </div>
-  <% end %>
-  </div>
 </div>
