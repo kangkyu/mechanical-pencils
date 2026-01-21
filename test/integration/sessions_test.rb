@@ -21,12 +21,12 @@ class SessionsTest < ActionDispatch::IntegrationTest
 
   test "failed login with wrong password" do
     post session_path, params: { email: users(:one).email, password: "wrongpassword" }
-    assert_response :unauthorized
+    assert_response :unprocessable_entity
   end
 
   test "failed login with nonexistent email" do
     post session_path, params: { email: "nobody@example.com", password: "password123" }
-    assert_response :unauthorized
+    assert_response :unprocessable_entity
   end
 
   test "logout clears session" do
