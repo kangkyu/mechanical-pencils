@@ -71,31 +71,31 @@ class ItemsTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "edit requires admin" do
+  test "admin edit requires admin" do
     post session_path, params: { email: users(:one).email, password: "password123" }
-    get edit_item_path(items(:one))
+    get edit_admin_item_path(items(:one))
     assert_response :redirect
   end
 
-  test "edit renders for admin" do
+  test "admin edit renders for admin" do
     post session_path, params: { email: users(:admin).email, password: "password123" }
-    get edit_item_path(items(:one))
+    get edit_admin_item_path(items(:one))
     assert_response :success
   end
 
-  test "destroy requires admin" do
+  test "admin destroy requires admin" do
     post session_path, params: { email: users(:one).email, password: "password123" }
 
     assert_no_difference "Item.count" do
-      delete item_path(items(:one))
+      delete admin_item_path(items(:one))
     end
   end
 
-  test "destroy removes item for admin" do
+  test "admin destroy removes item for admin" do
     post session_path, params: { email: users(:admin).email, password: "password123" }
 
     assert_difference "Item.count", -1 do
-      delete item_path(items(:one))
+      delete admin_item_path(items(:one))
     end
     assert_redirected_to items_url
   end

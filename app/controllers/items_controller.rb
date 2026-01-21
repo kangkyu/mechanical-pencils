@@ -1,41 +1,5 @@
 class ItemsController < ApplicationController
-  before_action :ensure_login, only: [:new, :create, :own, :unown] # :collection has redirect login in it
-  before_action :ensure_admin, only: [:edit, :update, :destroy]
-
-  def destroy
-    @item = Item.find(params[:id])
-    deleted = @item.destroy
-
-    redirect_to items_url, status: :see_other, notice: "＂#{deleted.title}＂ deleted"
-  end
-
-  def edit
-    @item = Item.find(params[:id])
-    @makers = Maker.all
-  end
-
-  def update
-    @item = Item.find(params[:id])
-    group_ids = item_params.delete(:item_group_ids)
-    if @item.update(item_params.except(:item_group_ids))
-      (@item.item_group_ids - group_ids.map(&:to_i)).each do |group_id|
-        if ItemGroup.exists?(group_id)
-          Joiner.find_by(item_group_id: ItemGroup.find_by(id: group_id), item_id: @item).destroy
-        end
-      end
-      (group_ids.map(&:to_i) - @item.item_group_ids).each do |group_id|
-        if ItemGroup.exists?(group_id)
-          if @item.item_group_ids.include?(group_id.to_i)
-          else
-            ItemGroup.find(group_id).items << @item
-          end
-        end
-      end
-      redirect_to item_url(@item)
-    else
-      render action: 'edit'
-    end
-  end
+  before_action :ensure_login, only: [:new, :create, :own, :unown]
 
   def index
     @pagy, @items = pagy(Item.with_title(params[:search]).order(:title), items: 8)
@@ -87,6 +51,6 @@ class ItemsController < ApplicationController
   private
 
   def item_params
-    params.require(:item).permit(:title, :maker_id, :image, :model_number, :tip_retractable, :eraser_attached, item_group_ids: [])
+    params.require(:item).permit(:title, :maker_id, :image, :model_number, :tip_retractable, :eraser_attached, :jetpens_url, :blick_url)
   end
 end

@@ -7,7 +7,7 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
-  resources :items do
+  resources :items, only: [:index, :show, :new, :create] do
     collection do
       get 'collection'
     end
@@ -17,6 +17,13 @@ Rails.application.routes.draw do
     end
     resources :ownerships
   end
+  resources :item_groups, only: [:index, :show]
+
+  namespace :admin do
+    resources :items, only: [:edit, :update, :destroy]
+    resources :item_groups, only: [:new, :create, :edit, :update, :destroy]
+  end
+
   root "landing#index"
 
   resource :session
@@ -26,7 +33,6 @@ Rails.application.routes.draw do
       post 'share_post'
     end
   end
-  resources :item_groups, only: [:show]
 
   get "/threads/oauth/callback", to: "users#threads_auth"
 end

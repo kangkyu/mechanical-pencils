@@ -1,9 +1,9 @@
-<%= form_with model: item, id: dom_id(item), data: { controller: "hello" } do |f| %>
+<%= form_with model: item, url: admin_item_path(item), id: dom_id(item), data: { controller: "hello" } do |f| %>
 
   <div class="space-y-12">
 
     <div class="border-b border-gray-900/10 pb-12">
-      <h2 class="text-base font-semibold leading-7 text-gray-900">Post an item</h2>
+      <h2 class="text-base font-semibold leading-7 text-gray-900">Edit item</h2>
       <% if item.invalid? %>
       <p class="mt-1 text-sm leading-6 text-red-600"><%= item.errors.full_messages.to_sentence %></p>
       <% end %>
@@ -80,7 +80,7 @@
   </div>
 
     <div class="mt-8 flex items-center justify-end gap-x-6">
-    <%= link_to "Cancel", items_path, class: "text-sm font-semibold leading-6 text-gray-900 hover:text-gray-700 transition-colors" %>
-    <%= f.submit class: "rounded-md bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition-colors" %>
+    <%= link_to "Cancel", item_path(item), class: "text-sm font-semibold leading-6 text-gray-900 hover:text-gray-700 transition-colors" %>
+    <%= f.submit "Update Item", class: "rounded-md bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition-colors cursor-pointer" %>
   </div>
 <% end %>

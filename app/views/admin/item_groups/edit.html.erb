@@ -1,0 +1,35 @@
+<div class="max-w-2xl mx-auto">
+  <%= form_with model: @item_group, url: admin_item_group_path(@item_group), class: "space-y-8" do |f| %>
+    <div class="border-b border-gray-900/10 pb-12">
+      <h2 class="text-2xl font-semibold leading-7 text-gray-900">Edit Item Group</h2>
+      <p class="mt-1 text-sm leading-6 text-gray-600">Update the item group details.</p>
+
+      <% if @item_group.errors.any? %>
+        <div class="mt-4 rounded-md bg-red-50 p-4">
+          <p class="text-sm font-medium text-red-800"><%= @item_group.errors.full_messages.to_sentence %></p>
+        </div>
+      <% end %>
+
+      <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+        <div class="sm:col-span-4">
+          <%= f.label :title, class: "block text-sm font-medium leading-6 text-gray-900" %>
+          <div class="mt-2">
+            <%= f.text_field :title, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" %>
+          </div>
+        </div>
+
+        <div class="sm:col-span-4">
+          <%= f.label :link, "External Link (optional)", class: "block text-sm font-medium leading-6 text-gray-900" %>
+          <div class="mt-2">
+            <%= f.url_field :link, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6", placeholder: "https://..." %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex items-center justify-end gap-x-6">
+      <%= link_to "Cancel", item_group_path(@item_group), class: "text-sm font-semibold leading-6 text-gray-900 hover:text-gray-700 transition-colors" %>
+      <%= f.submit "Update Item Group", class: "rounded-md bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition-colors cursor-pointer" %>
+    </div>
+  <% end %>
+</div>
