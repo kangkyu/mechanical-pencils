@@ -1,36 +1,34 @@
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-  <p class="text-center text-xl font-semibold text-gray-900 mb-6">Photo Collection - User <%= @user.id %></p>
+  <div class="flex items-center justify-between mb-8">
+    <h1 class="text-2xl font-semibold text-gray-900">Photo Collection - User <%= @user.id %></h1>
+    <%= button_to @thread_authorization_url, class: "inline-flex items-center gap-x-1.5 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition-colors" do %>
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z" />
+      </svg>
+      <span class="hidden sm:inline">Share</span>
+    <% end %>
+  </div>
 
-  <ul class="columns-2 md:columns-3 lg:columns-4 gap-4 mb-6">
+  <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
     <% @user.ownerships.each do |ownership| %>
       <% if ownership.proof.attached? %>
-        <li class="bg-white rounded-lg shadow-md overflow-hidden inline-block relative hover:shadow-lg transition-shadow duration-300">
-          <%= image_tag ownership.proof, class: "w-full h-auto object-cover" %>
-          <%= link_to item_path(ownership.item) do %>
-            <div class="flex justify-between items-center gap-x-6 p-4">
-              <div class="flex items-center gap-x-4">
-                <% if ownership.item.image.attached? %>
-                  <%= image_tag ownership.item.image.variant(:thumb), class: "h-16 w-16 rounded-sm object-cover" %>
-                <% else %>
-                  <img class="h-16 w-16 rounded-sm bg-gray-100" src="https://imageplaceholder.net/100x100" alt="No image available">
-                <% end %>
-              </div>
-              <div class="hidden sm:flex sm:flex-col sm:items-end">
-                <p class="text-sm font-medium text-gray-900"><%= ownership.item.title %></p>
-                <p class="mt-1 text-xs text-gray-500">Owned <%= time_ago_in_words(ownership.created_at) %> ago</p>
-              </div>
-            </div>
-
-          <% end %>
-        </li>
+        <%= link_to item_path(ownership.item), class: "group block" do %>
+          <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+            <%= image_tag ownership.proof, class: "w-full h-auto" %>
+          </div>
+          <p class="mt-2 text-sm font-medium text-gray-900 truncate"><%= ownership.item.title %></p>
+        <% end %>
       <% end %>
     <% end %>
-  </ul>
-</div>
+  </div>
 
-<%= button_to @thread_authorization_url, class: "inline-flex items-center gap-x-1.5 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" do %>
-<p class="max-sm:hidden">Share</p>
-<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-  <path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z" />
-</svg>
-<% end %>
+  <% if @user.ownerships.none? { |o| o.proof.attached? } %>
+    <div class="text-center py-12">
+      <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+      </svg>
+      <h3 class="mt-2 text-sm font-semibold text-gray-900">No photos yet</h3>
+      <p class="mt-1 text-sm text-gray-500">This collection doesn't have any photo proofs.</p>
+    </div>
+  <% end %>
+</div>
