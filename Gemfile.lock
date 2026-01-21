@@ -368,7 +368,7 @@ DEPENDENCIES
   capybara
   debug
   google-cloud-storage (~> 1.11)
-  image_processing
+  image_processing (~> 1.2)
   importmap-rails
   jbuilder
   minitest (~> 5.0)
