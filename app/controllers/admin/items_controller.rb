@@ -10,7 +10,7 @@ class Admin::ItemsController < Admin::BaseController
       redirect_to item_url(@item)
     else
       @makers = Maker.all
-      render :edit, status: :unprocessable_entity
+      render :edit, status: :unprocessable_content
     end
   end
 
@@ -23,6 +23,7 @@ class Admin::ItemsController < Admin::BaseController
   private
 
   def item_params
-    params.require(:item).permit(:title, :maker_id, :image, :model_number, :tip_retractable, :eraser_attached, :jetpens_url, :blick_url)
+    params.require(:item).permit(:title, :maker_id, :image, :model_number, :tip_retractable, :eraser_attached,
+                                 :jetpens_url, :blick_url)
   end
 end

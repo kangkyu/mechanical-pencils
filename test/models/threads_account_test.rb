@@ -3,11 +3,13 @@ require "test_helper"
 class ThreadsAccountTest < ActiveSupport::TestCase
   test "valid threads account" do
     account = ThreadsAccount.new(user: users(:one), threads_user_id: "12345")
-    assert account.valid?
+
+    assert_predicate account, :valid?
   end
 
   test "invalid without user" do
     account = ThreadsAccount.new(threads_user_id: "12345")
+
     assert_not account.valid?
     assert_includes account.errors[:user], "must exist"
   end
@@ -18,6 +20,7 @@ class ThreadsAccountTest < ActiveSupport::TestCase
     account.save!
 
     account.reload
+
     assert_equal "secret_short_token", account.short_access_token
   end
 
@@ -27,6 +30,7 @@ class ThreadsAccountTest < ActiveSupport::TestCase
     account.save!
 
     account.reload
+
     assert_equal "secret_long_token", account.long_access_token
   end
 

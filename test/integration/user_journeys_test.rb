@@ -4,34 +4,41 @@ class UserJourneysTest < ActionDispatch::IntegrationTest
   test "guest can browse items and view details" do
     # Visit homepage
     get root_path
+
     assert_response :success
 
     # Browse items catalog
     get items_path
+
     assert_response :success
     assert_select "h3", text: items(:one).title
 
     # View item details
     get item_path(items(:one))
+
     assert_response :success
   end
 
   test "guest is redirected when trying to own item" do
     get items_path
+
     assert_response :success
 
     post own_item_path(items(:one))
+
     assert_redirected_to root_path
   end
 
   test "user can login and own an item" do
     # Login
     post session_path, params: { email: users(:two).email, password: "password123" }
+
     assert_redirected_to root_path
     follow_redirect!
 
     # Browse to item
     get item_path(items(:one))
+
     assert_response :success
 
     # Own the item
@@ -48,6 +55,7 @@ class UserJourneysTest < ActionDispatch::IntegrationTest
 
     # View collection (user one already owns item one via fixtures)
     get collection_items_path
+
     assert_response :success
   end
 
@@ -68,19 +76,23 @@ class UserJourneysTest < ActionDispatch::IntegrationTest
 
   test "user can search for items" do
     get items_path, params: { search: "Pentel" }
+
     assert_response :success
     assert_select "h3", text: items(:one).title
 
     get items_path, params: { search: "Rotring" }
+
     assert_response :success
     assert_select "h3", text: items(:two).title
   end
 
   test "user can browse item groups" do
     get item_groups_path
+
     assert_response :success
 
     get item_group_path(item_groups(:one))
+
     assert_response :success
     assert_select "h1", text: item_groups(:one).title
   end
@@ -91,28 +103,34 @@ class UserJourneysTest < ActionDispatch::IntegrationTest
 
     # View user two's profile
     get user_path(users(:two))
+
     assert_response :success
   end
 
   test "full authentication flow" do
     # Start logged out, visit login page
     get new_session_path
+
     assert_response :success
 
     # Login
     post session_path, params: { email: users(:one).email, password: "password123" }
+
     assert_redirected_to root_path
 
     # Verify logged in - can access collection
     get collection_items_path
+
     assert_response :success
 
     # Logout
     delete session_path
+
     assert_redirected_to new_session_url
 
     # Verify logged out - collection redirects
     get collection_items_path
+
     assert_redirected_to new_session_url
   end
 
@@ -122,14 +140,17 @@ class UserJourneysTest < ActionDispatch::IntegrationTest
 
     # Edit item
     get edit_admin_item_path(items(:one))
+
     assert_response :success
 
     # Update item
     patch admin_item_path(items(:one)), params: { item: { title: "Updated Pencil" } }
+
     assert_redirected_to item_path(items(:one))
 
     # Verify update
     get item_path(items(:one))
+
     assert_select "h1", text: /Updated Pencil/
   end
 
@@ -145,6 +166,7 @@ class UserJourneysTest < ActionDispatch::IntegrationTest
     # Edit the group
     new_group = ItemGroup.last
     get edit_admin_item_group_path(new_group)
+
     assert_response :success
 
     # Delete the group
@@ -159,6 +181,7 @@ class UserJourneysTest < ActionDispatch::IntegrationTest
 
     # Try to edit item - should redirect
     get edit_admin_item_path(items(:one))
+
     assert_response :redirect
 
     # Try to delete item - should not work

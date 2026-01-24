@@ -3,34 +3,40 @@ require "test_helper"
 class ItemsTest < ActionDispatch::IntegrationTest
   test "index page renders" do
     get items_path
+
     assert_response :success
     assert_select "h3", text: items(:one).title
   end
 
   test "index page with search" do
     get items_path, params: { search: "Pentel" }
+
     assert_response :success
     assert_select "h3", text: items(:one).title
   end
 
   test "show page renders" do
     get item_path(items(:one))
+
     assert_response :success
   end
 
   test "new page requires login" do
     get new_item_path
+
     assert_redirected_to root_path
   end
 
   test "new page renders when logged in" do
     post session_path, params: { email: users(:one).email, password: "password123" }
     get new_item_path
+
     assert_response :success
   end
 
   test "own requires login" do
     post own_item_path(items(:two))
+
     assert_redirected_to root_path
   end
 
@@ -62,24 +68,28 @@ class ItemsTest < ActionDispatch::IntegrationTest
 
   test "collection requires login" do
     get collection_items_path
+
     assert_redirected_to new_session_url
   end
 
   test "collection renders when logged in" do
     post session_path, params: { email: users(:one).email, password: "password123" }
     get collection_items_path
+
     assert_response :success
   end
 
   test "admin edit requires admin" do
     post session_path, params: { email: users(:one).email, password: "password123" }
     get edit_admin_item_path(items(:one))
+
     assert_response :redirect
   end
 
   test "admin edit renders for admin" do
     post session_path, params: { email: users(:admin).email, password: "password123" }
     get edit_admin_item_path(items(:one))
+
     assert_response :success
   end
 
@@ -129,6 +139,7 @@ class ItemsTest < ActionDispatch::IntegrationTest
     post session_path, params: { email: users(:one).email, password: "password123" }
 
     patch admin_item_path(items(:one)), params: { item: { title: "Updated Title" } }
+
     assert_response :redirect
     assert_equal "Pentel Graph 1000", items(:one).reload.title
   end
@@ -137,6 +148,7 @@ class ItemsTest < ActionDispatch::IntegrationTest
     post session_path, params: { email: users(:admin).email, password: "password123" }
 
     patch admin_item_path(items(:one)), params: { item: { title: "Updated Title" } }
+
     assert_redirected_to item_path(items(:one))
     assert_equal "Updated Title", items(:one).reload.title
   end
@@ -145,6 +157,7 @@ class ItemsTest < ActionDispatch::IntegrationTest
     post session_path, params: { email: users(:admin).email, password: "password123" }
 
     patch admin_item_path(items(:one)), params: { item: { title: "" } }
+
     assert_response :unprocessable_entity
   end
 end

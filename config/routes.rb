@@ -25,21 +25,21 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
-  resources :items, only: [:index, :show, :new, :create] do
+  resources :items, only: %i[index show new create] do
     collection do
-      get 'collection'
+      get "collection"
     end
     member do
-      post 'own'
-      post 'unown'
+      post "own"
+      post "unown"
     end
     resources :ownerships
   end
-  resources :item_groups, only: [:index, :show]
+  resources :item_groups, only: %i[index show]
 
   namespace :admin do
-    resources :items, only: [:edit, :update, :destroy]
-    resources :item_groups, only: [:new, :create, :edit, :update, :destroy]
+    resources :items, only: %i[edit update destroy]
+    resources :item_groups, only: %i[new create edit update destroy]
   end
 
   root "landing#index"
@@ -47,8 +47,8 @@ Rails.application.routes.draw do
   resource :session
   resources :users, only: [:show] do
     member do
-      get 'share'
-      post 'share_post'
+      get "share"
+      post "share_post"
     end
   end
 

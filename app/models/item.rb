@@ -10,20 +10,20 @@ class Item < ApplicationRecord
     attachable.variant :thumb, resize_to_limit: [100, 100]
   end
 
-  belongs_to :item_maker, class_name: 'Maker', foreign_key: 'maker_id'
+  belongs_to :item_maker, class_name: "Maker", foreign_key: "maker_id"
 
   store_accessor :data, :tip_retractable, :eraser_attached
   store_accessor :data, :jetpens_url, :blick_url
 
-  scope :with_title, ->(title) {
+  scope :with_title, lambda { |title|
     where("lower(title) LIKE ?", "%#{title.downcase}%") if title.present?
   }
 
   def has_proof(user)
-    ownerships.exists?(user_id: user) && ownerships.where(user_id: user).any? {|o| o.proof.attached? }
+    ownerships.exists?(user_id: user) && ownerships.where(user_id: user).any? { |o| o.proof.attached? }
   end
 
   def ownership_by_user(user)
-    ownerships.where(user_id: user).find {|o| o.proof.attached? }
+    ownerships.where(user_id: user).find { |o| o.proof.attached? }
   end
 end
