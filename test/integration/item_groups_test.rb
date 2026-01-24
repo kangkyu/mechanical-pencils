@@ -72,4 +72,27 @@ class ItemGroupsTest < ActionDispatch::IntegrationTest
     end
     assert_redirected_to item_groups_path
   end
+
+  test "admin update requires admin" do
+    post session_path, params: { email: users(:one).email, password: "password123" }
+
+    patch admin_item_group_path(item_groups(:one)), params: { item_group: { title: "Updated Group" } }
+    assert_response :redirect
+    assert_equal "Japanese Pencils", item_groups(:one).reload.title
+  end
+
+  test "admin update works for admin" do
+    post session_path, params: { email: users(:admin).email, password: "password123" }
+
+    patch admin_item_group_path(item_groups(:one)), params: { item_group: { title: "Updated Group" } }
+    assert_redirected_to item_group_path(item_groups(:one))
+    assert_equal "Updated Group", item_groups(:one).reload.title
+  end
+
+  test "admin update with invalid params" do
+    post session_path, params: { email: users(:admin).email, password: "password123" }
+
+    patch admin_item_group_path(item_groups(:one)), params: { item_group: { title: "" } }
+    assert_response :unprocessable_entity
+  end
 end

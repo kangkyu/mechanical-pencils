@@ -99,4 +99,52 @@ class ItemsTest < ActionDispatch::IntegrationTest
     end
     assert_redirected_to items_url
   end
+
+  test "create requires login" do
+    assert_no_difference "Item.count" do
+      post items_path, params: { item: { title: "New Pencil", maker_id: makers(:one).id } }
+    end
+    assert_redirected_to root_path
+  end
+
+  test "create item when logged in" do
+    post session_path, params: { email: users(:one).email, password: "password123" }
+
+    assert_difference "Item.count", 1 do
+      post items_path, params: { item: { title: "New Pencil", maker_id: makers(:one).id } }
+    end
+    assert_redirected_to items_url
+  end
+
+  test "create item with invalid params" do
+    post session_path, params: { email: users(:one).email, password: "password123" }
+
+    assert_no_difference "Item.count" do
+      post items_path, params: { item: { title: "", maker_id: makers(:one).id } }
+    end
+    assert_response :unprocessable_entity
+  end
+
+  test "admin update requires admin" do
+    post session_path, params: { email: users(:one).email, password: "password123" }
+
+    patch admin_item_path(items(:one)), params: { item: { title: "Updated Title" } }
+    assert_response :redirect
+    assert_equal "Pentel Graph 1000", items(:one).reload.title
+  end
+
+  test "admin update works for admin" do
+    post session_path, params: { email: users(:admin).email, password: "password123" }
+
+    patch admin_item_path(items(:one)), params: { item: { title: "Updated Title" } }
+    assert_redirected_to item_path(items(:one))
+    assert_equal "Updated Title", items(:one).reload.title
+  end
+
+  test "admin update with invalid params" do
+    post session_path, params: { email: users(:admin).email, password: "password123" }
+
+    patch admin_item_path(items(:one)), params: { item: { title: "" } }
+    assert_response :unprocessable_entity
+  end
 end
