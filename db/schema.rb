@@ -10,29 +10,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_06_25_234429) do
+ActiveRecord::Schema[8.1].define(version: 2025_01_24_000001) do
   # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+  enable_extension "pg_catalog.plpgsql"
 
   create_table "active_storage_attachments", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "record_type", null: false
-    t.bigint "record_id", null: false
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.bigint "record_id", null: false
+    t.string "record_type", null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
 
   create_table "active_storage_blobs", force: :cascade do |t|
-    t.string "key", null: false
-    t.string "filename", null: false
-    t.string "content_type"
-    t.text "metadata"
-    t.string "service_name", null: false
     t.bigint "byte_size", null: false
     t.string "checksum"
+    t.string "content_type"
     t.datetime "created_at", null: false
+    t.string "filename", null: false
+    t.string "key", null: false
+    t.text "metadata"
+    t.string "service_name", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
@@ -42,71 +42,83 @@ ActiveRecord::Schema[7.2].define(version: 2024_06_25_234429) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
-  create_table "item_groups", force: :cascade do |t|
-    t.string "title", null: false
+  create_table "api_tokens", force: :cascade do |t|
     t.datetime "created_at", null: false
+    t.datetime "expires_at"
+    t.datetime "last_used_at"
+    t.string "token_digest", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["token_digest"], name: "index_api_tokens_on_token_digest", unique: true
+    t.index ["user_id"], name: "index_api_tokens_on_user_id"
+  end
+
+  create_table "item_groups", force: :cascade do |t|
+    t.datetime "created_at", null: false
     t.string "link"
+    t.string "title", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "items", force: :cascade do |t|
-    t.string "title", null: false
     t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "maker"
     t.json "data", default: {}
     t.text "description"
-    t.string "model_number"
+    t.string "maker"
     t.bigint "maker_id"
+    t.string "model_number"
+    t.string "title", null: false
+    t.datetime "updated_at", null: false
     t.index ["maker_id"], name: "index_items_on_maker_id"
     t.index ["title"], name: "index_items_on_title"
   end
 
   create_table "joiners", force: :cascade do |t|
+    t.datetime "created_at", null: false
     t.bigint "item_group_id", null: false
     t.bigint "item_id", null: false
-    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["item_group_id"], name: "index_joiners_on_item_group_id"
     t.index ["item_id"], name: "index_joiners_on_item_id"
   end
 
   create_table "makers", force: :cascade do |t|
-    t.string "title"
-    t.string "origin"
-    t.string "homepage"
     t.datetime "created_at", null: false
+    t.string "homepage"
+    t.string "origin"
+    t.string "title"
     t.datetime "updated_at", null: false
   end
 
   create_table "ownerships", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.bigint "item_id", null: false
     t.datetime "created_at", null: false
+    t.bigint "item_id", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
     t.index ["item_id"], name: "index_ownerships_on_item_id"
     t.index ["user_id"], name: "index_ownerships_on_user_id"
   end
 
   create_table "threads_accounts", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.json "tokens", default: {}
-    t.string "threads_user_id"
     t.datetime "created_at", null: false
+    t.string "threads_user_id"
+    t.json "tokens", default: {}
     t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
     t.index ["user_id"], name: "index_threads_accounts_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "email", null: false
     t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string "email", null: false
     t.string "password_digest"
+    t.datetime "updated_at", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "api_tokens", "users"
   add_foreign_key "joiners", "item_groups"
   add_foreign_key "joiners", "items"
   add_foreign_key "ownerships", "items"

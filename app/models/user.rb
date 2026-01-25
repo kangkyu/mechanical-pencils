@@ -8,6 +8,7 @@ class User < ApplicationRecord
   has_many :item_groups, through: :items
 
   has_many :threads_accounts, dependent: :destroy
+  has_many :api_tokens, dependent: :destroy
 
   def owned(item)
     ownerships.exists? item_id: item
