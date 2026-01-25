@@ -2,7 +2,7 @@ class ItemsController < ApplicationController
   before_action :ensure_login, only: [:new, :create, :own, :unown]
 
   def index
-    @pagy, @items = pagy(Item.with_title(params[:search]).order(:title), items: 8)
+    @pagy, @items = pagy(Item.with_title(params[:search]).order(:title), limit: 8)
   end
 
   def create

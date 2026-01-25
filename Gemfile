@@ -71,5 +71,5 @@ gem "tailwindcss-rails", "~> 3.0"
 gem "google-cloud-storage", "~> 1.11", require: false
 
 gem "threads-api", "~> 0.1.0"
-gem "pagy", "~> 8.6"
+gem "pagy", "~> 9.4"
 gem "rack-cors"
