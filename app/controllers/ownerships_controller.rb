@@ -11,7 +11,7 @@ class OwnershipsController < ApplicationController
     if @ownership.update(ownership_params)
       redirect_to @item
     else
-      render :new, status: :unprocessable_entity
+      render :new, status: :unprocessable_content
     end
   end
 

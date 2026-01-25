@@ -8,14 +8,14 @@ class Admin::ItemGroupsController < Admin::BaseController
     @item_group = ItemGroup.new(item_group_params)
     if @item_group.save
       if params[:item_group][:item_ids].present?
-        params[:item_group][:item_ids].reject(&:blank?).each do |item_id|
+        params[:item_group][:item_ids].compact_blank.each do |item_id|
           @item_group.items << Item.find(item_id)
         end
       end
       redirect_to item_group_path(@item_group), notice: "Item group created successfully."
     else
       @items = Item.order(:title)
-      render :new, status: :unprocessable_entity
+      render :new, status: :unprocessable_content
     end
   end
 
@@ -33,7 +33,7 @@ class Admin::ItemGroupsController < Admin::BaseController
       redirect_to item_group_path(@item_group), notice: "Item group updated successfully."
     else
       @items = Item.order(:title)
-      render :edit, status: :unprocessable_entity
+      render :edit, status: :unprocessable_content
     end
   end
 

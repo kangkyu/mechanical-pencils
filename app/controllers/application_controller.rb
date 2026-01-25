@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   end
 
   def ensure_admin
-    redirect_back fallback_location: root_path unless signed_in? && current_user.admin?
+    redirect_back_or_to(root_path) unless signed_in? && current_user.admin?
   end
 
   def signed_in?

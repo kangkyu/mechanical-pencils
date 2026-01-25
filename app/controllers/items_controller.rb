@@ -1,5 +1,5 @@
 class ItemsController < ApplicationController
-  before_action :ensure_login, only: [:new, :create, :own, :unown]
+  before_action :ensure_login, only: %i[new create own unown]
 
   def index
     @pagy, @items = pagy(Item.with_title(params[:search]).order(:title), limit: 8)
@@ -11,7 +11,7 @@ class ItemsController < ApplicationController
       redirect_to items_url, status: :see_other
     else
       @makers = Maker.all
-      render :new, status: :unprocessable_entity
+      render :new, status: :unprocessable_content
     end
   end
 
@@ -35,23 +35,20 @@ class ItemsController < ApplicationController
 
   def own
     @item = Item.find(params[:id])
-    if !current_user.owned(@item)
-      current_user.ownerships.create(item: @item)
-    end
+    current_user.ownerships.create(item: @item) unless current_user.owned(@item)
     redirect_to @item
   end
 
   def unown
     @item = Item.find(params[:id])
-    if current_user.owned(@item)
-      Ownership.where(user: current_user, item: @item).last.destroy
-    end
+    Ownership.where(user: current_user, item: @item).last.destroy if current_user.owned(@item)
     redirect_to @item
   end
 
   private
 
   def item_params
-    params.require(:item).permit(:title, :maker_id, :image, :model_number, :tip_retractable, :eraser_attached, :jetpens_url, :blick_url)
+    params.require(:item).permit(:title, :maker_id, :image, :model_number, :tip_retractable, :eraser_attached,
+                                 :jetpens_url, :blick_url)
   end
 end
