@@ -75,9 +75,23 @@ module Api
           owned: current_user.owned(item),
           has_proof: item.has_proof(current_user),
           ownership_id: current_user.ownerships.find_by(item: item)&.id,
+          proofs: item_proofs_json(item),
+          owners_count: item.ownerships.count,
           created_at: item.created_at,
           updated_at: item.updated_at
         }
+      end
+
+      def item_proofs_json(item)
+        item.ownerships.includes(:user).select { |o| o.proof.attached? }.map do |ownership|
+          {
+            id: ownership.id,
+            user_id: ownership.user.id,
+            user_email: ownership.user.email,
+            proof_url: url_for(ownership.proof),
+            created_at: ownership.created_at
+          }
+        end
       end
 
       def maker_json(maker)
