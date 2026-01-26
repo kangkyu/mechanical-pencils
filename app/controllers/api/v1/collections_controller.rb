@@ -3,7 +3,7 @@ module Api
     class CollectionsController < BaseController
       def show
         @items = current_user.items.includes(:item_maker)
-        @item_groups = current_user.item_groups.order(:title).distinct
+        @item_groups = current_user.item_groups.reorder(:title).distinct
         @ownerships_by_item_id = current_user.ownerships
           .where(item_id: @items.select(:id))
           .includes(proof_attachment: :blob)

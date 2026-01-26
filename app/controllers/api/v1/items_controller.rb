@@ -4,7 +4,18 @@ module Api
       include Pagy::Backend
 
       def index
-        @pagy, @items = pagy(Item.with_title(params[:search]).order(:title), limit: params[:per_page] || 20)
+        base_scope = Item
+          .includes(:item_maker, image_attachment: :blob)
+          .with_title(params[:search])
+          .order(:title)
+
+        @pagy, @items = pagy(base_scope, limit: params[:per_page] || 20)
+
+        # Pre-load owned item IDs to avoid N+1 queries
+        @owned_item_ids = current_user.ownerships
+          .where(item_id: @items.map(&:id))
+          .pluck(:item_id)
+          .to_set
 
         render json: {
           items: @items.map { |item| item_json(item) },
@@ -13,7 +24,11 @@ module Api
       end
 
       def show
-        @item = Item.find(params[:id])
+        @item = Item.includes(:item_maker, image_attachment: :blob).find(params[:id])
+
+        # Pre-load ownership data to avoid multiple queries
+        @user_ownership = current_user.ownerships.includes(proof_attachment: :blob).find_by(item: @item)
+        @item_ownerships = @item.ownerships.includes(:user, proof_attachment: :blob).to_a
 
         render json: {
           item: item_detail_json(@item)
@@ -21,11 +36,14 @@ module Api
       end
 
       def own
-        @item = Item.find(params[:id])
+        @item = Item.includes(:item_maker, image_attachment: :blob).find(params[:id])
 
-        unless current_user.owned(@item)
-          ownership = current_user.ownerships.create!(item: @item)
+        @user_ownership = current_user.ownerships.find_by(item: @item)
+        unless @user_ownership
+          @user_ownership = current_user.ownerships.create!(item: @item)
         end
+
+        @item_ownerships = @item.ownerships.includes(:user, proof_attachment: :blob).to_a
 
         render json: {
           item: item_detail_json(@item),
@@ -34,11 +52,13 @@ module Api
       end
 
       def unown
-        @item = Item.find(params[:id])
+        @item = Item.includes(:item_maker, image_attachment: :blob).find(params[:id])
 
-        if current_user.owned(@item)
-          Ownership.where(user: current_user, item: @item).last.destroy
-        end
+        ownership_to_destroy = current_user.ownerships.find_by(item: @item)
+        ownership_to_destroy&.destroy
+
+        @user_ownership = nil
+        @item_ownerships = @item.ownerships.includes(:user, proof_attachment: :blob).to_a
 
         render json: {
           item: item_detail_json(@item),
@@ -55,7 +75,7 @@ module Api
           maker: item.item_maker&.title,
           model_number: item.model_number,
           image_url: item.image.attached? ? url_for(item.image.variant(:thumb)) : nil,
-          owned: current_user.owned(item)
+          owned: @owned_item_ids.include?(item.id)
         }
       end
 
@@ -72,18 +92,18 @@ module Api
           blick_url: item.blick_url,
           image_url: item.image.attached? ? url_for(item.image) : nil,
           thumbnail_url: item.image.attached? ? url_for(item.image.variant(:thumb)) : nil,
-          owned: current_user.owned(item),
-          has_proof: item.has_proof(current_user),
-          ownership_id: current_user.ownerships.find_by(item: item)&.id,
-          proofs: item_proofs_json(item),
-          owners_count: item.ownerships.count,
+          owned: @user_ownership.present?,
+          has_proof: @user_ownership&.proof&.attached? || false,
+          ownership_id: @user_ownership&.id,
+          proofs: item_proofs_json,
+          owners_count: @item_ownerships.size,
           created_at: item.created_at,
           updated_at: item.updated_at
         }
       end
 
-      def item_proofs_json(item)
-        item.ownerships.includes(:user).select { |o| o.proof.attached? }.map do |ownership|
+      def item_proofs_json
+        @item_ownerships.select { |o| o.proof.attached? }.map do |ownership|
           {
             id: ownership.id,
             user_id: ownership.user.id,

@@ -14,10 +14,10 @@
           <% end %>
         </div>
 
-        <% if signed_in? && owned(current_user, @item) %>
+        <% if signed_in? && @user_ownership %>
           <span class="inline-flex items-center rounded-md px-1.5 py-0.5 text-xs font-medium text-red-600 ring-1 ring-inset ring-red-600">OWNED</span>
         <% end %>
-        <p class="mt-1 max-w-2xl text-sm leading-6 text-gray-500">owned by <%= pluralize @item.ownerships.count, "user" %></p>
+        <p class="mt-1 max-w-2xl text-sm leading-6 text-gray-500">owned by <%= pluralize @item.ownerships.size, "user" %></p>
       </div>
 
       <section aria-labelledby="information-heading" class="mt-4">
@@ -25,11 +25,11 @@
 
         <% if signed_in? %>
           <div class="mt-8 p-6 bg-gray-50 rounded-xl border border-gray-200">
-            <% if owned(current_user, @item) %>
+            <% if @user_ownership %>
               <div class="flex items-center space-x-4">
-                <% if owned_with_proof(current_user, @item) %>
+                <% if @user_ownership.proof.attached? %>
                   <%= link_to collection_items_path, class: "block flex-shrink-0" do %>
-                    <%= image_tag @item.ownership_by_user(current_user).proof, class: "h-16 w-16 rounded-lg object-cover shadow-md ring-2 ring-emerald-500 ring-offset-2" %>
+                    <%= image_tag @user_ownership.proof, class: "h-16 w-16 rounded-lg object-cover shadow-md ring-2 ring-emerald-500 ring-offset-2" %>
                   <% end %>
                   <div class="min-w-0">
                     <p class="text-sm text-gray-900">
