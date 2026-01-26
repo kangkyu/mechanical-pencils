@@ -3,7 +3,11 @@ module Api
     class CollectionsController < BaseController
       def show
         @items = current_user.items.includes(:item_maker)
-        @item_groups = current_user.item_groups.order(:title).uniq
+        @item_groups = current_user.item_groups.order(:title).distinct
+        @ownerships_by_item_id = current_user.ownerships
+          .where(item_id: @items.select(:id))
+          .includes(proof_attachment: :blob)
+          .index_by(&:item_id)
 
         render json: {
           items: @items.map { |item| item_with_ownership_json(item) },
@@ -15,7 +19,7 @@ module Api
       private
 
       def item_with_ownership_json(item)
-        ownership = current_user.ownerships.find_by(item: item)
+        ownership = @ownerships_by_item_id[item.id]
         {
           id: item.id,
           title: item.title,

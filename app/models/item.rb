@@ -20,10 +20,10 @@ class Item < ApplicationRecord
   }
 
   def has_proof(user)
-    ownerships.exists?(user_id: user) && ownerships.where(user_id: user).any? { |o| o.proof.attached? }
+    ownerships.where(user_id: user).joins(:proof_attachment).exists?
   end
 
   def ownership_by_user(user)
-    ownerships.where(user_id: user).find { |o| o.proof.attached? }
+    ownerships.where(user_id: user).joins(:proof_attachment).first
   end
 end

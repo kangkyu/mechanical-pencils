@@ -27,7 +27,7 @@ class ItemsController < ApplicationController
   def collection
     if signed_in?
       @user_items = current_user.items
-      @item_groups = current_user.item_groups.order(:title).uniq
+      @item_groups = current_user.item_groups.order(:title).distinct
     else
       redirect_to new_session_url, notice: "Forgot to login? This page is for your list of collection"
     end
