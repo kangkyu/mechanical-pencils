@@ -1,7 +1,8 @@
 class User < ApplicationRecord
   has_secure_password
 
-  validates :email, presence: true, uniqueness: true
+  validates :email, presence: true, uniqueness: true,
+                    format: { with: URI::MailTo::EMAIL_REGEXP }
 
   has_many :ownerships, -> { order(created_at: :desc) }, dependent: :destroy
   has_many :items, through: :ownerships

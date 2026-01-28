@@ -20,6 +20,7 @@ Rails.application.routes.draw do
       resource :collection, only: [:show]
       resources :makers, only: [:index]
       resources :item_groups, only: [:index, :show]
+      resource :me, only: [:show]
       resources :users, only: [:show]
     end
   end
