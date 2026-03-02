@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_01_24_000001) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_01_000002) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -53,6 +53,17 @@ ActiveRecord::Schema[8.1].define(version: 2025_01_24_000001) do
     t.index ["user_id"], name: "index_api_tokens_on_user_id"
   end
 
+  create_table "influencers", force: :cascade do |t|
+    t.text "bio"
+    t.datetime "created_at", null: false
+    t.integer "follower_count"
+    t.string "handle"
+    t.string "name", null: false
+    t.string "platform"
+    t.string "profile_url"
+    t.datetime "updated_at", null: false
+  end
+
   create_table "item_groups", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "link"
@@ -64,11 +75,13 @@ ActiveRecord::Schema[8.1].define(version: 2025_01_24_000001) do
     t.datetime "created_at", null: false
     t.json "data", default: {}
     t.text "description"
+    t.bigint "influencer_id"
     t.string "maker"
     t.bigint "maker_id"
     t.string "model_number"
     t.string "title", null: false
     t.datetime "updated_at", null: false
+    t.index ["influencer_id"], name: "index_items_on_influencer_id"
     t.index ["maker_id"], name: "index_items_on_maker_id"
     t.index ["title"], name: "index_items_on_title"
   end
@@ -119,6 +132,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_01_24_000001) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "api_tokens", "users"
+  add_foreign_key "items", "influencers"
   add_foreign_key "joiners", "item_groups"
   add_foreign_key "joiners", "items"
   add_foreign_key "ownerships", "items"

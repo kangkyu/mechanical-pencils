@@ -22,6 +22,7 @@
         <div class="flex items-center space-x-6 rtl:space-x-reverse">
           <%= link_to "What I have", collection_items_path, class: "text-sm text-blue-600 dark:text-blue-500 hover:underline" %>
           <%= link_to "Items", items_path, class: "text-sm text-blue-600 dark:text-blue-500 hover:underline" %>
+          <%= link_to "Influencers", influencers_path, class: "text-sm text-blue-600 dark:text-blue-500 hover:underline" %>
           <%= link_to "Groups", item_groups_path, class: "text-sm text-blue-600 dark:text-blue-500 hover:underline" %>
           <% if signed_in? %>
             <div class="relative" data-controller="dropdown">

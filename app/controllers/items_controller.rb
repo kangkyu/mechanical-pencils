@@ -26,6 +26,7 @@ class ItemsController < ApplicationController
       redirect_to items_url, status: :see_other
     else
       @makers = Maker.all
+      @influencers = Influencer.all
       render :new, status: :unprocessable_content
     end
   end
@@ -33,6 +34,7 @@ class ItemsController < ApplicationController
   def new
     @item = Item.new
     @makers = Maker.all
+    @influencers = Influencer.all
   end
 
   def show
@@ -73,7 +75,7 @@ class ItemsController < ApplicationController
   private
 
   def item_params
-    params.require(:item).permit(:title, :maker_id, :image, :model_number, :tip_retractable, :eraser_attached,
-                                 :jetpens_url, :blick_url)
+    params.require(:item).permit(:title, :maker_id, :image, :model_number, :category, :size, :color,
+                                 :limited_edition, :shop_url, :official_url, :influencer_id)
   end
 end

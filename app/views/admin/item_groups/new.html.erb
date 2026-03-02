@@ -2,7 +2,7 @@
   <%= form_with model: @item_group, url: admin_item_groups_path, class: "space-y-12" do |f| %>
     <div class="border-b border-gray-900/10 pb-12">
       <h2 class="text-base font-semibold leading-7 text-gray-900">New Item Group</h2>
-      <p class="mt-1 text-sm leading-6 text-gray-600">Create a new collection group for mechanical pencils.</p>
+      <p class="mt-1 text-sm leading-6 text-gray-600">Create a new collection group for merch items.</p>
 
       <% if @item_group.errors.any? %>
         <div class="mt-4 rounded-md bg-red-50 p-4">
@@ -14,7 +14,7 @@
         <div class="sm:col-span-4">
           <label for="item_group_title" class="block text-sm font-medium leading-6 text-gray-900">Title <span class="text-red-500">*</span></label>
           <div class="mt-2">
-            <%= f.text_field :title, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6", placeholder: "e.g., Rotring Collection" %>
+            <%= f.text_field :title, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6", placeholder: "e.g., MrBeast Collection" %>
           </div>
         </div>
 

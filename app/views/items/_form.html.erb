@@ -3,7 +3,7 @@
   <div class="space-y-12">
 
     <div class="border-b border-gray-900/10 pb-12">
-      <h2 class="text-base font-semibold leading-7 text-gray-900">Post an item</h2>
+      <h2 class="text-base font-semibold leading-7 text-gray-900">Add a merch item</h2>
       <% if item.errors.any? %>
         <div class="mt-4 rounded-md bg-red-50 p-4">
           <p class="text-sm font-medium text-red-800"><%= item.errors.full_messages.to_sentence %></p>
@@ -18,9 +18,9 @@
           </div>
         </div>
         <div class="sm:col-span-3">
-          <label for="item_maker_id" class="block text-sm font-medium leading-6 text-gray-900">Maker <span class="text-red-500">*</span></label>
+          <label for="item_maker_id" class="block text-sm font-medium leading-6 text-gray-900">Brand <span class="text-red-500">*</span></label>
           <div class="mt-2 relative">
-            <%= f.collection_select :maker_id, @makers, :id, :title, { prompt: "Select a maker" }, { class: "block w-full appearance-none rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 bg-white cursor-pointer" } %>
+            <%= f.collection_select :maker_id, @makers, :id, :title, { prompt: "Select a brand" }, { class: "block w-full appearance-none rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 bg-white cursor-pointer" } %>
             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
               <svg class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
                 <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
@@ -35,29 +35,50 @@
             <%= f.text_field :model_number, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" %>
           </div>
         </div>
-                <div class="sm:col-span-3">
-          <%= f.label :tip_retractable, class: "block text-sm font-medium leading-6 text-gray-900 mb-3" %>
-          <div class="space-y-3">
-            <div class="flex items-center">
-              <%= f.radio_button :tip_retractable, "Yes", class: "h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600" %>
-              <%= f.label :tip_retractable_yes, "Yes", class: "ml-3 block text-sm font-medium leading-6 text-gray-900" %>
-            </div>
-            <div class="flex items-center">
-              <%= f.radio_button :tip_retractable, "No", class: "h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600" %>
-              <%= f.label :tip_retractable_no, "No", class: "ml-3 block text-sm font-medium leading-6 text-gray-900" %>
+        <div class="sm:col-span-3">
+          <label for="item_category" class="block text-sm font-medium leading-6 text-gray-900">Category</label>
+          <div class="mt-2 relative">
+            <%= f.select :category, options_for_select(["Apparel", "Accessories", "Food & Drink", "Home & Living", "Tech", "Toys & Games", "Beauty", "Other"], item.category), { include_blank: "Select a category" }, { class: "block w-full appearance-none rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 bg-white cursor-pointer" } %>
+            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+              <svg class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
+              </svg>
             </div>
           </div>
         </div>
         <div class="sm:col-span-3">
-          <%= f.label :eraser_attached, class: "block text-sm font-medium leading-6 text-gray-900 mb-3" %>
+          <label for="item_influencer_id" class="block text-sm font-medium leading-6 text-gray-900">Influencer</label>
+          <div class="mt-2 relative">
+            <%= f.collection_select :influencer_id, @influencers, :id, :name, { include_blank: "Select an influencer" }, { class: "block w-full appearance-none rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 bg-white cursor-pointer" } %>
+            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+              <svg class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div class="sm:col-span-2">
+          <%= f.label :size, class: "block text-sm font-medium leading-6 text-gray-900" %>
+          <div class="mt-2">
+            <%= f.text_field :size, placeholder: "e.g., M, L, XL, One Size", class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" %>
+          </div>
+        </div>
+        <div class="sm:col-span-2">
+          <%= f.label :color, class: "block text-sm font-medium leading-6 text-gray-900" %>
+          <div class="mt-2">
+            <%= f.text_field :color, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" %>
+          </div>
+        </div>
+        <div class="sm:col-span-2">
+          <%= f.label :limited_edition, class: "block text-sm font-medium leading-6 text-gray-900 mb-3" %>
           <div class="space-y-3">
             <div class="flex items-center">
-              <%= f.radio_button :eraser_attached, "Yes", class: "h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600" %>
-              <%= f.label :eraser_attached_yes, "Yes", class: "ml-3 block text-sm font-medium leading-6 text-gray-900" %>
+              <%= f.radio_button :limited_edition, "Yes", class: "h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600" %>
+              <%= f.label :limited_edition_yes, "Yes", class: "ml-3 block text-sm font-medium leading-6 text-gray-900" %>
             </div>
             <div class="flex items-center">
-              <%= f.radio_button :eraser_attached, "No", class: "h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600" %>
-              <%= f.label :eraser_attached_no, "No", class: "ml-3 block text-sm font-medium leading-6 text-gray-900" %>
+              <%= f.radio_button :limited_edition, "No", class: "h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600" %>
+              <%= f.label :limited_edition_no, "No", class: "ml-3 block text-sm font-medium leading-6 text-gray-900" %>
             </div>
           </div>
         </div>
@@ -82,16 +103,16 @@
         </div>
 
         <div class="sm:col-span-3">
-          <%= f.label :jetpens_url, "JetPens URL", class: "block text-sm font-medium leading-6 text-gray-900" %>
+          <%= f.label :shop_url, "Shop URL", class: "block text-sm font-medium leading-6 text-gray-900" %>
           <div class="mt-2">
-            <%= f.url_field :jetpens_url, placeholder: "https://www.jetpens.com/...", class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" %>
+            <%= f.url_field :shop_url, placeholder: "https://...", class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" %>
           </div>
         </div>
 
         <div class="sm:col-span-3">
-          <%= f.label :blick_url, "Blick URL", class: "block text-sm font-medium leading-6 text-gray-900" %>
+          <%= f.label :official_url, "Official URL", class: "block text-sm font-medium leading-6 text-gray-900" %>
           <div class="mt-2">
-            <%= f.url_field :blick_url, placeholder: "https://www.dickblick.com/...", class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" %>
+            <%= f.url_field :official_url, placeholder: "https://...", class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" %>
           </div>
         </div>
       </div>

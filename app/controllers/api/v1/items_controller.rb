@@ -5,7 +5,7 @@ module Api
 
       def index
         base_scope = Item
-          .includes(:item_maker, image_attachment: :blob)
+          .includes(:item_maker, :influencer, image_attachment: :blob)
           .with_title(params[:search])
           .order(:title)
 
@@ -24,7 +24,7 @@ module Api
       end
 
       def show
-        @item = Item.includes(:item_maker, image_attachment: :blob).find(params[:id])
+        @item = Item.includes(:item_maker, :influencer, image_attachment: :blob).find(params[:id])
 
         # Pre-load ownership data to avoid multiple queries
         @user_ownership = current_user.ownerships.includes(proof_attachment: :blob).find_by(item: @item)
@@ -36,7 +36,7 @@ module Api
       end
 
       def own
-        @item = Item.includes(:item_maker, image_attachment: :blob).find(params[:id])
+        @item = Item.includes(:item_maker, :influencer, image_attachment: :blob).find(params[:id])
 
         @user_ownership = current_user.ownerships.find_by(item: @item)
         unless @user_ownership
@@ -52,7 +52,7 @@ module Api
       end
 
       def unown
-        @item = Item.includes(:item_maker, image_attachment: :blob).find(params[:id])
+        @item = Item.includes(:item_maker, :influencer, image_attachment: :blob).find(params[:id])
 
         ownership_to_destroy = current_user.ownerships.find_by(item: @item)
         ownership_to_destroy&.destroy
@@ -74,6 +74,7 @@ module Api
           title: item.title,
           maker: item.item_maker&.title,
           model_number: item.model_number,
+          influencer: item.influencer&.name,
           image_url: item.image.attached? ? url_for(item.image.variant(:thumb)) : nil,
           owned: @owned_item_ids.include?(item.id)
         }
@@ -86,10 +87,13 @@ module Api
           description: item.description,
           maker: maker_json(item.item_maker),
           model_number: item.model_number,
-          tip_retractable: item.tip_retractable,
-          eraser_attached: item.eraser_attached,
-          jetpens_url: item.jetpens_url,
-          blick_url: item.blick_url,
+          category: item.category,
+          size: item.size,
+          color: item.color,
+          limited_edition: item.limited_edition,
+          shop_url: item.shop_url,
+          official_url: item.official_url,
+          influencer: influencer_json(item.influencer),
           image_url: item.image.attached? ? url_for(item.image) : nil,
           thumbnail_url: item.image.attached? ? url_for(item.image.variant(:thumb)) : nil,
           owned: @user_ownership.present?,
@@ -121,6 +125,16 @@ module Api
           title: maker.title,
           origin: maker.origin,
           homepage: maker.homepage
+        }
+      end
+
+      def influencer_json(influencer)
+        return nil unless influencer
+        {
+          id: influencer.id,
+          name: influencer.name,
+          platform: influencer.platform,
+          handle: influencer.handle
         }
       end
 

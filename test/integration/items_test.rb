@@ -9,7 +9,7 @@ class ItemsTest < ActionDispatch::IntegrationTest
   end
 
   test "index page with search" do
-    get items_path, params: { search: "Pentel" }
+    get items_path, params: { search: "Feastables" }
 
     assert_response :success
     assert_select "h3", text: items(:one).title
@@ -112,7 +112,7 @@ class ItemsTest < ActionDispatch::IntegrationTest
 
   test "create requires login" do
     assert_no_difference "Item.count" do
-      post items_path, params: { item: { title: "New Pencil", maker_id: makers(:one).id } }
+      post items_path, params: { item: { title: "New Merch", maker_id: makers(:one).id } }
     end
     assert_redirected_to root_path
   end
@@ -121,7 +121,7 @@ class ItemsTest < ActionDispatch::IntegrationTest
     post session_path, params: { email: users(:one).email, password: "password123" }
 
     assert_difference "Item.count", 1 do
-      post items_path, params: { item: { title: "New Pencil", maker_id: makers(:one).id } }
+      post items_path, params: { item: { title: "New Merch", maker_id: makers(:one).id } }
     end
     assert_redirected_to items_url
   end
@@ -141,7 +141,7 @@ class ItemsTest < ActionDispatch::IntegrationTest
     patch admin_item_path(items(:one)), params: { item: { title: "Updated Title" } }
 
     assert_response :redirect
-    assert_equal "Pentel Graph 1000", items(:one).reload.title
+    assert_equal "Feastables Chocolate Bar", items(:one).reload.title
   end
 
   test "admin update works for admin" do

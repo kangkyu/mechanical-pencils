@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MrBeast
+  platform: YouTube
+  handle: "@MrBeast"
+  profile_url: https://youtube.com/@MrBeast
+  follower_count: 340000000
+
+two:
+  name: Emma Chamberlain
+  platform: YouTube
+  handle: "@emmachamberlain"
+  profile_url: https://youtube.com/@emmachamberlain
+  follower_count: 12000000

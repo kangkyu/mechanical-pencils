@@ -43,6 +43,7 @@ module Api
           title: item.title,
           maker: item.item_maker&.title,
           model_number: item.model_number,
+          influencer: item.influencer&.name,
           image_url: item.image.attached? ? url_for(item.image.variant(:thumb)) : nil,
           owned: current_user.owned(item)
         }

@@ -2,7 +2,7 @@ require "test_helper"
 
 class ItemTest < ActiveSupport::TestCase
   test "valid item" do
-    item = Item.new(title: "Test Pencil", item_maker: makers(:one))
+    item = Item.new(title: "Test Item", item_maker: makers(:one))
 
     assert_predicate item, :valid?
   end
@@ -15,21 +15,21 @@ class ItemTest < ActiveSupport::TestCase
   end
 
   test "invalid without maker" do
-    item = Item.new(title: "Test Pencil")
+    item = Item.new(title: "Test Item")
 
     assert_not item.valid?
     assert_includes item.errors[:item_maker], "must exist"
   end
 
   test "with_title scope filters by title" do
-    results = Item.with_title("Pentel")
+    results = Item.with_title("Feastables")
 
     assert_includes results, items(:one)
     assert_not_includes results, items(:two)
   end
 
   test "with_title scope is case insensitive" do
-    results = Item.with_title("pentel")
+    results = Item.with_title("feastables")
 
     assert_includes results, items(:one)
   end
@@ -38,5 +38,13 @@ class ItemTest < ActiveSupport::TestCase
     results = Item.with_title("")
 
     assert_equal Item.count, results.count
+  end
+
+  test "belongs to influencer optionally" do
+    item = Item.new(title: "Test Item", item_maker: makers(:one))
+    assert_predicate item, :valid?
+
+    item.influencer = influencers(:one)
+    assert_predicate item, :valid?
   end
 end
