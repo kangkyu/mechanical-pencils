@@ -1,11 +1,11 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  title: Pentel
-  origin: Japan
-  homepage: https://www.pentel.com
+  title: Feastables
+  origin: USA
+  homepage: https://feastables.com
 
 two:
-  title: Rotring
-  origin: Germany
-  homepage: https://www.rotring.com
+  title: Teddy Fresh
+  origin: USA
+  homepage: https://teddyfresh.com

@@ -1,9 +1,11 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  title: Pentel Graph 1000
+  title: Feastables Chocolate Bar
   item_maker: one
+  data: '{"category": "Food & Drink"}'
 
 two:
-  title: Rotring 600
+  title: Teddy Fresh Color Block Hoodie
   item_maker: two
+  data: '{"category": "Apparel", "size": "L"}'

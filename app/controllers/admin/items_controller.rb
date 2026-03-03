@@ -23,7 +23,7 @@ class Admin::ItemsController < Admin::BaseController
   private
 
   def item_params
-    params.require(:item).permit(:title, :maker_id, :image, :model_number, :tip_retractable, :eraser_attached,
-                                 :jetpens_url, :blick_url)
+    params.require(:item).permit(:title, :maker_id, :image, :model_number, :category, :size, :color,
+                                 :limited_edition, :shop_url, :official_url)
   end
 end

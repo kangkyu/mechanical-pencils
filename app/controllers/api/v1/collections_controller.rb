@@ -2,7 +2,7 @@ module Api
   module V1
     class CollectionsController < BaseController
       def show
-        @items = current_user.items.includes(:item_maker)
+        @items = current_user.items.includes(:item_maker, :influencers)
         @item_groups = current_user.item_groups.reorder(:title).distinct
         @ownerships_by_item_id = current_user.ownerships
           .where(item_id: @items.select(:id))
@@ -25,6 +25,7 @@ module Api
           title: item.title,
           maker: item.item_maker&.title,
           model_number: item.model_number,
+          influencers: item.influencers.map(&:name),
           image_url: item.image.attached? ? url_for(item.image.variant(:thumb)) : nil,
           ownership_id: ownership&.id,
           has_proof: ownership&.proof&.attached? || false,

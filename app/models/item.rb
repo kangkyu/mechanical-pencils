@@ -12,8 +12,11 @@ class Item < ApplicationRecord
 
   belongs_to :item_maker, class_name: "Maker", foreign_key: "maker_id"
 
-  store_accessor :data, :tip_retractable, :eraser_attached
-  store_accessor :data, :jetpens_url, :blick_url
+  has_many :item_influencers, dependent: :destroy
+  has_many :influencers, through: :item_influencers
+
+  store_accessor :data, :category, :size, :color, :limited_edition
+  store_accessor :data, :shop_url, :official_url
 
   scope :with_title, lambda { |title|
     where("lower(title) LIKE ?", "%#{title.downcase}%") if title.present?

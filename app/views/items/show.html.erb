@@ -17,7 +17,12 @@
         <% if signed_in? && @user_ownership %>
           <span class="inline-flex items-center rounded-md px-1.5 py-0.5 text-xs font-medium text-red-600 ring-1 ring-inset ring-red-600">OWNED</span>
         <% end %>
-        <p class="mt-1 max-w-2xl text-sm leading-6 text-gray-500">owned by <%= pluralize @item.ownerships.size, "user" %></p>
+        <p class="mt-1 max-w-2xl text-sm leading-6 text-gray-500">
+          <%= pluralize @item.ownerships.size, "user" %>
+          <% if @item.influencers.any? %>
+            &middot; <%= pluralize @item.influencers.size, "influencer" %>
+          <% end %>
+        </p>
       </div>
 
       <section aria-labelledby="information-heading" class="mt-4">
@@ -77,29 +82,60 @@
           <svg class="h-5 w-5 shrink-0 text-green-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
             <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
           </svg>
-          <p class="ml-2 text-sm text-gray-500">Manufacturer: <%= @item.item_maker&.title %></p>
+          <p class="ml-2 text-sm text-gray-500">Brand: <%= @item.item_maker&.title %></p>
         </div>
 
         <div class="mt-6 flex items-center">
           <svg class="h-5 w-5 shrink-0 text-green-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
             <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
           </svg>
-          <p class="ml-2 text-sm text-gray-500">Model name: <%= @item.model_number %></p>
+          <p class="ml-2 text-sm text-gray-500">Model: <%= @item.model_number %></p>
         </div>
 
+        <% if @item.category.present? %>
         <div class="mt-6 flex items-center">
           <svg class="h-5 w-5 shrink-0 text-green-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
             <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
           </svg>
-          <p class="ml-2 text-sm text-gray-500">Tip Retractable? <%= @item.tip_retractable %></p>
+          <p class="ml-2 text-sm text-gray-500">Category: <%= @item.category %></p>
         </div>
+        <% end %>
 
+        <% if @item.size.present? %>
         <div class="mt-6 flex items-center">
           <svg class="h-5 w-5 shrink-0 text-green-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
             <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
           </svg>
-          <p class="ml-2 text-sm text-gray-500">Eraser Attached? <%= @item.eraser_attached %></p>
+          <p class="ml-2 text-sm text-gray-500">Size: <%= @item.size %></p>
         </div>
+        <% end %>
+
+        <% if @item.color.present? %>
+        <div class="mt-6 flex items-center">
+          <svg class="h-5 w-5 shrink-0 text-green-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
+          </svg>
+          <p class="ml-2 text-sm text-gray-500">Color: <%= @item.color %></p>
+        </div>
+        <% end %>
+
+        <% if @item.limited_edition == "Yes" %>
+        <div class="mt-6 flex items-center">
+          <svg class="h-5 w-5 shrink-0 text-green-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
+          </svg>
+          <p class="ml-2 text-sm text-gray-500">Limited Edition</p>
+        </div>
+        <% end %>
+
+        <% @item.influencers.each do |influencer| %>
+        <div class="mt-6 flex items-center">
+          <svg class="h-5 w-5 shrink-0 text-green-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
+          </svg>
+          <p class="ml-2 text-sm text-gray-500">Influencer: <%= link_to influencer.name, influencer_path(influencer), class: "text-indigo-600 hover:text-indigo-500" %></p>
+        </div>
+        <% end %>
 
         <div class="mt-6 flex items-center">
           <svg class="h-5 w-5 shrink-0 text-green-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -109,17 +145,17 @@
         </div>
 
         <div class="mt-8 flex gap-4">
-          <button type="button" data-controller="external-link" data-external-link-url-value="<%= @item.jetpens_url %>" data-external-link-name-value="JetPens" data-action="click->external-link#open" class="inline-flex items-center gap-x-2 rounded-md bg-white px-4 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 transition-colors cursor-pointer">
+          <button type="button" data-controller="external-link" data-external-link-url-value="<%= @item.shop_url %>" data-external-link-name-value="Shop" data-action="click->external-link#open" class="inline-flex items-center gap-x-2 rounded-md bg-white px-4 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 transition-colors cursor-pointer">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5 text-gray-400">
-              <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
             </svg>
-            JetPens
+            Shop
           </button>
-          <button type="button" data-controller="external-link" data-external-link-url-value="<%= @item.blick_url %>" data-external-link-name-value="Blick" data-action="click->external-link#open" class="inline-flex items-center gap-x-2 rounded-md bg-white px-4 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 transition-colors cursor-pointer">
+          <button type="button" data-controller="external-link" data-external-link-url-value="<%= @item.official_url %>" data-external-link-name-value="Official" data-action="click->external-link#open" class="inline-flex items-center gap-x-2 rounded-md bg-white px-4 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 transition-colors cursor-pointer">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5 text-gray-400">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 21v-7.5a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 .75.75V21m-4.5 0H2.36m11.14 0H18m0 0h3.64m-1.39 0V9.349M3.75 21V9.349m0 0a3.001 3.001 0 0 0 3.75-.615A2.993 2.993 0 0 0 9.75 9.75c.896 0 1.7-.393 2.25-1.016a2.993 2.993 0 0 0 2.25 1.016c.896 0 1.7-.393 2.25-1.015a3.001 3.001 0 0 0 3.75.614m-16.5 0a3.004 3.004 0 0 1-.621-4.72l1.189-1.19A1.5 1.5 0 0 1 5.378 3h13.243a1.5 1.5 0 0 1 1.06.44l1.19 1.189a3 3 0 0 1-.621 4.72M6.75 18h3.75a.75.75 0 0 0 .75-.75V13.5a.75.75 0 0 0-.75-.75H6.75a.75.75 0 0 0-.75.75v3.75c0 .414.336.75.75.75Z" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244" />
             </svg>
-            Blick
+            Official
           </button>
         </div>
 

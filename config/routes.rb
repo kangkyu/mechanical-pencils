@@ -10,7 +10,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resource :session, only: [:create, :destroy]
       resource :registration, only: [:create]
-      resources :items, only: [:index, :show] do
+      resources :items, only: [:index, :show, :create] do
         member do
           post :own
           delete :unown
@@ -19,6 +19,7 @@ Rails.application.routes.draw do
       resources :ownerships, only: [:update]
       resource :collection, only: [:show]
       resources :makers, only: [:index]
+      resources :influencers, only: [:index, :show, :create]
       resources :item_groups, only: [:index, :show]
       resource :me, only: [:show]
       resources :users, only: [:show]
@@ -37,10 +38,12 @@ Rails.application.routes.draw do
     end
     resources :ownerships
   end
+  resources :influencers, only: %i[index show]
   resources :item_groups, only: %i[index show]
 
   namespace :admin do
     resources :items, only: %i[edit update destroy]
+    resources :influencers, only: %i[edit update destroy]
     resources :item_groups, only: %i[new create edit update destroy]
   end
 

@@ -75,12 +75,12 @@ class UserJourneysTest < ActionDispatch::IntegrationTest
   end
 
   test "user can search for items" do
-    get items_path, params: { search: "Pentel" }
+    get items_path, params: { search: "Feastables" }
 
     assert_response :success
     assert_select "h3", text: items(:one).title
 
-    get items_path, params: { search: "Rotring" }
+    get items_path, params: { search: "Teddy Fresh" }
 
     assert_response :success
     assert_select "h3", text: items(:two).title
@@ -144,14 +144,14 @@ class UserJourneysTest < ActionDispatch::IntegrationTest
     assert_response :success
 
     # Update item
-    patch admin_item_path(items(:one)), params: { item: { title: "Updated Pencil" } }
+    patch admin_item_path(items(:one)), params: { item: { title: "Updated Merch Item" } }
 
     assert_redirected_to item_path(items(:one))
 
     # Verify update
     get item_path(items(:one))
 
-    assert_select "h1", text: /Updated Pencil/
+    assert_select "h1", text: /Updated Merch Item/
   end
 
   test "admin can manage item groups" do

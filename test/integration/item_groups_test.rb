@@ -86,7 +86,7 @@ class ItemGroupsTest < ActionDispatch::IntegrationTest
     patch admin_item_group_path(item_groups(:one)), params: { item_group: { title: "Updated Group" } }
 
     assert_response :redirect
-    assert_equal "Japanese Pencils", item_groups(:one).reload.title
+    assert_equal "MrBeast Empire", item_groups(:one).reload.title
   end
 
   test "admin update works for admin" do

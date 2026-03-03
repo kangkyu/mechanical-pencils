@@ -5,7 +5,7 @@ module Api
 
       def index
         base_scope = Item
-          .includes(:item_maker, image_attachment: :blob)
+          .includes(:item_maker, :influencers, image_attachment: :blob)
           .with_title(params[:search])
           .order(:title)
 
@@ -24,7 +24,7 @@ module Api
       end
 
       def show
-        @item = Item.includes(:item_maker, image_attachment: :blob).find(params[:id])
+        @item = Item.includes(:item_maker, :influencers, image_attachment: :blob).find(params[:id])
 
         # Pre-load ownership data to avoid multiple queries
         @user_ownership = current_user.ownerships.includes(proof_attachment: :blob).find_by(item: @item)
@@ -35,8 +35,26 @@ module Api
         }
       end
 
+      def create
+        item = Item.where("data->>'shop_url' = ?", item_params[:shop_url]).first_or_initialize
+        item.shop_url ||= item_params[:shop_url]
+        item.title ||= item_params[:title] || title_from_url(item_params[:shop_url])
+        item.item_maker ||= Maker.find_or_create_by!(title: "Unknown")
+
+        was_new = item.new_record?
+        if item.save
+          if item_params[:channel_uuid].present?
+            influencer = Influencer.find_by(handle: item_params[:channel_uuid])
+            item.influencers << influencer if influencer && !item.influencers.include?(influencer)
+          end
+          render json: { item: { id: item.id, shop_url: item.shop_url } }, status: was_new ? :created : :ok
+        else
+          render json: { errors: item.errors.full_messages }, status: :unprocessable_entity
+        end
+      end
+
       def own
-        @item = Item.includes(:item_maker, image_attachment: :blob).find(params[:id])
+        @item = Item.includes(:item_maker, :influencers, image_attachment: :blob).find(params[:id])
 
         @user_ownership = current_user.ownerships.find_by(item: @item)
         unless @user_ownership
@@ -52,7 +70,7 @@ module Api
       end
 
       def unown
-        @item = Item.includes(:item_maker, image_attachment: :blob).find(params[:id])
+        @item = Item.includes(:item_maker, :influencers, image_attachment: :blob).find(params[:id])
 
         ownership_to_destroy = current_user.ownerships.find_by(item: @item)
         ownership_to_destroy&.destroy
@@ -68,12 +86,25 @@ module Api
 
       private
 
+      def item_params
+        params.require(:item).permit(:shop_url, :title, :channel_uuid)
+      end
+
+      def title_from_url(url)
+        path = URI.parse(url).path
+        slug = path.split("/").find { |seg| seg.match?(/[a-zA-Z].*-/) }
+        slug&.tr("-", " ")&.strip || url
+      rescue URI::InvalidURIError
+        url
+      end
+
       def item_json(item)
         {
           id: item.id,
           title: item.title,
           maker: item.item_maker&.title,
           model_number: item.model_number,
+          influencers: item.influencers.map(&:name),
           image_url: item.image.attached? ? url_for(item.image.variant(:thumb)) : nil,
           owned: @owned_item_ids.include?(item.id)
         }
@@ -86,10 +117,13 @@ module Api
           description: item.description,
           maker: maker_json(item.item_maker),
           model_number: item.model_number,
-          tip_retractable: item.tip_retractable,
-          eraser_attached: item.eraser_attached,
-          jetpens_url: item.jetpens_url,
-          blick_url: item.blick_url,
+          category: item.category,
+          size: item.size,
+          color: item.color,
+          limited_edition: item.limited_edition,
+          shop_url: item.shop_url,
+          official_url: item.official_url,
+          influencers: item.influencers.map { |i| influencer_json(i) },
           image_url: item.image.attached? ? url_for(item.image) : nil,
           thumbnail_url: item.image.attached? ? url_for(item.image.variant(:thumb)) : nil,
           owned: @user_ownership.present?,
@@ -121,6 +155,16 @@ module Api
           title: maker.title,
           origin: maker.origin,
           homepage: maker.homepage
+        }
+      end
+
+      def influencer_json(influencer)
+        return nil unless influencer
+        {
+          id: influencer.id,
+          name: influencer.name,
+          platform: influencer.platform,
+          handle: influencer.handle
         }
       end
 

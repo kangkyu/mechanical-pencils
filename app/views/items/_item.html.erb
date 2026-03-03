@@ -18,7 +18,7 @@
         </div>
 
         <div class="space-y-1">
-          <p class="text-xs text-gray-500"><%= item.item_maker&.title || "Unknown Maker" %></p>
+          <p class="text-xs text-gray-500"><%= item.item_maker&.title || "Unknown Brand" %></p>
           <p class="text-xs text-gray-400"><%= item.model_number %></p>
         </div>
 
@@ -27,11 +27,11 @@
             <%= pluralize @ownership_counts[item.id] || 0, "owner" %>
           </span>
           <div class="flex space-x-1">
-            <% if item.tip_retractable == "Yes" %>
-              <span class="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10">Retractable</span>
+            <% if item.category.present? %>
+              <span class="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10"><%= item.category %></span>
             <% end %>
-            <% if item.eraser_attached == "Yes" %>
-              <span class="inline-flex items-center rounded-md bg-purple-50 px-2 py-1 text-xs font-medium text-purple-700 ring-1 ring-inset ring-purple-700/10">Eraser</span>
+            <% if item.limited_edition == "Yes" %>
+              <span class="inline-flex items-center rounded-md bg-purple-50 px-2 py-1 text-xs font-medium text-purple-700 ring-1 ring-inset ring-purple-700/10">Limited</span>
             <% end %>
           </div>
         </div>
