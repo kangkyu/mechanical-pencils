@@ -2,7 +2,7 @@ module Api
   module V1
     class CollectionsController < BaseController
       def show
-        @items = current_user.items.includes(:item_maker, :influencer)
+        @items = current_user.items.includes(:item_maker, :influencers)
         @item_groups = current_user.item_groups.reorder(:title).distinct
         @ownerships_by_item_id = current_user.ownerships
           .where(item_id: @items.select(:id))
