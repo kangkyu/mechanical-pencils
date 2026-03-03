@@ -3,11 +3,9 @@
 one:
   title: Feastables Chocolate Bar
   item_maker: one
-  influencer: one
   data: '{"category": "Food & Drink"}'
 
 two:
   title: Teddy Fresh Color Block Hoodie
   item_maker: two
-  influencer: two
   data: '{"category": "Apparel", "size": "L"}'

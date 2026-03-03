@@ -11,7 +11,9 @@ class Item < ApplicationRecord
   end
 
   belongs_to :item_maker, class_name: "Maker", foreign_key: "maker_id"
-  belongs_to :influencer, optional: true
+
+  has_many :item_influencers, dependent: :destroy
+  has_many :influencers, through: :item_influencers
 
   store_accessor :data, :category, :size, :color, :limited_edition
   store_accessor :data, :shop_url, :official_url

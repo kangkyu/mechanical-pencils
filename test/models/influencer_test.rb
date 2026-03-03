@@ -20,14 +20,29 @@ class InfluencerTest < ActiveSupport::TestCase
     assert_respond_to influencer, :items
   end
 
-  test "nullifies items on destroy" do
+  test "destroys join records on destroy" do
     influencer = influencers(:one)
     item = items(:one)
 
-    assert_equal influencer, item.influencer
+    assert_includes item.influencers, influencer
 
     influencer.destroy
 
-    assert_nil item.reload.influencer_id
+    assert_not_includes item.reload.influencers, influencer
+  end
+
+  test "handle must be unique" do
+    Influencer.create!(name: "First", handle: "@unique_handle")
+    duplicate = Influencer.new(name: "Second", handle: "@unique_handle")
+
+    assert_not duplicate.valid?
+    assert_includes duplicate.errors[:handle], "has already been taken"
+  end
+
+  test "allows multiple nil handles" do
+    Influencer.create!(name: "No Handle 1", handle: nil)
+    second = Influencer.new(name: "No Handle 2", handle: nil)
+
+    assert_predicate second, :valid?
   end
 end

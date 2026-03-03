@@ -1,17 +1,4 @@
 class Admin::InfluencersController < Admin::BaseController
-  def new
-    @influencer = Influencer.new
-  end
-
-  def create
-    @influencer = Influencer.new(influencer_params)
-    if @influencer.save
-      redirect_to influencer_url(@influencer), status: :see_other
-    else
-      render :new, status: :unprocessable_content
-    end
-  end
-
   def edit
     @influencer = Influencer.find(params[:id])
   end

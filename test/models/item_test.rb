@@ -40,11 +40,9 @@ class ItemTest < ActiveSupport::TestCase
     assert_equal Item.count, results.count
   end
 
-  test "belongs to influencer optionally" do
-    item = Item.new(title: "Test Item", item_maker: makers(:one))
-    assert_predicate item, :valid?
-
-    item.influencer = influencers(:one)
-    assert_predicate item, :valid?
+  test "has many influencers" do
+    item = items(:one)
+    assert_respond_to item, :influencers
+    assert_includes item.influencers, influencers(:one)
   end
 end

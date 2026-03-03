@@ -2,7 +2,6 @@ class Admin::ItemsController < Admin::BaseController
   def edit
     @item = Item.find(params[:id])
     @makers = Maker.all
-    @influencers = Influencer.all
   end
 
   def update
@@ -11,7 +10,6 @@ class Admin::ItemsController < Admin::BaseController
       redirect_to item_url(@item)
     else
       @makers = Maker.all
-      @influencers = Influencer.all
       render :edit, status: :unprocessable_content
     end
   end
@@ -26,6 +24,6 @@ class Admin::ItemsController < Admin::BaseController
 
   def item_params
     params.require(:item).permit(:title, :maker_id, :image, :model_number, :category, :size, :color,
-                                 :limited_edition, :shop_url, :official_url, :influencer_id)
+                                 :limited_edition, :shop_url, :official_url)
   end
 end

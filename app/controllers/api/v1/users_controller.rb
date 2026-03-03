@@ -28,7 +28,7 @@ module Api
           title: item.title,
           maker: item.item_maker&.title,
           model_number: item.model_number,
-          influencer: item.influencer&.name,
+          influencers: item.influencers.map(&:name),
           image_url: item.image.attached? ? url_for(item.image.variant(:thumb)) : nil,
           has_proof: ownership&.proof&.attached? || false,
           proof_url: ownership&.proof&.attached? ? url_for(ownership.proof) : nil

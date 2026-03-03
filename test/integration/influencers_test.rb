@@ -26,36 +26,6 @@ class InfluencersTest < ActionDispatch::IntegrationTest
     assert_select "h1", text: influencers(:one).name
   end
 
-  test "admin new requires admin" do
-    post session_path, params: { email: users(:one).email, password: "password123" }
-    get new_admin_influencer_path
-
-    assert_response :redirect
-  end
-
-  test "admin new renders for admin" do
-    post session_path, params: { email: users(:admin).email, password: "password123" }
-    get new_admin_influencer_path
-
-    assert_response :success
-  end
-
-  test "admin create requires admin" do
-    post session_path, params: { email: users(:one).email, password: "password123" }
-
-    assert_no_difference "Influencer.count" do
-      post admin_influencers_path, params: { influencer: { name: "New Creator" } }
-    end
-  end
-
-  test "admin create works for admin" do
-    post session_path, params: { email: users(:admin).email, password: "password123" }
-
-    assert_difference "Influencer.count", 1 do
-      post admin_influencers_path, params: { influencer: { name: "New Creator" } }
-    end
-  end
-
   test "admin edit requires admin" do
     post session_path, params: { email: users(:one).email, password: "password123" }
     get edit_admin_influencer_path(influencers(:one))
