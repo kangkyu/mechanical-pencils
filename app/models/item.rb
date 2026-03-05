@@ -16,7 +16,7 @@ class Item < ApplicationRecord
   has_many :influencers, through: :item_influencers
 
   store_accessor :data, :category, :size, :color, :limited_edition
-  store_accessor :data, :shop_url, :official_url
+  store_accessor :data, :amazon_url, :official_url, :jetpens_url, :blick_url
 
   scope :with_title, lambda { |title|
     where("lower(title) LIKE ?", "%#{title.downcase}%") if title.present?

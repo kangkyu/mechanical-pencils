@@ -40,8 +40,8 @@ class DescriptionReaderClient
   end
 
   def upsert_item(url)
-    item = Item.where("data->>'shop_url' = ?", url).first_or_initialize
-    item.shop_url ||= url
+    item = Item.where("data->>'amazon_url' = ?", url).first_or_initialize
+    item.amazon_url ||= url
     item.title ||= title_from_url(url)
     item.item_maker ||= default_maker
     item.save!

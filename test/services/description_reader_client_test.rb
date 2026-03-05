@@ -24,7 +24,7 @@ class DescriptionReaderClientTest < ActiveSupport::TestCase
     end
 
     item = Item.last
-    assert_equal "https://www.amazon.com/Pentel-GraphGear-1000/dp/B0006HXQXA", item.shop_url
+    assert_equal "https://www.amazon.com/Pentel-GraphGear-1000/dp/B0006HXQXA", item.amazon_url
     assert_equal "Pentel GraphGear 1000", item.title
     assert_includes item.influencers.map(&:handle), "UC_abc123"
   end

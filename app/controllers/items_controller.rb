@@ -74,6 +74,6 @@ class ItemsController < ApplicationController
 
   def item_params
     params.require(:item).permit(:title, :maker_id, :image, :model_number, :category, :size, :color,
-                                 :limited_edition, :shop_url, :official_url)
+                                 :limited_edition, :amazon_url, :official_url)
   end
 end

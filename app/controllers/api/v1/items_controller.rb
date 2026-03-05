@@ -36,8 +36,8 @@ module Api
       end
 
       def create
-        item = Item.where("data->>'shop_url' = ?", item_params[:shop_url]).first_or_initialize
-        item.shop_url ||= item_params[:shop_url]
+        item = Item.where("data->>'amazon_url' = ?", item_params[:amazon_url]).first_or_initialize
+        item.amazon_url ||= item_params[:amazon_url]
         item.title ||= item_params[:title] || title_from_url(item_params[:shop_url])
         item.item_maker ||= Maker.find_or_create_by!(title: "Unknown")
 
@@ -47,7 +47,7 @@ module Api
             influencer = Influencer.find_by(handle: item_params[:channel_uuid])
             item.influencers << influencer if influencer && !item.influencers.include?(influencer)
           end
-          render json: { item: { id: item.id, shop_url: item.shop_url } }, status: was_new ? :created : :ok
+          render json: { item: { id: item.id, amazon_url: item.amazon_url } }, status: was_new ? :created : :ok
         else
           render json: { errors: item.errors.full_messages }, status: :unprocessable_entity
         end
@@ -87,7 +87,7 @@ module Api
       private
 
       def item_params
-        params.require(:item).permit(:shop_url, :title, :channel_uuid)
+        params.require(:item).permit(:amazon_url, :title, :channel_uuid)
       end
 
       def title_from_url(url)
@@ -121,8 +121,10 @@ module Api
           size: item.size,
           color: item.color,
           limited_edition: item.limited_edition,
-          shop_url: item.shop_url,
+          amazon_url: item.amazon_url,
           official_url: item.official_url,
+          jetpens_url: item.jetpens_url,
+          blick_url: item.blick_url,
           influencers: item.influencers.map { |i| influencer_json(i) },
           image_url: item.image.attached? ? url_for(item.image) : nil,
           thumbnail_url: item.image.attached? ? url_for(item.image.variant(:thumb)) : nil,

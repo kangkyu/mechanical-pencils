@@ -42,7 +42,7 @@ bin/rubocop
 
 **Core Models:**
 - `User` - `has_secure_password`; has many items through ownerships; has many `threads_accounts` and `api_tokens`
-- `Item` - merch product with `has_one_attached :image`, belongs to maker/brand (via `belongs_to :item_maker, foreign_key: :maker_id, class_name: "Maker"`), optionally belongs to `Influencer`. Uses `store_accessor :data` for JSON fields: `category`, `size`, `color`, `limited_edition`, `shop_url`, `official_url`
+- `Item` - merch product with `has_one_attached :image`, belongs to maker/brand (via `belongs_to :item_maker, foreign_key: :maker_id, class_name: "Maker"`), optionally belongs to `Influencer`. Uses `store_accessor :data` for JSON fields: `category`, `size`, `color`, `limited_edition`, `amazon_url`, `official_url`
 - `Ownership` - join table between User and Item, `has_one_attached :proof`
 - `ItemGroup` - collections of items via `Joiner` join table
 - `Maker` - brands/manufacturers (title, origin, homepage). Displayed as "Brand" in the UI
