@@ -35,27 +35,6 @@ module Api
         }
       end
 
-      def create
-        item = Item.where("data->>'amazon_url' = ?", item_params[:amazon_url]).first_or_initialize
-        item.amazon_url ||= item_params[:amazon_url]
-        item.title ||= item_params[:title] || title_from_url(item_params[:amazon_url])
-        item.item_maker ||= Maker.find_or_create_by!(title: "Unknown")
-
-        was_new = item.new_record?
-        if item.save
-          if item_params[:channel_uuid].present?
-            influencer = Influencer.find_or_create_by!(identifier: item_params[:channel_uuid]) do |i|
-              i.identifier = item_params[:channel_uuid]
-              i.platform = "YouTube"
-            end
-            item.influencers << influencer unless item.influencers.include?(influencer)
-          end
-          render json: { item: { id: item.id, amazon_url: item.amazon_url } }, status: was_new ? :created : :ok
-        else
-          render json: { errors: item.errors.full_messages }, status: :unprocessable_entity
-        end
-      end
-
       def own
         @item = Item.includes(:item_maker, :influencers, image_attachment: :blob).find(params[:id])
 
@@ -88,18 +67,6 @@ module Api
       end
 
       private
-
-      def item_params
-        params.require(:item).permit(:amazon_url, :title, :channel_uuid)
-      end
-
-      def title_from_url(url)
-        path = URI.parse(url).path
-        slug = path.split("/").find { |seg| seg.match?(/[a-zA-Z].*-/) }
-        slug&.tr("-", " ")&.strip || url
-      rescue URI::InvalidURIError
-        url
-      end
 
       def item_json(item)
         {

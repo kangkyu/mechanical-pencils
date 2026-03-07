@@ -10,7 +10,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resource :session, only: [:create, :destroy]
       resource :registration, only: [:create]
-      resources :items, only: [:index, :show, :create] do
+      resources :items, only: [:index, :show] do
         member do
           post :own
           delete :unown
@@ -19,7 +19,8 @@ Rails.application.routes.draw do
       resources :ownerships, only: [:update]
       resource :collection, only: [:show]
       resources :makers, only: [:index]
-      resources :influencers, only: [:index, :show, :create]
+      resources :influencers, only: [:index, :show]
+      post "youtube_webhook", to: "youtube_webhook#create"
       resources :item_groups, only: [:index, :show]
       resource :me, only: [:show]
       resources :users, only: [:show]
