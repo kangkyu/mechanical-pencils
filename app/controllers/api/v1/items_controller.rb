@@ -38,7 +38,7 @@ module Api
       def create
         item = Item.where("data->>'amazon_url' = ?", item_params[:amazon_url]).first_or_initialize
         item.amazon_url ||= item_params[:amazon_url]
-        item.title ||= item_params[:title] || title_from_url(item_params[:shop_url])
+        item.title ||= item_params[:title] || title_from_url(item_params[:amazon_url])
         item.item_maker ||= Maker.find_or_create_by!(title: "Unknown")
 
         was_new = item.new_record?
