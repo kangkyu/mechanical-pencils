@@ -44,8 +44,11 @@ module Api
         was_new = item.new_record?
         if item.save
           if item_params[:channel_uuid].present?
-            influencer = Influencer.find_by(handle: item_params[:channel_uuid])
-            item.influencers << influencer if influencer && !item.influencers.include?(influencer)
+            influencer = Influencer.find_or_create_by!(handle: item_params[:channel_uuid]) do |i|
+              i.name = item_params[:channel_uuid]
+              i.platform = "YouTube"
+            end
+            item.influencers << influencer unless item.influencers.include?(influencer)
           end
           render json: { item: { id: item.id, amazon_url: item.amazon_url } }, status: was_new ? :created : :ok
         else
