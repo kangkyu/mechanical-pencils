@@ -1,5 +1,4 @@
 class Influencer < ApplicationRecord
-  validates :name, presence: true
   validates :handle, uniqueness: true, allow_nil: true
 
   has_many :item_influencers, dependent: :destroy

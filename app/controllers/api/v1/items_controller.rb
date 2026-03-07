@@ -44,8 +44,8 @@ module Api
         was_new = item.new_record?
         if item.save
           if item_params[:channel_uuid].present?
-            influencer = Influencer.find_or_create_by!(handle: item_params[:channel_uuid]) do |i|
-              i.name = item_params[:channel_uuid]
+            influencer = Influencer.find_or_create_by!(identifier: item_params[:channel_uuid]) do |i|
+              i.identifier = item_params[:channel_uuid]
               i.platform = "YouTube"
             end
             item.influencers << influencer unless item.influencers.include?(influencer)

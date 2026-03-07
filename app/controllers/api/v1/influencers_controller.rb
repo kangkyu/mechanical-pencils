@@ -18,8 +18,13 @@ module Api
       end
 
       def create
-        @influencer = Influencer.find_or_initialize_by(handle: influencer_params[:handle])
+        @influencer = if params[:influencer][:channel_uuid].present?
+          Influencer.find_or_initialize_by(identifier: params[:influencer][:channel_uuid])
+        else
+          Influencer.find_or_initialize_by(handle: influencer_params[:handle])
+        end
         @influencer.assign_attributes(influencer_params)
+        @influencer.identifier ||= params[:influencer][:channel_uuid]
 
         if @influencer.save
           render json: { influencer: influencer_json(@influencer) }, status: :created
