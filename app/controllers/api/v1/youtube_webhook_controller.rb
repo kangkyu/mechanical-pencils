@@ -36,7 +36,7 @@ module Api
 
       def authenticate_webhook!
         token = request.headers["Authorization"]&.split(" ")&.last
-        unless ActiveSupport::SecurityUtils.secure_compare(token.to_s, ENV.fetch("WEBHOOK_SECRET", ""))
+        unless ActiveSupport::SecurityUtils.secure_compare(token.to_s, ENV.fetch("MERCH_API_TOKEN", ""))
           render json: { error: "Unauthorized" }, status: :unauthorized
         end
       end
