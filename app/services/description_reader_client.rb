@@ -12,14 +12,16 @@ class DescriptionReaderClient
 
     entries.each do |entry|
       url = entry["url"]
-      channel_uuids = entry["channel_uuids"] || []
+      channels = entry["channels"] || []
       next if url.blank?
 
       item = upsert_item(url)
       next if item.nil?
 
-      influencer = find_or_create_influencer(channel_uuids)
-      item.influencers << influencer if influencer && !item.influencers.include?(influencer)
+      channels.each do |channel|
+        influencer = find_or_create_influencer(channel)
+        item.influencers << influencer if influencer && !item.influencers.include?(influencer)
+      end
     end
   end
 
@@ -55,17 +57,16 @@ class DescriptionReaderClient
     @default_maker ||= Maker.find_or_create_by!(title: "Unknown")
   end
 
-  def find_or_create_influencer(channel_uuids)
-    return nil if channel_uuids.empty?
+  def find_or_create_influencer(channel)
+    uuid = channel["uuid"]
+    return nil if uuid.blank?
 
-    channel_uuids.each do |uuid|
-      influencer = Influencer.find_or_initialize_by(handle: uuid)
-      influencer.name ||= uuid
-      influencer.platform ||= "YouTube"
-      influencer.save!
-      return influencer
-    end
-    nil
+    influencer = Influencer.find_or_initialize_by(identifier: uuid)
+    influencer.name ||= channel["title"]
+    influencer.handle ||= channel["handle"]
+    influencer.platform ||= "YouTube"
+    influencer.save!
+    influencer
   rescue ActiveRecord::RecordInvalid => e
     Rails.logger.warn("Failed to upsert influencer: #{e.message}")
     nil
