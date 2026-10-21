@@ -38,12 +38,10 @@ Rails.application.routes.draw do
     end
     resources :ownerships
   end
-  resources :influencers, only: %i[index show]
   resources :item_groups, only: %i[index show]
 
   namespace :admin do
     resources :items, only: %i[edit update destroy]
-    resources :influencers, only: %i[edit update destroy]
     resources :item_groups, only: %i[new create edit update destroy]
   end
 

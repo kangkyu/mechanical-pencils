@@ -51,7 +51,7 @@
           <span class="block text-sm font-medium leading-6 text-gray-900"><%= pluralize item.influencers.size, "Influencer" %></span>
           <div class="mt-2 text-sm text-gray-700">
             <% item.influencers.each do |influencer| %>
-              <p><%= link_to influencer.name, influencer_path(influencer), class: "text-indigo-600 hover:text-indigo-500" %></p>
+              <p><%= influencer.name %></p>
             <% end %>
           </div>
         </div>

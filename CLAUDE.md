@@ -60,11 +60,8 @@ bin/rubocop
 - `/items` - catalog with search/pagination (Pagy, 8 per page)
 - `/items/:id/own` and `/unown` - toggle ownership
 - `/items/collection` - user's owned items
-- `/influencers` - influencer listing
-- `/influencers/:id` - influencer profile with their merch items
 - `/users/:id/share` - Threads sharing interface
 - `/admin/items/:id/edit` and `/admin/item_groups/*` - admin-only management
-- `/admin/influencers/*` - admin influencer CRUD
 
 **JSON API** (`/api/v1/`):
 - `POST /api/v1/session` - login, returns token
