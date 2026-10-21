@@ -20,7 +20,6 @@ Rails.application.routes.draw do
       resource :collection, only: [:show]
       resources :makers, only: [:index]
       resources :influencers, only: [:index, :show]
-      post "youtube_webhook", to: "youtube_webhook#create"
       resources :item_groups, only: [:index, :show]
       resource :me, only: [:show]
       resources :users, only: [:show]
